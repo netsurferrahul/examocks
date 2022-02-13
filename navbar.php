@@ -14,6 +14,7 @@ $state = getUserState($_SESSION['username']);
 
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li <?php if($file == "examocks" || $file == "index" ) { echo 'class="active"';} ?>><a href="index" class="waves-effect"><i class="material-icons left">home</i>HOME</a></li>
+		<li <?php if($file == "mocks" ) { echo 'class="active"';} ?>><a href="mocks" class="waves-effect">MOCKS</a></li>
         <li <?php if($file == "engineering" ) { echo 'class="active"';} ?>><a href="engineering" class="dropdown-trigger waves-effect" data-target='dropdown1'><i class="material-icons right">arrow_drop_down</i>ENGINEERING</a></li>
         <?php if(!isset($_SESSION['username'])) { echo '<li <?php if($file == "login" ) { echo \'class="active"\';} ?><a href="login" class="waves-effect"><i class="material-icons left">login</i>LOGIN</a></li>
         <li <?php if($file == "signup" ) { echo \'class="active"\';} ?><a href="signup" class="waves-effect"><i class="material-icons left">personadd</i>REGISTER</a></li>';}

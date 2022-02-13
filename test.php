@@ -13,6 +13,8 @@ error_reporting(E_ALL);
 		if($state == 'no') {
 			header("Location: varifyemail");
 		}
+		
+		$mock = getMockDetailsFromMockId($_GET['mock']);
 	}
 ?>
 
@@ -28,6 +30,14 @@ error_reporting(E_ALL);
 		width: 100px;
 		height: 100px;
 	}
+	.sidenav li {
+		line-height: 0px;
+	}
+	.nav-bottom {
+	   position:absolute;
+	   bottom:6%;
+	   width:100%;
+	}
   </style>
 </head>
 <body>
@@ -35,31 +45,32 @@ error_reporting(E_ALL);
 <?php include_once("testsidenavbar.php"); ?>
 
 <div>
+<?php
+	$arr = json_decode($mock['settings'], true);
+?>
+
+
 	<div class="row">
 		<div class="col s12 m10">
 			<div class="row">
 				  <div class="card" style="margin:1%">
-					<div class="card-header" style="padding:1% 0% 0% 1%"><h5>PART - 1 MOCK TEST - 1</h5></div>
+					<div class="card-header" style="padding:1% 0% 0% 1%"><h5><?php echo $mock['mock_title']; ?></h5></div>
 					<div class="card-content">
-					  <p style="display:inline-block;">Sections: 
-					  <span class="chip blue white-text">
-						 MENTAL AND REASONING ABILITY 
-					  </span>
-					  <span class="chip">
-						  GENERAL AWARENESS 
-					  </span>
-					  <span class="chip">
-						  NUMERICAL ABILITY 
-					  </span>
-					  <span class="chip">
-						  HINDI LANGUAGE 
-					  </span>
-					  <span class="chip">
-						  ENGLISH LANGUAGE 
-					  </span></p>
+					  <p style="display:inline-block;">Sections:
+					<?php 
+						$sections = getSectionNamesFromMockId($_GET['mock']);
+						if ($sections->num_rows > 0) {
+							while($row = $sections->fetch_assoc()) {
+								echo '<span class="btn chip blue white-text">
+										 '.$row['section_name'].'
+									  </span>';
+							}
+						}
+					?>
+					  </p>
 					  <p style="display:inline-block;" class="right">
 					  <span class="chip">
-						   Time Left: 00:54:10  
+						   Time Left: <?php echo secondsToExamTimeFormat($mock['mock_total_duration']); ?>  
 					  </span>
 					  </p>
 					  <div>
@@ -68,23 +79,35 @@ error_reporting(E_ALL);
 						  </p>
 						  
 						  <p style="display:inline-block;" class="right">
-							   Negative marks:  <span class="chip red white-text">0.25</span>
+							   Negative marks:  <span class="chip red white-text">
+							   <?php
+								if ($arr['enable_negative_marking'] == true) {
+									if ($arr['negative_marking_type'] == "percentage") {
+										echo round($arr['correct_marks']*$arr['negative_marks']/100,2);
+;									} else {
+										echo $arr['negative_marks'];
+									}
+								} else {
+									echo '0';
+								}
+							   ?>
+							   </span>
 						  </p>
 						  <p style="display:inline-block;" class="right">
-							Marks for correct answer:   <span class="chip green white-text">1</span>
+							Marks for correct answer:   <span class="chip green white-text"><?php echo $arr['correct_marks']; ?></span>
 						  </p> 
 					  </div>
 					  
 					</div>
 					<div class="card-action">
 					  View In: <div  class="browser-default right">
+					  <form>
 								<select>
-								  <option value="" disabled selected>Choose your option</option>
-								  <option value="1">Option 1</option>
-								  <option value="2">Option 2</option>
-								  <option value="3">Option 3</option>
+								  <option value="English">English</option>
+								  <option value="Hindi">Hindi</option>
 								</select>
-								<label>Materialize Select</label>
+								
+								</form>
 							  </div>
 					</div>
 				  </div>
@@ -136,7 +159,7 @@ error_reporting(E_ALL);
 		<div class="col s12 m2">
 
 				  <ul id="slide-out" class="sidenav sidenav-fixed right">
-					<li style="margin-top: 2%">
+					<li style="margin: 4% 4% 8% 4%">
 						<div class="row">
 							<div class="col s12 m4">
 								<span class="collection" style="border:0px; padding:0;"><span class="collection-item  avatar"> <i class="material-icons circle grey">person</i></a></span></span>
@@ -147,11 +170,14 @@ error_reporting(E_ALL);
 						</div>
 					</li>
 					<li><div class="divider"></div></li>
-					<li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-					<li><a href="#!">Second Link</a></li>
+					<li style="margin: 4% 4% 8% 4%"><div class="row"><div class="col s12 m6" style="font-size: 14px;"><span class="chip grey white-text">1</span> <p style="display:inline-flex;">Not Visited</p></div><div class="col s12 m6" style="font-size: 14px;"><span class="chip red white-text">1</span> <p style="display:inline-flex;">Not Answered</p></div></div></li>
+					<li style="margin: 4% 4% 8% 4%"><div class="row"><div class="col s12 m5" style="font-size: 14px;"><span class="chip green white-text">1</span> <p style="display:inline-flex;">Answered</p></div><div class="col s12 m7" style="font-size: 14px;"><span class="chip purple white-text">1</span> <p style="display:inline-flex;">Marked for review</p></div></div></li>
+					<li style="margin: 4% 4% 8% 4%"><div class="row"><div class="col s12 m12" style="font-size: 14px;"><span class="chip amber white-text">1</span>  Answered and marked for review (will not be evaluated) </div></div></li>
 					<li><div class="divider"></div></li>
-					<li><a class="subheader">Subheader</a></li>
-					<li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+					<li class="center"><p class="waves-light btn-small purple">MENTAL AND REASONING ABILITY</p></li>
+					<li style="margin: 8% 4% 8% 4%"><p>Choose a question:</p></li>
+					<li style="margin: 8% 4% 8% 4%"><p><span class="btn chip grey white-text" style="margin: 2% 4% 2% 4%">1</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">2</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">3</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">4</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">5</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">6</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">7</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">8</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">9</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">10</span></p></li>
+					<a class="waves-light btn-small green right nav-bottom" style="width:100%"><i class="material-icons right">done</i>Save & Next</a>
 				  </ul>
 		</div>
 	</div>
@@ -165,6 +191,11 @@ error_reporting(E_ALL);
 			});
 		  });
 			
+			
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('select');
+			var instances = M.FormSelect.init(elems, {});
+		});
 	</script>
 	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	</body>

@@ -497,6 +497,41 @@
 		
 	}
 	
+	function getAllMockTests() {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mocks`";
+		$result = $conn->query($sql);
+		return $result;
+		
+	}
+	
+	function secondsToExamTimeFormat($seconds) {
+	  $t = round($seconds);
+	  return sprintf('%02d:%02d:%02d', ($t/3600),($t/60%60), $t%60);
+	}
+	
+	function getMockDetailsFromMockId($mock_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mocks` WHERE `mock_id`='$mock_id'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row;
+		
+	}
+	
+	function getSectionNamesFromMockId($mock_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mock_sections` AS MS ,`sections` AS S WHERE `mock_id`='$mock_id' and MS.`section_id` = S.`Section_id`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
 	function getAllTopics($subject) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
