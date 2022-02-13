@@ -431,6 +431,103 @@
 		}
 	}
 	
+	function getSubjectFromTopic($topic) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT `subject` FROM `questions` WHERE  `topic_name` = '$topic'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['subject'];
+			}
+		}
+	}
+	
+	function reportQuestion($user,$question_id,$correct_answer) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		if ($user == "Guest"){ 
+			$userid = getSiteSettings()['guest_id'];
+			$sql = "INSERT INTO `reported_questions`(`question_id`, `report_time`, `suggest_answer`, `report_by`) VALUES ('$question_id',NOW(),'$correct_answer','$userid')";
+		} else {
+			$user = getUserDetails($user)['id'];
+			$sql = "INSERT INTO `reported_questions`(`question_id`, `report_time`, `suggest_answer`, `report_by`) VALUES ('$question_id',NOW(),'$correct_answer', '$user')";
+		}
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function saveQuestion($user,$question_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		$user = getUserDetails($user)['id'];
+		$sql = "INSERT INTO `saved_questions`(`question_id`, `saved_by`) VALUES ('$question_id','$user')";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function checkAlreadySaveQuestion($user,$question_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		$user = getUserDetails($user)['id'];
+		$sql = "SELECT 1 FROM saved_questions WHERE question_id = '$question_id' AND saved_by = '$user'";
+		$result = $conn->query($sql);
+		
+		if ($result->num_rows > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	function getAllSubjects($branch) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT `subject_name` FROM `subject` WHERE  `branch_name` = '$branch'";
+		$result = $conn->query($sql);
+		return $result;
+		
+	}
+	
+	function getAllTopics($subject) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT DISTINCT(`topic_name`) FROM `questions` WHERE  `subject` = '$subject'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function getTotalQuestions($topic) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(`question`) as Total FROM `questions` WHERE  `topic_name` = '$topic'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+	}
+	
+	function getAllQuestions($topic,$start,$num_of_records) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `questions` WHERE  `topic_name` = '$topic' LIMIT $start, $num_of_records";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
 	function sendRegistrationEmail($email) {
 		$verification_code = rand(100000,(int)999999);
 		

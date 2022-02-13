@@ -32,6 +32,14 @@
 	  });
 
 	</script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.dropdown-trigger');
+			var instances = M.Dropdown.init(elems,{
+				alignment : 'left'
+			});
+		});
+	</script>
 <!-- SweetAlert2 -->
 <script src="./plugins/sweetalert2/sweetalert2.min.js" defer async ></script>
 <!-- Toastr -->

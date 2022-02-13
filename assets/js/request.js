@@ -39,6 +39,65 @@ function register() {
 		document.getElementById("progress").style.display="none";
 }
 
+function reportWrongQuestion(question_id) {
+	var correct_answer = document.getElementById("correct"+question_id).value;
+	document.getElementById("progress").style.display="block", url = "./basicfunctions/reportWrongQuestion.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("correct_answer=" + correct_answer + "&question_id=" + question_id ), xhr.onreadystatechange = function() {
+        4 == xhr.readyState && (data = xhr.responseText,  document.getElementById("progress").style.display="none", "E " == data.substring(0, 2) ? Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "error",
+            title: "&nbsp; " + data.substring(1)
+        }) : "S " == data.substring(0, 2) ? (Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "success",
+            title: "&nbsp; " + data.substring(1)
+        }), setInterval(function() {
+        }, 5e3)) : Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "error",
+            title: "&nbsp; Something went wrong."
+        }))
+    }
+     
+}
+
+function saveQuestion(question_id) {
+	document.getElementById("progress").style.display="block", url = "./basicfunctions/saveQuestion.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("question_id=" + question_id), xhr.onreadystatechange = function() {
+        4 == xhr.readyState && (data = xhr.responseText,  document.getElementById("progress").style.display="none", "E " == data.substring(0, 2) ? Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "error",
+            title: "&nbsp; " + data.substring(1)
+        }) : "S " == data.substring(0, 2) ? (Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "success",
+            title: "&nbsp; " + data.substring(1)
+        }), setInterval(function() {
+        }, 5e3)) : Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "error",
+            title: "&nbsp; Something went wrong."
+        }))
+    }
+     
+}
+
 function sendVerificationCode(){
 	var e = document.getElementById("user_mobile").value;
 	url = "./basicfunctions/sendSMS.php?mobile=" + e, xhr = new XMLHttpRequest, xhr.open("GET", url, !0), xhr.send(), xhr.onreadystatechange = function() {
@@ -171,6 +230,24 @@ function VerifyEmail() {
             title: "&nbsp; Something went wrong."
         }))
     }
+}
+
+
+function checkAnswer(id,answer,selectedCheckbox) {
+	if (selectedCheckbox == answer) {
+		document.getElementById(id.toString()+selectedCheckbox).classList.add("green");
+		document.getElementById("s"+id.toString()+selectedCheckbox).classList.add("white-text");
+		document.getElementById("ex"+id.toString()).classList.add("active");
+		document.getElementById("bd"+id.toString()).style.display = "block";
+	} else {
+		
+		document.getElementById(id.toString()+selectedCheckbox).classList.add("red");
+		document.getElementById("s"+id.toString()+selectedCheckbox).classList.add("white-text");
+		document.getElementById(id.toString()+answer).classList.add("green");
+		document.getElementById("s"+id.toString()+answer).classList.add("white-text");
+		document.getElementById("ex"+id.toString()).classList.add("active");
+		document.getElementById("bd"+id.toString()).style.display = "block";
+	}
 }
 
 function SaveLocation() {
