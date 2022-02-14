@@ -16,6 +16,18 @@ error_reporting(E_ALL);
 		
 		$mock = getMockDetailsFromMockId($_GET['mock']);
 	}
+	
+	
+	$result = getMockQuestionsFromMockId($_GET['mock']);
+	$rows = array();
+	while($row = $result->fetch_assoc()) {
+		$rows[] = $row;
+	}
+	
+	$exam_questions = json_decode(json_encode($rows), true);
+	$total_question = count($exam_questions);
+	
+	echo $_SESSION['Responses'];
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +51,26 @@ error_reporting(E_ALL);
 	   width:100%;
 	}
   </style>
+  <script>
+		var jsonExamData = <?php echo json_encode($rows) ?>
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+   /*$(document).on("keydown", function (e) {
+        if (e.key == "F5" || e.key == "F11" || 
+            (e.ctrlKey == true && (e.key == 'r' || e.key == 'R')) || 
+            e.keyCode == 116 || e.keyCode == 82) {
+
+                   e.preventDefault();
+        }
+    });
+	
+	window.onbeforeunload = function() {
+        return "Leave this page ?";
+    }*/
+  </script>
 </head>
-<body>
+<body onload="startMock();sessionCheck();Examtimer('<?php echo $mock['mock_total_duration']; ?>','#countdown_timer')">
 
 <?php include_once("testsidenavbar.php"); ?>
 
@@ -70,7 +100,7 @@ error_reporting(E_ALL);
 					  </p>
 					  <p style="display:inline-block;" class="right">
 					  <span class="chip">
-						   Time Left: <?php echo secondsToExamTimeFormat($mock['mock_total_duration']); ?>  
+						   Time Left: <span id="countdown_timer"><?php echo secondsToExamTimeFormat($mock['mock_total_duration']); ?></span> 
 					  </span>
 					  </p>
 					  <div>
@@ -115,42 +145,67 @@ error_reporting(E_ALL);
 			
 			<div class="row">
 				  <div class="card" style="margin:1%">
-					<div class="card-header" style="padding:1% 0% 0% 1%"><a class="waves-effect waves-light btn-small disabled">Question 1</a></div>
+					<div class="card-header" style="padding:1% 0% 0% 1%"><a class="waves-effect waves-light btn-small disabled" id="question_id">Question 1</a></div>
 					<div class="card-content">
-					  <p style="display:inline-block;">Merchant' is related to 'Trade' in the same way as 'Doctor' is related to:</p>
+					  <p style="display:inline-block;" id="question_content"><?php echo $exam_questions[0]['question']; ?></p>
 					  <div>
 						<p style="margin-top: 2%">
 						  <label>
-							<input name="group1" type="radio" checked />
-							<span>Medicine</span>
+							<input name="group1" type="radio" id="options1"/>
+							<span id="optionst1"><?php echo $exam_questions[0]['option_a']; ?></span>
 						  </label>
 						</p>
 						<p style="margin-top: 2%">
 						  <label>
-							<input name="group1" type="radio" />
-							<span>Prescription</span>
+							<input name="group1" type="radio" id="options2"/>
+							<span id="optionst2"><?php echo $exam_questions[0]['option_b']; ?></span>
 						  </label>
 						</p>
 						<p style="margin-top: 2%">
 						  <label>
-							<input name="group1" type="radio"  />
-							<span>Healing</span>
+							<input name="group1" type="radio" id="options3"  />
+							<span id="optionst3"><?php echo $exam_questions[0]['option_c']; ?></span>
 						  </label>
 						</p>
 						<p style="margin-top: 2%">
 						  <label>
-							<input name="group1" type="radio" />
-							<span>Examination</span>
+							<input name="group1" type="radio" id="options4" />
+							<span id="optionst4"><?php echo $exam_questions[0]['option_d']; ?></span>
 						  </label>
 						</p>
+						<?php
+							if ($exam_questions[0]['option_e'] != '') {
+								echo '
+									<p style="margin-top: 2%">
+									  <label>
+										<input name="group1" type="radio" id="options5" />
+										<span id="optionst5">'.$exam_questions[0]['option_e'].'</span>
+									  </label>
+									</p>';
+							}
+						?>
 					  </div>
 					  
 					</div>
 					<div class="card-action">
-					  <a class="waves-light btn-small purple modal-trigger" href="#modal1"><i class="material-icons left">beenhere</i>  Mark for Review & Next </a>
-					  <a class="waves-light btn-small red modal-trigger" href="#modal1"><i class="material-icons left">clear</i> Clear Response </a>
-					  
-					  <a class="waves-light btn-small green modal-trigger right" href="#modal1"><i class="material-icons right">navigate_next</i>Save & Next</a>
+					  <a class="waves-light btn-small purple modal-trigger" id="btnMarkForReview" onclick="markForReviewAndNext('0',
+					  <?php 
+					  if ($exam_questions[0]['option_e'] != '') {
+						  echo "5";
+					  } else {
+						  echo "4";
+					  } 
+					  ?>);"><i class="material-icons left">beenhere</i>  Mark for Review & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
+					  <a class="waves-light btn-small red" onclick="clearResponseFromSession();" id="btnClear"><i class="material-icons left">clear</i> Clear Response </a>
+					  <p id="json_quesion_id" style="display:none;">0</p>
+					  <a class="waves-light btn-small green right" id="btnSaveAndNext" onclick="saveAndNext('0',
+					  <?php 
+					  if ($exam_questions[0]['option_e'] != '') {
+						  echo "5";
+					  } else {
+						  echo "4";
+					  } 
+					  ?>)"><i class="material-icons right">navigate_next</i>Save & Next</a>
 					</div>
 				  </div>
 			</div>
@@ -176,8 +231,14 @@ error_reporting(E_ALL);
 					<li><div class="divider"></div></li>
 					<li class="center"><p class="waves-light btn-small purple">MENTAL AND REASONING ABILITY</p></li>
 					<li style="margin: 8% 4% 8% 4%"><p>Choose a question:</p></li>
-					<li style="margin: 8% 4% 8% 4%"><p><span class="btn chip grey white-text" style="margin: 2% 4% 2% 4%">1</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">2</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">3</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">4</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">5</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">6</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">7</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">8</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">9</span><span class="chip grey white-text" style="margin: 2% 4% 2% 4%">10</span></p></li>
-					<a class="waves-light btn-small green right nav-bottom" style="width:100%"><i class="material-icons right">done</i>Save & Next</a>
+					<li style="margin: 8% 4% 8% 4%"><p>
+					<?php 
+						for ($i=1; $i <= $total_question; $i++){
+							echo '<span id="questionsList'.$i.'" class="btn chip grey white-text" style="margin: 2% 4% 2% 4%" onclick="generateSpecific('.($i-1).')">'.$i.'</span>';
+						}
+					?>
+					</p></li>
+					<a class="waves-light btn-small green right nav-bottom" id="btnSubmitExam" style="width:100%" onclick="submitTest();"><i class="material-icons right">done</i>Submit</a>
 				  </ul>
 		</div>
 	</div>
@@ -198,5 +259,9 @@ error_reporting(E_ALL);
 		});
 	</script>
 	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<!-- SweetAlert2 -->
+		<script src="./plugins/sweetalert2/sweetalert2.min.js" defer async ></script>
+		<!-- Toastr -->
+		<script src="./plugins/toastr/toastr.min.js" defer async ></script>
 	</body>
 <html>

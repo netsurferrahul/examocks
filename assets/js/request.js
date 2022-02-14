@@ -1,3 +1,9 @@
+var global_question = 0;
+function startMock() { 
+	global_question = 0;
+	generate(0,5);
+	global_question++;
+}
 function register() {
     var e = document.getElementById("user_name").value,
         t = document.getElementById("user_dob").value,
@@ -98,6 +104,534 @@ function saveQuestion(question_id) {
      
 }
 
+function clearResponse() {
+	//var mockData = [{'mock_id': '1','question_id':'6','question_status': "Marked"}];
+	//sessionStorage.setItem('mockData', mockData);
+	document.getElementById("options1").checked = false;
+	document.getElementById("options2").checked = false;
+	document.getElementById("options3").checked = false;
+	document.getElementById("options4").checked = false;
+	if (document.getElementById("options5") != null)
+	document.getElementById("options5").checked = false;
+}
+
+function clearResponseFromSession() {
+	//var mockData = [{'mock_id': '1','question_id':'6','question_status': "Marked"}];
+	//sessionStorage.setItem('mockData', mockData);
+	document.getElementById("options1").checked = false;
+	document.getElementById("options2").checked = false;
+	document.getElementById("options3").checked = false;
+	document.getElementById("options4").checked = false;
+	if (document.getElementById("options5") != null)
+	document.getElementById("options5").checked = false;
+
+	var response = localStorage.getItem('Responses');
+	if (response != null) {
+		var response = JSON.parse(response);
+		
+		response[document.getElementById('json_quesion_id').innerHTML].response = "NS";    
+		response[document.getElementById('json_quesion_id').innerHTML].status = "OKN"; 		/////////////////////////////////////////////////////
+		localStorage.setItem('Responses', JSON.stringify(response));
+	}
+	
+	var responseSession = sessionStorage.getItem('Responses');
+	if (responseSession != null) {
+		var response = JSON.parse(responseSession);   
+		response[document.getElementById('json_quesion_id').innerHTML].status = "OKN"; 		/////////////////////////////////////////////////////
+		sessionStorage.setItem('Responses', JSON.stringify(response));
+		sessionCheck();
+	}
+	
+}
+
+function generate(current_question,options,color) {
+	document.getElementById('question_content').innerHTML = jsonExamData[Number(current_question)]['question'];
+	document.getElementById('optionst1').innerHTML = jsonExamData[Number(current_question)]['option_a'];
+	document.getElementById('optionst2').innerHTML = jsonExamData[Number(current_question)]['option_b'];
+	document.getElementById('optionst3').innerHTML = jsonExamData[Number(current_question)]['option_c'];
+	document.getElementById('optionst4').innerHTML = jsonExamData[Number(current_question)]['option_d'];
+	if (document.getElementById('optionst5') != null)                                             
+	document.getElementById('optionst5').innerHTML = jsonExamData[Number(current_question)]['option_e'];
+
+	document.getElementById('json_quesion_id').innerHTML = current_question; // updates json question id to front end
+	
+
+
+	if (global_question == 0) {
+		document.getElementById('question_id').innerHTML = "Question "+ (global_question+1);
+		
+		document.getElementById('questionsList'+(global_question+1)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question+1)).classList.add('red');
+	}
+	else { 
+		document.getElementById('question_id').innerHTML = "Question "+ (global_question);
+		
+		document.getElementById('questionsList'+(global_question-1)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question-1)).classList.remove('red');
+	}
+	
+	var response = localStorage.getItem('Responses');
+	if (response != null) {
+		var response = JSON.parse(response);
+		
+		clearResponse(4);
+		switch (response[0].response) {
+			case "A" : 
+						document.getElementById("options1").checked = true; break;
+			case "B" : 
+						document.getElementById("options2").checked = true; break;
+			case "C" : 
+						document.getElementById("options3").checked = true; break;
+			case "D" : 
+						document.getElementById("options4").checked = true; break;
+			case "E" : 
+						document.getElementById("options5").checked = true; break;
+		}
+	}
+}
+
+function generateSaver(current_question,options,color) {
+	document.getElementById('question_content').innerHTML = jsonExamData[Number(current_question)]['question'];
+	document.getElementById('optionst1').innerHTML = jsonExamData[Number(current_question)]['option_a'];
+	document.getElementById('optionst2').innerHTML = jsonExamData[Number(current_question)]['option_b'];
+	document.getElementById('optionst3').innerHTML = jsonExamData[Number(current_question)]['option_c'];
+	document.getElementById('optionst4').innerHTML = jsonExamData[Number(current_question)]['option_d'];
+	if (document.getElementById('optionst5') != null)                                             
+	document.getElementById('optionst5').innerHTML = jsonExamData[Number(current_question)]['option_e'];
+
+	document.getElementById('json_quesion_id').innerHTML = current_question; // updates json question id to front end
+	
+	if (global_question == 0) {
+		document.getElementById('questionsList'+(global_question)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question)).classList.remove('red');
+		document.getElementById('questionsList'+(global_question)).classList.add(color);
+		
+		
+		document.getElementById('questionsList'+(global_question+1)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question+1)).classList.add('red');
+	} else {
+		document.getElementById('questionsList'+(global_question-1)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question-1)).classList.remove('red');
+		document.getElementById('questionsList'+(global_question-1)).classList.add(color);
+		
+		
+		document.getElementById('questionsList'+(global_question)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question)).classList.add('red');
+	}
+	
+	if (global_question == 0)
+		document.getElementById('question_id').innerHTML = "Question "+ (global_question+1);
+	else
+		document.getElementById('question_id').innerHTML = "Question "+ (global_question);
+	
+	var response = localStorage.getItem('Responses');
+	if (response != null) {
+		var response = JSON.parse(response);
+		clearResponse(4);
+		
+		switch (response[current_question].response) {
+			case "A" : 
+						document.getElementById("options1").checked = true; break;
+			case "B" : 
+						document.getElementById("options2").checked = true; break;
+			case "C" : 
+						document.getElementById("options3").checked = true; break;
+			case "D" : 
+						document.getElementById("options4").checked = true; break;
+			case "E" : 
+						document.getElementById("options5").checked = true; break;
+		}
+	}
+	
+}
+
+function generateMarker(current_question,options,color) {
+	document.getElementById('question_content').innerHTML = jsonExamData[Number(current_question)]['question'];
+	document.getElementById('optionst1').innerHTML = jsonExamData[Number(current_question)]['option_a'];
+	document.getElementById('optionst2').innerHTML = jsonExamData[Number(current_question)]['option_b'];
+	document.getElementById('optionst3').innerHTML = jsonExamData[Number(current_question)]['option_c'];
+	document.getElementById('optionst4').innerHTML = jsonExamData[Number(current_question)]['option_d'];
+	if (document.getElementById('optionst5') != null)                                             
+	document.getElementById('optionst5').innerHTML = jsonExamData[Number(current_question)]['option_e'];
+
+	document.getElementById('json_quesion_id').innerHTML = current_question; // updates json question id to front end
+	
+	if (global_question == 0) {
+		document.getElementById('questionsList'+(global_question)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question)).classList.remove('red');
+		document.getElementById('questionsList'+(global_question)).classList.add(color);
+		
+		
+		document.getElementById('questionsList'+(global_question+1)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question+1)).classList.add('red');
+	} else {
+		document.getElementById('questionsList'+(global_question-1)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question-1)).classList.remove('red');
+		document.getElementById('questionsList'+(global_question-1)).classList.add(color);
+		
+		
+		document.getElementById('questionsList'+(global_question)).classList.remove('grey');
+		document.getElementById('questionsList'+(global_question)).classList.add('red');
+	}
+	
+	if (global_question == 0)
+		document.getElementById('question_id').innerHTML = "Question "+ (global_question+1);
+	else
+		document.getElementById('question_id').innerHTML = "Question "+ (global_question);
+	
+	var response = localStorage.getItem('Responses');
+	if (response != null) {
+		var response = JSON.parse(response);
+		clearResponse(4);
+		
+		switch (response[current_question].response) {
+			case "A" : 
+						document.getElementById("options1").checked = true; break;
+			case "B" : 
+						document.getElementById("options2").checked = true; break;
+			case "C" : 
+						document.getElementById("options3").checked = true; break;
+			case "D" : 
+						document.getElementById("options4").checked = true; break;
+			case "E" : 
+						document.getElementById("options5").checked = true; break;
+		}
+	}
+}
+
+function generateSpecific(current_question) {
+	clearResponse(4);
+	document.getElementById('question_content').innerHTML = jsonExamData[Number(current_question)]['question'];
+	document.getElementById('optionst1').innerHTML = jsonExamData[Number(current_question)]['option_a'];
+	document.getElementById('optionst2').innerHTML = jsonExamData[Number(current_question)]['option_b'];
+	document.getElementById('optionst3').innerHTML = jsonExamData[Number(current_question)]['option_c'];
+	document.getElementById('optionst4').innerHTML = jsonExamData[Number(current_question)]['option_d'];
+	if (document.getElementById('optionst5') != null)                                             
+	document.getElementById('optionst5').innerHTML = jsonExamData[Number(current_question)]['option_e'];
+
+	document.getElementById('json_quesion_id').innerHTML = current_question; // updates json question id to front end
+	
+	global_question = current_question;
+	document.getElementById('questionsList'+(global_question+1)).classList.remove('grey');
+	document.getElementById('questionsList'+(global_question+1)).classList.add('red');
+	
+	document.getElementById('question_id').innerHTML = "Question "+ (global_question+1);
+	if (Object.keys(jsonExamData).length == global_question) { alert("Hello"); }
+	global_question++;
+	
+	var response = localStorage.getItem('Responses');
+	if (response != null) {
+		var response = JSON.parse(response);
+		clearResponse(4);
+		
+		switch (response[current_question].response) {
+			case "A" : 
+						document.getElementById("options1").checked = true; break;
+			case "B" : 
+						document.getElementById("options2").checked = true; break;
+			case "C" : 
+						document.getElementById("options3").checked = true; break;
+			case "D" : 
+						document.getElementById("options4").checked = true; break;
+			case "E" : 
+						document.getElementById("options5").checked = true; break;
+		}
+	}
+	
+}
+
+function saveAndNext(question_id,options) {
+	var selectedAnswer;
+	if (document.getElementById("options1").checked == true) {
+		selectedAnswer = "A";
+	} else if (document.getElementById("options2").checked == true)
+	{
+		selectedAnswer = "B";
+	} else if (document.getElementById("options3").checked == true)
+	{
+		selectedAnswer = "C";
+	} else if (document.getElementById("options4").checked == true)
+	{
+		selectedAnswer = "D";
+	} else if (document.getElementById("options5") != null && document.getElementById("options5").checked == true)
+	{
+		selectedAnswer = "E";
+	} else {
+		selectedAnswer = "NS"
+	}
+	
+	var jsonQuestionId = document.getElementById('json_quesion_id').innerHTML;
+	
+	var responseSheet;
+	if (selectedAnswer == "NS") { 
+		responseSheet = '{"question":'+jsonExamData[Number(jsonQuestionId)]['question_id']+', "response": "'+ selectedAnswer +'", "status": "OKN"}';
+	} else {
+		responseSheet = '{"question":'+jsonExamData[Number(jsonQuestionId)]['question_id']+', "response": "'+ selectedAnswer +'", "status": "OK"}';
+	}
+	
+	//alert(responseSheet);
+	var response; 
+	if (localStorage.getItem('Responses') == null) { response = []; } else { response = JSON.parse(localStorage.getItem('Responses')); }
+	if (response.length == 0) {
+		response.push(JSON.parse(responseSheet));
+		localStorage.setItem('Responses', JSON.stringify(response));
+	} else {
+		var index = checkIfAlreadyExists(jsonExamData[Number(jsonQuestionId)]['question_id'],response);
+		if (index != -1 ) {
+			response[index].response = selectedAnswer;
+			if (selectedAnswer == "NS") { 
+				response[index].status = "OKN";
+			} else {
+				response[index].status = "OK";
+			}
+		} else {
+			response.push(JSON.parse(responseSheet));
+		}
+		//OldResJson.push(JSON.parse(responseSheet));
+		localStorage.setItem('Responses', JSON.stringify(response));
+	}
+	
+	//sessionStorage Start
+	var responseSheetSession;
+	if (selectedAnswer == "NS") { 
+		responseSheetSession = '{"question":'+jsonQuestionId+', "status": "OKN"}';
+	} else {
+		responseSheetSession = '{"question":'+jsonQuestionId+', "status": "OK"}';
+	}
+	//alert(responseSheetSession);
+	var responseSession; 
+	if (sessionStorage.getItem('Responses') == null) { responseSession = []; } else { responseSession = JSON.parse(sessionStorage.Responses); }
+	if (responseSession.length == 0) {
+		responseSession.push(JSON.parse(responseSheetSession));
+		sessionStorage.Responses =  JSON.stringify(responseSession);
+	} else {
+		var index = checkIfAlreadyExists(jsonQuestionId,responseSession);
+		if (index != -1 ) {
+			if (selectedAnswer == "NS") { 
+				responseSession[index].status = "OKN";
+			} else {
+				responseSession[index].status = "OK";
+			}
+		} else {
+			responseSession.push(JSON.parse(responseSheetSession));
+		}
+		//OldResJson.push(JSON.parse(responseSheet));
+		sessionStorage.Responses = JSON.stringify(responseSession);
+	}
+
+	
+	if (document.getElementById("options1").checked == false && document.getElementById("options2").checked == false && document.getElementById("options3").checked == false && document.getElementById("options4").checked == false) {
+		if (document.getElementById('optionst5') != null && document.getElementById('optionst5') == true) {
+			generateSaver(global_question++,options,"green");
+		} else {
+			generateSaver(global_question++,options,"red");
+		}
+	} else {
+		generateSaver(global_question++,options,"green")
+	}
+	//clearResponse(question_id);
+	sessionCheck();
+}
+
+function checkIfAlreadyExists(id, myArray) {
+	objIndex = myArray.findIndex((obj => obj.question == id));
+	return objIndex;
+}
+
+function Examtimer(duration, display) {
+	if (sessionStorage.getItem("Examtimer") != null) {
+		var str_time = sessionStorage.getItem("Examtimer");
+
+		var a = str_time.split(':'); // split it at the colons
+
+		duration = Number((a[0].replace("h",""))) * 60 * 60 + Number((a[1].replace("m",""))) * 60 + Number((a[2].replace("s",""))); 
+	}
+	if (!isNaN(duration)) {
+		var timer = duration, hours, minutes, seconds;
+		
+	  var interVal=  setInterval(function () {
+			hours = parseInt(timer / (60*60), 10);
+			minutes = parseInt(timer / 60, 10);
+			seconds = parseInt(timer % 60, 10);
+			
+			hours = hours < 10 ? "0" + hours : hours;
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+			seconds = seconds < 10 ? "0" + seconds : seconds;
+			
+			sessionStorage.setItem("Examtimer", hours + "h : " + minutes + "m : " + seconds + "s");
+			$(display).html(hours + "h : " + minutes + "m : " + seconds + "s");
+			if (--timer < 0) {
+			   timer = duration;
+			   TimerExpired();
+			   $('#display').empty();
+			   clearInterval(interVal)
+			}
+			},1000);
+	}
+}
+
+function TimerExpired(){
+	Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "error",
+            title: "&nbsp; Time Limit Expired. Submitting the Exam!"
+        });
+		
+	document.getElementById("btnMarkForReview").classList.add("disabled");	
+	document.getElementById("btnSaveAndNext").classList.add("disabled");	
+	document.getElementById("btnClear").classList.add("disabled");		
+	document.getElementById("btnSubmitExam").classList.add("disabled");
+	
+	
+}
+
+function submitTest(){
+	Swal.fire({
+        title: "Exam Submission",
+        text: "You want to submit the exam ?",
+        icon: "warning",
+        showCancelButton: !0,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, I want!"
+    }).then(t => {
+        if (t.value) {
+            url = "./acceptRequest.php", xhr = new XMLHttpRequest, document.getElementById(e).innerHTML = '<div class="spinner-border spinner-border-sm"></div>&nbsp; Accepting', xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("id=" + e), xhr.onreadystatechange = function() {
+                4 == xhr.readyState && (data = xhr.responseText, "S " == data.substring(0, 2) ? (document.getElementById(e).innerHTML = '<i class="fas fa-check"></i> Accepted', document.getElementById(e).disabled = !0, Swal.fire("Accepted!", data.substring(1), "success"), updateDiv("project_list_show"), updateDiv("afterAcceptDiv")) : (document.getElementById(e).innerHTML = '<i class="fas fa-check"></i> Accept Request', Swal.fire("Error!", data.substring(1), "error")))
+            }
+        }
+    })
+}
+
+function markForReviewAndNext(question_id,options) {
+	var selectedAnswer;
+	if (document.getElementById("options1").checked == true) {
+		selectedAnswer = "A";
+	} else if (document.getElementById("options2").checked == true)
+	{
+		selectedAnswer = "B";
+	} else if (document.getElementById("options3").checked == true)
+	{
+		selectedAnswer = "C";
+	} else if (document.getElementById("options4").checked == true)
+	{
+		selectedAnswer = "D";
+	} else if (document.getElementById("options5") != null && document.getElementById("options5").checked == true)
+	{
+		selectedAnswer = "E";
+	} else {
+		selectedAnswer = "NS"
+	}
+	
+	var jsonQuestionId = document.getElementById('json_quesion_id').innerHTML;
+	var responseSheet;
+	if (selectedAnswer == "NS") { 
+		responseSheet = '{"question":'+jsonExamData[Number(jsonQuestionId)]['question_id']+', "response": "'+ selectedAnswer +'", "status": "MR"}';
+	} else {
+		responseSheet = '{"question":'+jsonExamData[Number(jsonQuestionId)]['question_id']+', "response": "'+ selectedAnswer +'", "status": "MRA"}';
+	}
+	
+	var response; 
+	if (localStorage.getItem('Responses') == null) { response = []; } else { response = JSON.parse(localStorage.getItem('Responses')); }
+	if (response.length == 0) {
+		response.push(JSON.parse(responseSheet));
+		localStorage.setItem('Responses', JSON.stringify(response));
+	} else {
+		var index = checkIfAlreadyExists(jsonExamData[Number(jsonQuestionId)]['question_id'],response);
+		if (index != -1 ) {
+			response[index].response = selectedAnswer;
+			if (selectedAnswer == "NS") { 
+				response[index].status = "MR";
+			} else {
+				response[index].status = "MRA";
+			}
+		} else {
+			response.push(JSON.parse(responseSheet));
+		}
+		//OldResJson.push(JSON.parse(responseSheet));
+		localStorage.setItem('Responses', JSON.stringify(response));
+	}
+
+	//sessionStorage Start
+	var responseSheetSession;
+	if (selectedAnswer == "NS") { 
+		responseSheetSession = '{"question":'+jsonQuestionId+', "status": "MR"}';
+	} else {
+		responseSheetSession = '{"question":'+jsonQuestionId+', "status": "MRA"}';
+	}
+	//alert(responseSheetSession);
+	var responseSession; 
+	if (sessionStorage.getItem('Responses') == null) { responseSession = []; } else { responseSession = JSON.parse(sessionStorage.Responses); }
+	if (responseSession.length == 0) {
+		responseSession.push(JSON.parse(responseSheetSession));
+		sessionStorage.Responses =  JSON.stringify(responseSession);
+	} else {
+		var index = checkIfAlreadyExists(jsonQuestionId,responseSession);
+		if (index != -1 ) {
+			if (selectedAnswer == "NS") { 
+				responseSession[index].status = "MR";
+			} else {
+				responseSession[index].status = "MRA";
+			}
+		} else {
+			responseSession.push(JSON.parse(responseSheetSession));
+		}
+		//OldResJson.push(JSON.parse(responseSheet));
+		sessionStorage.Responses = JSON.stringify(responseSession);
+	}
+	
+	if (document.getElementById("options1").checked == false && document.getElementById("options2").checked == false && document.getElementById("options3").checked == false && document.getElementById("options4").checked == false) {
+		if (document.getElementById('optionst5') != null && document.getElementById('optionst5') == true) {
+			generateMarker(global_question++,options,"amber");
+		} else {
+			generateMarker(global_question++,options,"purple");
+		}
+	} else {
+		generateMarker(global_question++,options,"amber")
+	}
+	//clearResponse(question_id);
+	sessionCheck();
+}
+
+function sessionCheck() {
+	var response = sessionStorage.getItem('Responses');
+	var jsonResponse = JSON.parse(response);
+	var i;
+	if (jsonResponse != null) {
+		for (i = 0; i< jsonResponse.length; i++) {
+			if (jsonResponse[i].status == "OK") {
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("grey");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("purple");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("amber");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("red");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.add("green");
+			} else if (jsonResponse[i].status == "MR") {
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("grey");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.add("purple");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("amber");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("red");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("green");
+			} else if (jsonResponse[i].status == "MRA") {
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("grey");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("purple");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.add("amber");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("red");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("green");;
+			} else if (jsonResponse[i].status == "OKN") {
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("grey");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("purple");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("amber");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.add("red");
+				document.getElementById("questionsList"+(jsonResponse[i].question+1)).classList.remove("green");
+			}
+			
+			//document.getElementById("option")
+		}
+	}
+}
 function sendVerificationCode(){
 	var e = document.getElementById("user_mobile").value;
 	url = "./basicfunctions/sendSMS.php?mobile=" + e, xhr = new XMLHttpRequest, xhr.open("GET", url, !0), xhr.send(), xhr.onreadystatechange = function() {

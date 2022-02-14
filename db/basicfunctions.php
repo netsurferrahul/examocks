@@ -507,9 +507,19 @@
 		
 	}
 	
+	// Utility Function
 	function secondsToExamTimeFormat($seconds) {
 	  $t = round($seconds);
 	  return sprintf('%02d:%02d:%02d', ($t/3600),($t/60%60), $t%60);
+	}
+	
+	function getMockQuestionsFromMockId($mock_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT Q.question_id,TRIM(Q.question) AS question, Q.option_a, Q.option_b, Q.option_c, Q.option_d, Q.option_e, S.section_name FROM `mocks` AS M,`mock_questions` AS MQ, `questions` AS Q, `sections` AS S WHERE MQ.`section_id`=S.`section_id` and M.`mock_id`=MQ.`mock_id` and MQ.`question_id`=Q.`question_id` and MQ.`mock_id`='$mock_id'";
+		$result = $conn->query($sql);
+		return $result;
 	}
 	
 	function getMockDetailsFromMockId($mock_id) {
