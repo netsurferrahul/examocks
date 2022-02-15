@@ -9,7 +9,7 @@
 <html lang="en">
 	<head>	
 		<title>ExaMocks - <?php echo str_replace("-"," ",$_GET['topic']); ?> MCQ Prepration</title>
-		<?php include_once("common.php"); ?>
+		<?php include_once("vqcommon.php"); ?>
 		 
 		 <style>
 		 @media screen and (max-width: 768px) {
@@ -20,15 +20,15 @@
 		 </style>
 	</head>
 	<body>
-	<?php include_once("navbar.php"); ?>
+	<?php include_once("vqnavbar.php"); ?>
 	<nav id="breadcrumb-show">
 		<div class="nav-wrapper <?php echo $settings['primary_color']; ?>" style="font-size:2px;padding:0;">
 		  <div class="col s12">
-			<a href="index" class="breadcrumb">Home</a>
-			<a href="engineering" class="breadcrumb">Engineering</a>
-			<a href="computer-science" class="breadcrumb">Computer Science</a>
-			<a href="<?php echo 'view-topics.php?subject='.$subject; ?>" class="breadcrumb"><?php echo $subject; ?></a>
-			<a href="<?php echo 'view-questions.php?topic='.str_replace(" ","-",$_GET['topic']); ?>" class="breadcrumb"><?php echo str_replace("-"," ",$_GET['topic']); ?></a>
+			<a href="../index" class="breadcrumb">Home</a>
+			<a href="../engineering" class="breadcrumb">Engineering</a>
+			<a href="../computer-science" class="breadcrumb">Computer Science</a>
+			<a href="<?php echo '../view-topics/'.$subject; ?>" class="breadcrumb"><?php echo $subject; ?></a>
+			<a href="<?php echo ''.str_replace(" ","-",$_GET['topic']); ?>" class="breadcrumb"><?php echo str_replace("-"," ",$_GET['topic']); ?></a>
 		  </div>
 		</div>
 	</nav>

@@ -45,7 +45,7 @@
 								  <blockquote>Total MCQS : '.getTotalQuestions($row['topic_name']).'</blockquote></p>
 								</div>
 								<div class="card-action '.$settings['accent_color'].'-text">
-								  <a href="view-questions.php?topic='.str_replace(" ","-",$row['topic_name']).'"><i class="material-icons left">logout</i>View</a>
+								  <a href="../view-questions/'.str_replace(" ","-",$row['topic_name']).'"><i class="material-icons left">logout</i>View</a>
 								</div>
 							  </div>
 							</div>';

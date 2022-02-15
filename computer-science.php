@@ -44,7 +44,7 @@
 								  <blockquote>Total MCQS : 2912</blockquote></p>
 								</div>
 								<div class="card-action '.$settings['accent_color'].'-text">
-								  <a href="view-topics.php?subject='.str_replace(" ","-",$row['subject_name']).'"><i class="material-icons left">logout</i>View</a>
+								  <a href="./view-topics/'.str_replace(" ","-",$row['subject_name']).'"><i class="material-icons left">logout</i>View</a>
 								</div>
 							  </div>
 							</div>';

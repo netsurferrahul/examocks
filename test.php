@@ -260,8 +260,8 @@ error_reporting(E_ALL);
 	</script>
 	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<!-- SweetAlert2 -->
-		<script src="./plugins/sweetalert2/sweetalert2.min.js" defer async ></script>
+		<script src="../plugins/sweetalert2/sweetalert2.min.js" defer async ></script>
 		<!-- Toastr -->
-		<script src="./plugins/toastr/toastr.min.js" defer async ></script>
+		<script src="../plugins/toastr/toastr.min.js" defer async ></script>
 	</body>
 <html>

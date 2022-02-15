@@ -27,20 +27,21 @@ php_value display_errors 1
   ExpiresByType application/x-shockwave-flash "access plus 1 month"
 </IfModule>
 
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^test/(.*)$ test.php?mock=$1 [L,QSA]
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^view-topics/(.*)$ view-topics.php?subject=$1 [L,QSA]
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^view-questions/(.*)$ view-questions.php?topic=$1 [L,QSA]
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
-
-#RewriteEngine on
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteRule ^(.*)$ view-topics.php?subject=$1 [L,QSA]
-
-#RewriteEngine On
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^view-topics/(.*)$ view-topics.php?subject=$1
-
-RewriteRule "^(\S*) +(\S* .*)$" $1-$2 [N,NE]
-RewriteRule "^(\S*) (\S*)$" $1-$2 [L,R=302,NE]

@@ -31,7 +31,7 @@
 				  <div><p style="display:inline-block"><i class="material-icons left">assignment</i>'.$row['mock_total_question'].' Questions</p>&nbsp;&nbsp;&nbsp;&nbsp;<p style="display:inline-block" class="right"><i class="material-icons left">access_time</i>'.($row['mock_total_duration']/60).' Minutes</p></div>
 				</div>
 				<div class="card-action">
-				  <a href="./test?mock='.$row['mock_id'].'" class="btn btn-small '.$settings['accent_color'].'" style="width:100%">attempt</a>
+				  <a href="./test/'.$row['mock_id'].'" class="btn btn-small '.$settings['accent_color'].'" style="width:100%">attempt</a>
 				</div>
 			  </div>
 			</div>';

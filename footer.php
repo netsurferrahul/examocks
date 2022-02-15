@@ -41,6 +41,6 @@
 		});
 	</script>
 <!-- SweetAlert2 -->
-<script src="./plugins/sweetalert2/sweetalert2.min.js" defer async ></script>
+<script src="../plugins/sweetalert2/sweetalert2.min.js" defer async ></script>
 <!-- Toastr -->
-<script src="./plugins/toastr/toastr.min.js" defer async ></script>
+<script src="../plugins/toastr/toastr.min.js" defer async ></script>
