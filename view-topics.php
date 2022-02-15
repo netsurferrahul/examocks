@@ -8,7 +8,7 @@
 <html lang="en">
 	<head>	
 		<title>ExaMocks - <?php echo str_replace("-"," ",$_GET['subject']); ?> MCQ Prepration</title>
-		<?php include_once("common.php"); ?>
+		<?php include_once("ltwoheader.php"); ?>
 		 
 		 <style>
 		 @media screen and (max-width: 768px) {
@@ -19,14 +19,14 @@
 		 </style>
 	</head>
 	<body>
-	<?php include_once("navbar.php"); ?>
+	<?php include_once("ltwonavbar.php"); ?>
 	<nav id="breadcrumb-show">
 		<div class="nav-wrapper <?php echo $settings['primary_color']; ?>">
 		  <div class="col s12">
-			<a href="index" class="breadcrumb">Home</a>
-			<a href="engineering" class="breadcrumb">Engineering</a>
-			<a href="computer-science" class="breadcrumb">Computer Science</a>
-			<a href="<?php echo 'view-topics.php?subject='.str_replace(" ","-",$row['subject_name']); ?>" class="breadcrumb"><?php echo str_replace("-"," ",$_GET['subject']); ?></a>
+			<a href="../index" class="breadcrumb">Home</a>
+			<a href="../engineering" class="breadcrumb">Engineering</a>
+			<a href="../computer-science" class="breadcrumb">Computer Science</a>
+			<a href="#" class="breadcrumb"><?php echo str_replace("-"," ",$_GET['subject']); ?></a>
 		  </div>
 		</div>
 	</nav>
@@ -58,7 +58,7 @@
   </div>
   
    
-    <?php include_once("footer.php"); ?>
+    <?php include_once("ltwofooter.php"); ?>
 	
 	</body>
 <html>

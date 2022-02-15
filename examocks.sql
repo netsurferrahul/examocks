@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2022 at 04:20 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Feb 15, 2022 at 08:57 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -78,15 +78,16 @@ CREATE TABLE `mocks` (
   `settings` longtext NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
-  `exam_id` int(11) NOT NULL
+  `exam_id` int(11) NOT NULL,
+  `is_free` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `mocks`
 --
 
-INSERT INTO `mocks` (`mock_id`, `mock_title`, `mock_description`, `mock_total_question`, `mock_total_duration`, `mock_total_marks`, `settings`, `is_active`, `created_at`, `exam_id`) VALUES
-(1, 'Mock-1', 'RSMSSB Basic Computer Instructor Mock-1', 5, 300, 5, '{\"restrict_attempts\":false,\"no_of_attempts\":null,\"disable_question_navigation\":false,\"list_questions\":true,\"auto_duration\":true,\"total_duration\":null,\"auto_grading\":true,\"correct_marks\":1,\"cutoff\":60,\"enable_negative_marking\":true,\"negative_marking_type\":\"percentage\",\"negative_marks\":33,\"disable_finish_button\":false,\"hide_solutions\":true}', 1, '2022-02-14 00:37:32', 1);
+INSERT INTO `mocks` (`mock_id`, `mock_title`, `mock_description`, `mock_total_question`, `mock_total_duration`, `mock_total_marks`, `settings`, `is_active`, `created_at`, `exam_id`, `is_free`) VALUES
+(1, 'Mock-1', 'RSMSSB Basic Computer Instructor Mock-1', 5, 300, 5, '{\"restrict_attempts\":false,\"no_of_attempts\":null,\"disable_question_navigation\":false,\"list_questions\":true,\"auto_duration\":true,\"total_duration\":null,\"auto_grading\":true,\"correct_marks\":1,\"cutoff\":60,\"enable_negative_marking\":true,\"negative_marking_type\":\"percentage\",\"negative_marks\":33,\"disable_finish_button\":false,\"hide_solutions\":true}', 1, '2022-02-14 00:37:32', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -845,7 +846,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `mobile_number`, `state`, `verified`, `gender`, `profile_pic`, `last_login_time`, `dob`) VALUES
-(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-15 08:43:04', '0000-00-00'),
+(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-15 12:40:06', '0000-00-00'),
 (3, 'guest@examocks.com', '12345678', 'Guest', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-13 09:59:50', '2022-02-01');
 
 -- --------------------------------------------------------

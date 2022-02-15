@@ -9,7 +9,7 @@
 <html lang="en">
 	<head>	
 		<title>ExaMocks - Computer Science MCQ Prepration</title>
-		<?php include_once("common.php"); ?>
+		<?php include_once("loneheader.php"); ?>
 		 <style>
 		 @media screen and (max-width: 768px) {
 			#breadcrumb-show{
@@ -19,7 +19,7 @@
 		 </style>
 	</head>
 	<body>
-	<?php include_once("navbar.php"); ?>
+	<?php include_once("lonenavbar.php"); ?>
 	<nav id="breadcrumb-show">
 		<div class="nav-wrapper <?php echo $settings['primary_color']; ?>">
 		  <div class="col s12">
@@ -57,7 +57,7 @@
   </div>
   
    
-    <?php include_once("footer.php"); ?>
+    <?php include_once("lonefooter.php"); ?>
 	
 	</body>
 <html>

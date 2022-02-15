@@ -9,7 +9,7 @@
 <html lang="en">
 	<head>	
 		<title>ExaMocks - <?php echo str_replace("-"," ",$_GET['topic']); ?> MCQ Prepration</title>
-		<?php include_once("vqcommon.php"); ?>
+		<?php include_once("lthreeheader.php"); ?>
 		 
 		 <style>
 		 @media screen and (max-width: 768px) {
@@ -20,7 +20,7 @@
 		 </style>
 	</head>
 	<body>
-	<?php include_once("vqnavbar.php"); ?>
+	<?php include_once("lthreenavbar.php"); ?>
 	<nav id="breadcrumb-show">
 		<div class="nav-wrapper <?php echo $settings['primary_color']; ?>" style="font-size:2px;padding:0;">
 		  <div class="col s12">
@@ -234,7 +234,7 @@
 		var instances = M.Collapsible.init(elems);
 	  });
   </script>
-    <?php include_once("footer.php"); ?>
+    <?php include_once("lthreefooter.php"); ?>
 	
 	</body>
 <html>

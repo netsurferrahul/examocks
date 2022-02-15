@@ -527,7 +527,12 @@
 		}
 		$sql = "SELECT * FROM `mocks` WHERE `exam_id`='$exam_id'";
 		$result = $conn->query($sql);
-		return $result;
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+		return 0;
 	}
 	
 	function getAllExams() {

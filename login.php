@@ -13,12 +13,12 @@
 <html lang="en">
 	<head>	
 		<title>ExaMocks - Best RSMSSB Computer instructor(Anudeshak) Prepration Website</title>
-		<?php include_once("common.php"); ?>
+		<?php include_once("loneheader.php"); ?>
 		 
 	</head>
 	<body>
 	
-	<?php include_once("navbar.php"); ?>
+	<?php include_once("lonenavbar.php"); ?>
 	
    <div class="row">
     <div class="col s12 m4"></div>
@@ -54,7 +54,7 @@
     </div>
   </div>
    
-    <?php include_once("footer.php"); ?>
+    <?php include_once("lonefooter.php"); ?>
 	
 	</body>
 <html>
