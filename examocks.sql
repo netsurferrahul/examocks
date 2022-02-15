@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2022 at 08:39 AM
+-- Generation Time: Feb 15, 2022 at 04:20 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -42,6 +42,123 @@ INSERT INTO `branch` (`branch_id`, `branch_name`) VALUES
 (1, 'Computer Science'),
 (2, 'Electrical Engineering'),
 (3, 'Mechanical Engineering');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam`
+--
+
+CREATE TABLE `exam` (
+  `exam_id` int(11) NOT NULL,
+  `exam_name` varchar(300) NOT NULL,
+  `exam_description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `exam`
+--
+
+INSERT INTO `exam` (`exam_id`, `exam_name`, `exam_description`) VALUES
+(1, 'RSMSSB Basic Computer Instructor', 'RSMSSB Basic Computer Instructor');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mocks`
+--
+
+CREATE TABLE `mocks` (
+  `mock_id` int(11) NOT NULL,
+  `mock_title` varchar(200) NOT NULL,
+  `mock_description` text NOT NULL,
+  `mock_total_question` int(11) NOT NULL,
+  `mock_total_duration` int(11) NOT NULL,
+  `mock_total_marks` int(11) NOT NULL,
+  `settings` longtext NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `exam_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mocks`
+--
+
+INSERT INTO `mocks` (`mock_id`, `mock_title`, `mock_description`, `mock_total_question`, `mock_total_duration`, `mock_total_marks`, `settings`, `is_active`, `created_at`, `exam_id`) VALUES
+(1, 'Mock-1', 'RSMSSB Basic Computer Instructor Mock-1', 5, 300, 5, '{\"restrict_attempts\":false,\"no_of_attempts\":null,\"disable_question_navigation\":false,\"list_questions\":true,\"auto_duration\":true,\"total_duration\":null,\"auto_grading\":true,\"correct_marks\":1,\"cutoff\":60,\"enable_negative_marking\":true,\"negative_marking_type\":\"percentage\",\"negative_marks\":33,\"disable_finish_button\":false,\"hide_solutions\":true}', 1, '2022-02-14 00:37:32', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mock_questions`
+--
+
+CREATE TABLE `mock_questions` (
+  `mock_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mock_questions`
+--
+
+INSERT INTO `mock_questions` (`mock_id`, `question_id`, `section_id`) VALUES
+(1, 6, 1),
+(1, 24, 1),
+(1, 25, 1),
+(1, 26, 1),
+(1, 64, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mock_response`
+--
+
+CREATE TABLE `mock_response` (
+  `mock_response_id` int(11) NOT NULL,
+  `mock_response_by` int(11) NOT NULL,
+  `mock_response_text` text NOT NULL,
+  `mock_response_attampt_time` datetime NOT NULL,
+  `mock_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mock_respose_questions`
+--
+
+CREATE TABLE `mock_respose_questions` (
+  `mock_id` int(11) NOT NULL,
+  `mock_question_id` int(11) NOT NULL,
+  `user_answer` int(2) NOT NULL,
+  `is_correct` tinyint(1) NOT NULL,
+  `status` enum('answered','not answered') NOT NULL,
+  `mark_earned` double(5,2) NOT NULL,
+  `mark_deducted` double(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mock_sections`
+--
+
+CREATE TABLE `mock_sections` (
+  `section_id` int(11) NOT NULL,
+  `section_questions` int(11) NOT NULL,
+  `mock_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mock_sections`
+--
+
+INSERT INTO `mock_sections` (`section_id`, `section_questions`, `mock_id`) VALUES
+(1, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -91,7 +208,7 @@ INSERT INTO `questions` (`question_id`, `question`, `option_a`, `option_b`, `opt
 (21, 'Which network has connectivity range up to 10 meters?', 'LAN', 'PAN', 'MAN', 'WAN', '', 2, 'None.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
 (22, 'For data communications to occur, the communicating devices must be part of a communication system made up of a combination of?', 'WAN and LAN', 'Hardware and software', 'Full duplex and half duplex', 'All of the above', '', 2, 'None.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
 (23, 'Correct method for full duplex mode of communication is:', 'Both stations can transmit and receive data at the', 'One device can send other device can only accepts.', 'One device sends and other device receives and vic', 'None of these', '', 1, 'None.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
-(24, '<p>Data communications system depends on four fundamental characteristics accuracy, delivery, jitter and</p>', 'Receiver', 'Sender', 'Timeliness', 'Medium', '', 3, 'Data communications means the exchange of data between two devices via some form of transmission medium such as a wire cable. For data communications to occur, the communicating devices must be part of a communication system made up of a combination of hardware (physical equipment) and software (programs). \nThe effectiveness of a data communications system depends on four fundamental characteristics: delivery, accuracy, timeliness, and jitter.\n1. Delivery: The system must deliver data to the correct destination. Data must be received by the intended device or user and only by that device or user.\n2. Accuracy: The system must deliver the data accurately. Data that have been altered in transmission and left uncorrected are unusable.\n3. Timeliness: The system must deliver data in a timely manner. Data delivered late are useless. In the case of video and audio, timely delivery means delivering data as they are produced, in the same order that they are produced, and without significant delay. This kind of delivery is called real-time transmission.\n4. Jitter: Jitter refers to the variation in the packet arrival time. It is the uneven delay in the delivery of audio or video packets. For example, let us assume that video packets are sent every 3D ms. If some of the packets arrive with 3D-ms delay and others with 4D-ms delay, an uneven quality in the video is the result.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
+(24, 'Data communications system depends on four fundamental characteristics accuracy, delivery, jitter and', 'Receiver', 'Sender', 'Timeliness', 'Medium', '', 3, 'Data communications means the exchange of data between two devices via some form of transmission medium such as a wire cable. For data communications to occur, the communicating devices must be part of a communication system made up of a combination of hardware (physical equipment) and software (programs). \nThe effectiveness of a data communications system depends on four fundamental characteristics: delivery, accuracy, timeliness, and jitter.\n1. Delivery: The system must deliver data to the correct destination. Data must be received by the intended device or user and only by that device or user.\n2. Accuracy: The system must deliver the data accurately. Data that have been altered in transmission and left uncorrected are unusable.\n3. Timeliness: The system must deliver data in a timely manner. Data delivered late are useless. In the case of video and audio, timely delivery means delivering data as they are produced, in the same order that they are produced, and without significant delay. This kind of delivery is called real-time transmission.\n4. Jitter: Jitter refers to the variation in the packet arrival time. It is the uneven delay in the delivery of audio or video packets. For example, let us assume that video packets are sent every 3D ms. If some of the packets arrive with 3D-ms delay and others with 4D-ms delay, an uneven quality in the video is the result.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
 (25, 'A data communications system has:', '4 components', '5 components', '6 components', '7 components', '', 2, 'None.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
 (26, '00 represents a pixel that pixel is known as :', 'Black pixel', 'Light gray', 'White pixel', 'Dark gray pixel', '', 1, 'None.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
 (27, 'Select correct type of line configuration:', 'Multi-point', 'Single point', 'Link', 'Dedicated point', '', 1, 'None.', 'Computer Fundamentals', 'Computer fundamentals data communication and networking'),
@@ -648,6 +765,24 @@ INSERT INTO `saved_questions` (`save_id`, `question_id`, `saved_by`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sections`
+--
+
+CREATE TABLE `sections` (
+  `section_id` int(11) NOT NULL,
+  `section_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sections`
+--
+
+INSERT INTO `sections` (`section_id`, `section_name`) VALUES
+(1, 'Computer');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `site_settings`
 --
 
@@ -710,7 +845,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `mobile_number`, `state`, `verified`, `gender`, `profile_pic`, `last_login_time`, `dob`) VALUES
-(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-13 10:42:00', '0000-00-00'),
+(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-15 08:43:04', '0000-00-00'),
 (3, 'guest@examocks.com', '12345678', 'Guest', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-13 09:59:50', '2022-02-01');
 
 -- --------------------------------------------------------
@@ -745,6 +880,42 @@ ALTER TABLE `branch`
   ADD KEY `branch_name` (`branch_name`);
 
 --
+-- Indexes for table `exam`
+--
+ALTER TABLE `exam`
+  ADD PRIMARY KEY (`exam_id`);
+
+--
+-- Indexes for table `mocks`
+--
+ALTER TABLE `mocks`
+  ADD PRIMARY KEY (`mock_id`),
+  ADD KEY `exam_id` (`exam_id`);
+
+--
+-- Indexes for table `mock_questions`
+--
+ALTER TABLE `mock_questions`
+  ADD PRIMARY KEY (`mock_id`,`question_id`),
+  ADD KEY `question_id` (`question_id`),
+  ADD KEY `section_id` (`section_id`);
+
+--
+-- Indexes for table `mock_response`
+--
+ALTER TABLE `mock_response`
+  ADD PRIMARY KEY (`mock_response_id`),
+  ADD KEY `mock_response_by` (`mock_response_by`),
+  ADD KEY `mock_id` (`mock_id`);
+
+--
+-- Indexes for table `mock_sections`
+--
+ALTER TABLE `mock_sections`
+  ADD PRIMARY KEY (`section_id`,`mock_id`),
+  ADD KEY `mock_id` (`mock_id`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
@@ -766,6 +937,12 @@ ALTER TABLE `saved_questions`
   ADD PRIMARY KEY (`save_id`),
   ADD KEY `question_id` (`question_id`),
   ADD KEY `saved_by` (`saved_by`);
+
+--
+-- Indexes for table `sections`
+--
+ALTER TABLE `sections`
+  ADD PRIMARY KEY (`section_id`);
 
 --
 -- Indexes for table `site_settings`
@@ -805,6 +982,24 @@ ALTER TABLE `branch`
   MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `exam`
+--
+ALTER TABLE `exam`
+  MODIFY `exam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `mocks`
+--
+ALTER TABLE `mocks`
+  MODIFY `mock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `mock_response`
+--
+ALTER TABLE `mock_response`
+  MODIFY `mock_response_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
@@ -821,6 +1016,12 @@ ALTER TABLE `reported_questions`
 --
 ALTER TABLE `saved_questions`
   MODIFY `save_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `sections`
+--
+ALTER TABLE `sections`
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `site_settings`
@@ -849,6 +1050,34 @@ ALTER TABLE `verification_code`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `mocks`
+--
+ALTER TABLE `mocks`
+  ADD CONSTRAINT `mocks_ibfk_1` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`exam_id`);
+
+--
+-- Constraints for table `mock_questions`
+--
+ALTER TABLE `mock_questions`
+  ADD CONSTRAINT `mock_questions_ibfk_1` FOREIGN KEY (`mock_id`) REFERENCES `mocks` (`mock_id`),
+  ADD CONSTRAINT `mock_questions_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`question_id`),
+  ADD CONSTRAINT `mock_questions_ibfk_3` FOREIGN KEY (`section_id`) REFERENCES `sections` (`section_id`);
+
+--
+-- Constraints for table `mock_response`
+--
+ALTER TABLE `mock_response`
+  ADD CONSTRAINT `mock_response_ibfk_1` FOREIGN KEY (`mock_response_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `mock_response_ibfk_2` FOREIGN KEY (`mock_id`) REFERENCES `mocks` (`mock_id`);
+
+--
+-- Constraints for table `mock_sections`
+--
+ALTER TABLE `mock_sections`
+  ADD CONSTRAINT `mock_sections_ibfk_2` FOREIGN KEY (`section_id`) REFERENCES `sections` (`section_id`),
+  ADD CONSTRAINT `mock_sections_ibfk_3` FOREIGN KEY (`mock_id`) REFERENCES `mocks` (`mock_id`);
 
 --
 -- Constraints for table `questions`
