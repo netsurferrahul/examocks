@@ -23,11 +23,9 @@ error_reporting(E_ALL);
 	while($row = $result->fetch_assoc()) {
 		$rows[] = $row;
 	}
-	
 	$exam_questions = json_decode(json_encode($rows), true);
 	$total_question = count($exam_questions);
 	
-	echo $_SESSION['Responses'];
 ?>
 
 <!DOCTYPE html>
@@ -70,9 +68,12 @@ error_reporting(E_ALL);
     }*/
   </script>
 </head>
-<body onload="startMock();sessionCheck();Examtimer('<?php echo $mock['mock_total_duration']; ?>','#countdown_timer')">
+<body onload="startMock(<?php echo $_GET['mock']; ?>,<?php echo $total_question; ?>);sessionCheck(<?php echo $_GET['mock']; ?>);Examtimer('<?php echo $mock['mock_total_duration']; ?>','#countdown_timer',<?php echo $_GET['mock']; ?>);generateSpecific(0,1);">
 
 <?php include_once("testsidenavbar.php"); ?>
+<div class="progress" style="margin:0px;border-radius:0;visibility:hidden;" id="progress">
+	<div class="indeterminate <?php echo $settings['accent_color']; ?>"></div>
+</div>
 
 <div>
 <?php
@@ -130,15 +131,8 @@ error_reporting(E_ALL);
 					  
 					</div>
 					<div class="card-action">
-					  View In: <div  class="browser-default right">
-					  <form>
-								<select>
-								  <option value="English">English</option>
-								  <option value="Hindi">Hindi</option>
-								</select>
-								
-								</form>
-							  </div>
+					  View In: <a  class=" btn btn-small browser-default right" onclick="changeLanguage(<?php echo $_GET['exam']; ?>);"> <i class="material-icons left">g_translate</i> <span id="selectedLanguage"></span>
+							  </a>
 					</div>
 				  </div>
 			</div>
@@ -147,7 +141,7 @@ error_reporting(E_ALL);
 				  <div class="card" style="margin:1%">
 					<div class="card-header" style="padding:1% 0% 0% 1%"><a class="waves-effect waves-light btn-small disabled" id="question_id">Question 1</a></div>
 					<div class="card-content">
-					  <p style="display:inline-block;" id="question_content"><?php echo $exam_questions[0]['question']; ?></p>
+					  <p style="display:inline-block;" id="question_content"><?php echo $exam_questions[0]['question_hindi']; ?></p>
 					  <div>
 						<p style="margin-top: 2%">
 						  <label>
@@ -188,15 +182,15 @@ error_reporting(E_ALL);
 					  
 					</div>
 					<div class="card-action">
-					  <a class="waves-light btn-small purple modal-trigger" id="btnMarkForReview" onclick="markForReviewAndNext('0',
+					  <a class="waves-light btn-small purple" id="btnMarkForReview" onclick="markForReviewAndNext('0',
 					  <?php 
 					  if ($exam_questions[0]['option_e'] != '') {
 						  echo "5";
 					  } else {
 						  echo "4";
 					  } 
-					  ?>);"><i class="material-icons left">beenhere</i>  Mark for Review & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
-					  <a class="waves-light btn-small red" onclick="clearResponseFromSession();" id="btnClear"><i class="material-icons left">clear</i> Clear Response </a>
+					  ?>,<?php echo $_GET['mock']; ?>);"><i class="material-icons left">beenhere</i>  Mark for Review & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
+					  <a class="waves-light btn-small red" onclick="clearResponseFromSession(<?php echo $_GET['exam']; ?>);" id="btnClear"><i class="material-icons left">clear</i> Clear Response </a>
 					  <p id="json_quesion_id" style="display:none;">0</p>
 					  <a class="waves-light btn-small green right" id="btnSaveAndNext" onclick="saveAndNext('0',
 					  <?php 
@@ -205,12 +199,12 @@ error_reporting(E_ALL);
 					  } else {
 						  echo "4";
 					  } 
-					  ?>)"><i class="material-icons right">navigate_next</i>Save & Next</a>
+					  ?>,<?php echo $_GET['mock']; ?>)"><i class="material-icons right">navigate_next</i>Save & Next</a>
 					</div>
 				  </div>
 			</div>
 		</div>
-		
+		<div id="total_questions_in_exam" style="display:none;"> <?php echo $total_question; ?> </div>
 		<div class="col s12 m2">
 
 				  <ul id="slide-out" class="sidenav sidenav-fixed right">
@@ -229,20 +223,56 @@ error_reporting(E_ALL);
 					<li style="margin: 4% 4% 8% 4%"><div class="row"><div class="col s12 m5" style="font-size: 14px;"><span class="chip green white-text">1</span> <p style="display:inline-flex;">Answered</p></div><div class="col s12 m7" style="font-size: 14px;"><span class="chip purple white-text">1</span> <p style="display:inline-flex;">Marked for review</p></div></div></li>
 					<li style="margin: 4% 4% 8% 4%"><div class="row"><div class="col s12 m12" style="font-size: 14px;"><span class="chip amber white-text">1</span>  Answered and marked for review (will not be evaluated) </div></div></li>
 					<li><div class="divider"></div></li>
-					<li class="center"><p class="waves-light btn-small purple">MENTAL AND REASONING ABILITY</p></li>
+					<li class="center"><p class="waves-light btn-small purple" id="sectionName">MENTAL AND REASONING ABILITY</p></li>
 					<li style="margin: 8% 4% 8% 4%"><p>Choose a question:</p></li>
 					<li style="margin: 8% 4% 8% 4%"><p>
 					<?php 
 						for ($i=1; $i <= $total_question; $i++){
-							echo '<span id="questionsList'.$i.'" class="btn chip grey white-text" style="margin: 2% 4% 2% 4%" onclick="generateSpecific('.($i-1).')">'.$i.'</span>';
+							echo '<span id="questionsList'.$i.'" class="btn chip grey white-text" style="margin: 2% 4% 2% 4%" onclick="generateSpecific('.($i-1).','.$_GET['mock'].')">'.$i.'</span>';
 						}
 					?>
 					</p></li>
-					<a class="waves-light btn-small green right nav-bottom" id="btnSubmitExam" style="width:100%" onclick="submitTest();"><i class="material-icons right">done</i>Submit</a>
+					<a class="waves-light btn-small green right nav-bottom modal-trigger" id="btnSubmitExam" style="width:100%" onclick="submitTest(<?php echo $_GET['mock']; ?>);" data-target="modal1"><i class="material-icons right">done</i>Submit</a>
 				  </ul>
 		</div>
 	</div>
 </div>
+
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4 class="center">Submit your test</h4>
+      <p>
+		 <table class="responsive-table centered border">
+			<thead>
+			  <tr>
+				  <th>No. of questions</th>
+				  <th>Answered</th>
+				  <th>Not Answered</th>
+				  <th>Marked for Review</th>
+				  <th>Not Visited</th>
+			  </tr>
+			</thead>
+
+			<tbody>
+			  <tr>
+				<td><?php echo $total_question; ?></td>
+				<td id="UserAnswered"></td>
+				<td id="UserNotAnswered"></td>
+				<td id="UserMarkedForReview"></td>
+				<td id="UserNotVisited"></td>
+			  </tr>
+			</tbody>
+		  </table>
+	  </p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="btn modal-close waves-effect red">Close</a>
+	  <a onClick="submitExamAndEvaluate(<?php echo $_GET['mock']; ?>);" class="btn waves-effect green">Submit</a>
+    </div>
+  </div>
+  
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			var elems = document.querySelectorAll('.sidenav');
@@ -257,6 +287,13 @@ error_reporting(E_ALL);
 			var elems = document.querySelectorAll('select');
 			var instances = M.FormSelect.init(elems, {});
 		});
+		
+		 document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.modal');
+			var instances = M.Modal.init(elems, {});
+		  });
+
+
 	</script>
 	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<!-- SweetAlert2 -->

@@ -32,7 +32,7 @@
 				  <div><p style="display:inline-block"><i class="material-icons left">assignment</i>'.$row['mock_total_question'].' Questions</p>&nbsp;&nbsp;&nbsp;&nbsp;<p style="display:inline-block" class="right"><i class="material-icons left">access_time</i>'.($row['mock_total_duration']/60).' Minutes</p></div>
 				</div>
 				<div class="card-action">
-				  <a href="../test/'.$row['mock_id'].'" class="btn tooltipped btn-small '.$settings['accent_color'].'" style="width:100%" data-position="bottom" data-tooltip="Login to take this mock test">';
+				  <a href="../test-home/'.$row['mock_id'].'" class="btn tooltipped btn-small '.$settings['accent_color'].'" style="width:100%" data-position="bottom" data-tooltip="Login to take this mock test">';
 				  if ($row['is_free'] == 0) {
 					  echo '<i class="material-icons left">lock</i>';
 				  }

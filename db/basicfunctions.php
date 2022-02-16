@@ -511,7 +511,35 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT COUNT(`mock_id`) AS Total FROM `mocks` WHERE `exam_id`='$exam_id'";
+		$sql = "SELECT COUNT(`mock_id`) AS Total FROM `mocks` WHERE `exam_id`='$exam_id' and `mock_type`='Mock Test'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+		return 0;
+	}
+	
+	function getTotalSubjectMocksCountFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(`mock_id`) AS Total FROM `mocks` WHERE `exam_id`='$exam_id' and `mock_type`='Subject Test'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+		return 0;
+	}
+	
+	function getTotalTopicMocksCountFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(`mock_id`) AS Total FROM `mocks` WHERE `exam_id`='$exam_id' and `mock_type`='Chapter Test'";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
@@ -550,7 +578,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT Q.question_id,TRIM(Q.question) AS question, Q.option_a, Q.option_b, Q.option_c, Q.option_d, Q.option_e, S.section_name FROM `mocks` AS M,`mock_questions` AS MQ, `questions` AS Q, `sections` AS S WHERE MQ.`section_id`=S.`section_id` and M.`mock_id`=MQ.`mock_id` and MQ.`question_id`=Q.`question_id` and MQ.`mock_id`='$mock_id'";
+		$sql = "SELECT Q.question_id,TRIM(Q.question) AS question, Q.option_a, Q.option_b, Q.option_c, Q.option_d, Q.option_e,TRIM(Q.question_hindi) AS question_hindi, Q.option_a_hindi, Q.option_b_hindi, Q.option_c_hindi, Q.option_d_hindi, Q.option_e_hindi, S.section_name FROM `mocks` AS M,`mock_questions` AS MQ, `questions` AS Q, `sections` AS S WHERE MQ.`section_id`=S.`section_id` and M.`mock_id`=MQ.`mock_id` and MQ.`question_id`=Q.`question_id` and MQ.`mock_id`='$mock_id'";
 		$result = $conn->query($sql);
 		return $result;
 	}
