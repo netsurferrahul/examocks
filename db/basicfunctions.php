@@ -594,6 +594,32 @@
 		
 	}
 	
+	function getColorNameToColorCode($color_name) {
+		$color_code;
+		switch($color_name) {
+			case 'red': $color_code="#F44336"; break;
+			case 'pink': $color_code="#E91E63"; break;
+			case 'purple': $color_code="#9C27B0"; break;
+			case 'deep purple': $color_code="#673AB7"; break;
+			case 'indigo': $color_code="#3F51B5"; break;
+			case 'blue': $color_code="#2196F3"; break;
+			case 'light blue': $color_code="#03A9F4"; break;
+			case 'cyan': $color_code="#00BCD4"; break;
+			case 'teal': $color_code="#009688"; break;
+			case 'green': $color_code="#4CAF50"; break;
+			case 'light green': $color_code="#8BC34A"; break;
+			case 'lime': $color_code="#CDDC39"; break;
+			case 'yellow': $color_code="#FFEB3B"; break;
+			case 'amber': $color_code="#FFC107"; break;
+			case 'orange': $color_code="#FF9800"; break;
+			case 'deep orange': $color_code="#FF5722"; break;
+			case 'brown': $color_code="#795548"; break;
+			case 'grey': $color_code="#9E9E9E"; break;
+			case 'blue grey': $color_code="#607D8B"; break;
+		}
+		return $color_code;
+	}
+	
 	function getSectionNamesFromMockId($mock_id) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");

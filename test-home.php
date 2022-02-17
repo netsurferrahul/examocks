@@ -14,11 +14,11 @@ error_reporting(E_ALL);
 			header("Location: varifyemail");
 		}
 		
-		$mock = getMockDetailsFromMockId($_GET['mock']);
+		$mock = getMockDetailsFromMockId($_GET['exam']);
 	}
 	
 	
-	$result = getMockQuestionsFromMockId($_GET['mock']);
+	$result = getMockQuestionsFromMockId($_GET['exam']);
 	$rows = array();
 	while($row = $result->fetch_assoc()) {
 		$rows[] = $row;
@@ -34,7 +34,7 @@ error_reporting(E_ALL);
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ExaMocks | Dashboard</title>
+  <title>ExaMocks | <?php echo $mock['mock_title']; ?> Exam Instructions</title>
   <?php include_once("common.php"); ?>
   <style>
 	.login-image{
