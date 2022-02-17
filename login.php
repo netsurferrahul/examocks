@@ -47,7 +47,17 @@
 				<span>Remember me</span>
 			  </label>
 			</p>
-			 <div class="row center"><a class="waves-effect waves-light btn-small <?php echo $settings['accent_color']; ?>" onclick="Login()" id="signin"><i class="material-icons right">login</i>Login</a></div>
+			 <div class="row center"><a class="waves-effect waves-light btn-small <?php echo $settings['accent_color']; ?>" 
+			 
+			 <?php 
+			 if (isset($_GET['goto'])) {
+				 echo 'onclick="Login(\''.$_GET['goto'].'\')"';
+			 } else {
+				 echo 'onclick="Login(\'dashboard\')"';
+			 }
+			 ?>	
+
+			 id="signin"><i class="material-icons right">login</i>Login</a></div>
 		  </p>
         </div>
       </div>

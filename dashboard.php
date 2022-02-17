@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 	include_once("./db/db.php");
 	include("./db/basicfunctions.php");
 	session_start();
+	
 	$settings = getSiteSettings();
 	//session_unset();
 	//session_destroy();
@@ -15,7 +16,6 @@ error_reporting(E_ALL);
 		}
 	}
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2022 at 04:26 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Feb 17, 2022 at 11:26 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -174,6 +174,42 @@ INSERT INTO `mock_sections` (`section_id`, `section_questions`, `mock_id`) VALUE
 (1, 5, 1),
 (1, 5, 2),
 (2, 5, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `id` int(11) NOT NULL,
+  `name` varchar(120) CHARACTER SET utf8mb4 NOT NULL,
+  `amount` int(11) NOT NULL,
+  `payment_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `added_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`id`, `name`, `amount`, `payment_status`, `payment_id`, `added_on`) VALUES
+(3, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix1sd6JNG6QgGR', '2022-02-17 10:30:09'),
+(6, 'vkruhela123@gmail.com', 149, 'complete', 'pay_Ix1sd6JNG6QgGR', '2022-02-17 10:37:21'),
+(7, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix21VApLfDgkuv', '2022-02-17 10:45:45'),
+(8, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix227jsAxtyTFo', '2022-02-17 10:46:21'),
+(9, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2KJVB9QJQvEf', '2022-02-17 11:03:36'),
+(10, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2KuXsLbJ33R8', '2022-02-17 11:04:11'),
+(11, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2MFJDxZY7kH2', '2022-02-17 11:05:26'),
+(16, 'vkruhela123@gmail.com', 149, 'complete', 'pay_Ix2Ss6NAhKMJbm', '2022-02-17 11:11:38'),
+(20, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2Uymz8CO4nxi', '2022-02-17 11:13:43'),
+(22, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2VYt9N9bLLJM', '2022-02-17 11:14:17'),
+(23, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2XwMkjH2AtLG', '2022-02-17 11:16:30'),
+(25, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2aPa5t7fTIbI', '2022-02-17 11:18:50'),
+(26, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2bS5XPTrV4uk', '2022-02-17 11:19:50'),
+(27, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2guLRzxuGNEH', '2022-02-17 11:25:01'),
+(28, 'vkruhela123@gmail.com', 99, 'complete', 'pay_Ix2hUpnXwsWKas', '2022-02-17 11:25:34');
 
 -- --------------------------------------------------------
 
@@ -865,16 +901,39 @@ CREATE TABLE `users` (
   `gender` enum('Male','Female','Transgender') NOT NULL,
   `profile_pic` varchar(500) NOT NULL,
   `last_login_time` datetime NOT NULL,
-  `dob` date NOT NULL
+  `dob` date NOT NULL,
+  `premium_till` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `mobile_number`, `state`, `verified`, `gender`, `profile_pic`, `last_login_time`, `dob`) VALUES
-(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-15 20:23:58', '0000-00-00'),
-(3, 'guest@examocks.com', '12345678', 'Guest', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-13 09:59:50', '2022-02-01');
+INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `mobile_number`, `state`, `verified`, `gender`, `profile_pic`, `last_login_time`, `dob`, `premium_till`) VALUES
+(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-01 14:28:53', '0000-00-00', '2022-03-19 15:55:40'),
+(3, 'guest@examocks.com', '12345678', 'Guest', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-13 09:59:50', '2022-02-01', '2022-02-01 15:18:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `validity_pay_mapping`
+--
+
+CREATE TABLE `validity_pay_mapping` (
+  `id` int(11) NOT NULL,
+  `validity` int(1) NOT NULL,
+  `pay` double(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `validity_pay_mapping`
+--
+
+INSERT INTO `validity_pay_mapping` (`id`, `validity`, `pay`) VALUES
+(1, 1, 99.00),
+(2, 2, 149.00),
+(3, 3, 299.00),
+(4, 6, 399.00);
 
 -- --------------------------------------------------------
 
@@ -944,6 +1003,13 @@ ALTER TABLE `mock_sections`
   ADD KEY `mock_id` (`mock_id`);
 
 --
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
@@ -991,6 +1057,13 @@ ALTER TABLE `subject`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`);
+
+--
+-- Indexes for table `validity_pay_mapping`
+--
+ALTER TABLE `validity_pay_mapping`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1026,6 +1099,12 @@ ALTER TABLE `mocks`
 --
 ALTER TABLE `mock_response`
   MODIFY `mock_response_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -1070,6 +1149,12 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `validity_pay_mapping`
+--
+ALTER TABLE `validity_pay_mapping`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `verification_code`
 --
 ALTER TABLE `verification_code`
@@ -1106,6 +1191,12 @@ ALTER TABLE `mock_response`
 ALTER TABLE `mock_sections`
   ADD CONSTRAINT `mock_sections_ibfk_2` FOREIGN KEY (`section_id`) REFERENCES `sections` (`section_id`),
   ADD CONSTRAINT `mock_sections_ibfk_3` FOREIGN KEY (`mock_id`) REFERENCES `mocks` (`mock_id`);
+
+--
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`name`) REFERENCES `users` (`username`);
 
 --
 -- Constraints for table `questions`

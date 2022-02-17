@@ -197,6 +197,7 @@
 		saveNotification("You have one blood request!",$msg, 0, 0, $email, 'https://alwardonateme.000webhostapp.com/view-request.php?id='.$request_details['request_id']);
 	}
 	
+	
 	function saveNotification($title, $msg, $loop, $loop_every, $user, $url){
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -486,7 +487,34 @@
 		
 		return false;
 	}
+	function getPriceFromValidity($validity) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT `pay` AS payment_amount FROM `validity_pay_mapping` WHERE `validity`='$validity'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['payment_amount'];
+			}
+		}
+		return 0;
+	}
 	
+	function getValidityFromPrice($price) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT `validity` FROM `validity_pay_mapping` WHERE `pay`='$price'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['validity'];
+			}
+		}
+		return 0;
+	}
+		
 	function getAllSubjects($branch) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -1150,6 +1178,91 @@
 		$result = $conn->query($sql);
 		
 		return $result;
+	}
+	
+	function insertPaymentIntoDb($name,$amt,$payment_status,$added_on) {
+		deletePaymentIntoDb($name);
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		$sql = "INSERT INTO `payment`(`name`, `amount`, `payment_status`,`added_on`) VALUES ('$name','$amt','$payment_status','$added_on')";
+		$result = $conn->query($sql);
+		
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+	
+	function deletePaymentIntoDb($name) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		$sql = "DELETE FROM `payment` WHERE `name` = '".$name."' and `payment_status` = 'pending'";
+		$result = $conn->query($sql);
+		
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+	
+	function addUserMembership($payment_id, $email) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		if (getUserDetails($email)['premium_till'] == null || strtotime(getUserDetails($email)['premium_till']) < time()) {
+			$payment_amount = getPaymentIdToAmount($payment_id);
+			$validity = getValidityFromPrice($payment_amount)*30;
+			$sql="UPDATE `users` SET `premium_till`= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL ".$validity." DAY) WHERE `username` = '$email'";
+		} else {
+			$payment_amount = getPaymentIdToAmount($payment_id);
+			$validity = getValidityFromPrice($payment_amount)*30;
+			$sql="UPDATE `users` SET `premium_till`= DATE_ADD(premium_till, INTERVAL ".$validity." DAY) WHERE `username` = '$email'";
+		}
+		
+		$result = $conn->query($sql);
+		
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	function getPaymentIdToAmount($payment_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+
+			
+		$sql = "SELECT amount FROM payment WHERE payment_id = '$payment_id' ORDER BY added_on LIMIT 1";
+		$result = $conn->query($sql);
+		
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['amount'];
+			}
+		}
+		return 0;
+	}
+	
+	function UpdatePaymentStatusIntoDb($payment_id,$name) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		$sql = "update payment set payment_status='complete',payment_id='".$payment_id."' where name='".$name."' order by added_on desc limit 1";
+		$result = $conn->query($sql);
+		
+		if ($result) {
+			return true;
+		}
+		return false;
 	}
 	
 	

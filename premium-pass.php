@@ -78,25 +78,25 @@ error_reporting(E_ALL);
 												<div class="card-content">
 													<p>
 													  <label>
-														<input class="with-gap" name="group1" type="radio" checked />
+														<input class="with-gap" name="passValidity" type="radio" id="oneMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
 														<span>1 Month</span>
 													  </label>
 													</p>
 													<p>
 													  <label>
-														<input class="with-gap" name="group1" type="radio" />
+														<input class="with-gap" name="passValidity" type="radio"  id="twoMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
 														<span>2 Months</span>
 													  </label>
 													</p>
 													<p>
 													  <label>
-														<input class="with-gap" name="group1" type="radio" />
+														<input class="with-gap" name="passValidity" type="radio"  id="threeMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
 														<span>3 Months</span>
 													  </label>
 													</p>
 													<p>
 													  <label>
-														<input  class="with-gap" name="group1" type="radio" />
+														<input  class="with-gap" name="passValidity" type="radio"  id="sixMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
 														<span>6 Months</span>
 													  </label>
 													</p>
@@ -113,6 +113,10 @@ error_reporting(E_ALL);
 		<footer>
 			<?php include_once("lonefooter.php"); ?>
 		</footer>
-		<form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Ippb8HNhNbJpud" async> </script> </form>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	</body>
 <html>
+
+

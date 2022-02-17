@@ -7,6 +7,7 @@
 	$email = mysqli_real_escape_string($conn,htmlspecialchars($_POST['email']));
 	$pass = md5($_POST['pass']);
 	$rem = $_POST['rem'];
+	$goto = $_POST['goto'];
 	
 	$sql = "SELECT * FROM users WHERE username = '$email' and password = '$pass'";
 	$result=$conn->query($sql);
@@ -32,7 +33,7 @@
 				setcookie("user_remember","", time() - 3600,"/");
 			}
 		}
-		echo "S Login Successfully. Redirecting to dashboard...";
+		echo "S Login Successfully. Redirecting to ".ucfirst(str_replace("-"," ",$goto))."...";
 	} else{
 		echo "E Wrong Password/Email Combination.";
 	}

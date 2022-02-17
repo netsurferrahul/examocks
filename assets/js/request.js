@@ -860,13 +860,77 @@ function checkMobileExists() {
     }
 }
 
+function BuyPremiumPass(check) {
+			
+			if (check == "") {
+				window.location.href="login?goto=premium-pass";	
+			}
+			
+			var validity;
+			var amt;
+			if (document.getElementById('oneMonth').checked==true) {
+				validity = 1+" Month";
+				amt = 99;
+			} else if (document.getElementById('twoMonth').checked==true){
+				validity = 2+" Months";
+				amt = 149;
+			} else if (document.getElementById('threeMonth').checked==true){
+				validity = 3+" Months";
+				amt = 299;
+			} else if (document.getElementById('sixMonth').checked==true){
+				validity = 6+" Months";
+				amt = 399;
+			}
+			
 
-function Login() {
+
+			jQuery.ajax({
+               type:'post',
+               url:'payment_process.php',
+               data:"amt="+amt,
+               success:function(result){
+                   var options = {
+						"key": "rzp_test_aHBfOfKPzhV7O4", // Enter the Key ID generated from the Dashboard
+						"amount": amt*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+						"currency": "INR",
+						"name": validity,
+						"description": "ExaMocks Premium Pass",
+						"image": "./assets/images/icon.png",
+						"handler": function (response){
+							jQuery.ajax({
+                               type:'post',
+                               url:'payment_process.php',
+                               data:"payment_id="+response.razorpay_payment_id,
+                               success:function(result){
+                                   window.location.href="dashboard";
+                               }
+                           });
+						},
+						"prefill": {
+							"name": result.split(",")[0],
+							"email": result.split(",")[1],
+							"contact": result.split(",")[2]
+						},
+						"notes": {
+							"address": "Razorpay Corporate Office"
+						},
+						"theme": {
+							"color": "#3399cc"
+						}
+					};
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+               }
+           });	
+}
+	
+
+function Login(gotoAddress) {
     var e = document.getElementById("email").value,
         t = document.getElementById("password").value,
         n = document.getElementById("remember").checked;
 		document.getElementById("progress").style.display="block";
-    document.getElementById("signin").innerHTML = '<i class="material-icons right">login</i>Login', url = "./basicfunctions/signinHelper.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("email=" + e + "&pass=" + t + "&rem=" + n), xhr.onreadystatechange = function() {
+    document.getElementById("signin").innerHTML = '<i class="material-icons right">login</i>Login', url = "./basicfunctions/signinHelper.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("email=" + e + "&pass=" + t + "&rem=" + n + "&goto=" + gotoAddress), xhr.onreadystatechange = function() {
         4 == xhr.readyState && (data = xhr.responseText, document.getElementById("signin").innerHTML = "<i class=\"material-icons right\">login</i>Login", "E " == data.substring(0, 2) ? Swal.fire({
             toast: !0,
             position: "top-end",
@@ -882,7 +946,7 @@ function Login() {
             type: "success",
             title: "&nbsp; " + data.substring(1)
         }), setInterval(function() {
-            window.location.href = "verifyemail"
+			window.location.href = gotoAddress
         }, 5e3)) : Swal.fire({
             toast: !0,
             position: "top-end",
