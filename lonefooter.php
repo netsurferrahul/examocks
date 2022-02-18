@@ -2,8 +2,8 @@
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                <h5 class="white-text">About Us:</h5>
+                <p class="grey-text text-lighten-4">At ExaMocks, we believe that anyone and everyone can achieve their goals, provided the best resources and study material. We all know Knowledge is of no value unless you put it into practice and with that thought we are on a mission to reshape the process of exam preparation by providing best in class Online Mock Test experience to evaluate preparation level. Exam before the real exam helps in time management, imbuing confidence and most importantly eliminating the weak spots.</p>
               </div>
               <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Links</h5>
@@ -18,7 +18,7 @@
           </div>
           <div class="footer-copyright">
             <div class="container">
-            © 2014 Copyright ExaMocks
+            © 2022 Copyright ExaMocks
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
             </div>
           </div>
