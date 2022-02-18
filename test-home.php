@@ -93,7 +93,7 @@ error_reporting(E_ALL);
 	<main>
 		<div class="container-flex">
 			<div class="row">
-				<div class="col s12 m10">
+				<div class="col s12 m8 l10">
 						  <div class="card">
 							<div class="card-content">
 							  <div class="col-xs-12 c-test-instructions ng-scope" ng-class="{'railway-test-interface':isRailwayTestInterfaceUsed}" ng-show="showInstTab == 1" id="bank-instructions" ng-if="!instructionsJSON.isGateExam">
@@ -192,14 +192,14 @@ error_reporting(E_ALL);
 						</div>	
 					</div>
 					
-					<div class="col s12 m2">
+					<div class="col s12 m4 l2">
 						<div class="card">
 							<div class="card-content">
 								<div class="row">
-									<div class="col s12 m5">
+									<div class="col s6 m5">
 										<span class="collection" style="border:0px; padding:0;"><span class="collection-item  avatar"> <i class="material-icons circle grey">person</i></a></span></span>
 									</div>
-									<div class="col s12 m7">
+									<div class="col s6 m7">
 										<span class="black-text name center" style="line-height: normal;">RAHUL KUMAR</span>
 									</div>
 								</div>
@@ -209,13 +209,13 @@ error_reporting(E_ALL);
 							<div class="card-title <?php echo $settings['primary_color']; ?> white-text center" style="font-size:20px;">Default Language</div>
 							<div class="card-content">
 								<div class="row">
-									<div class="input-field col s12 m6">
+									<div class="input-field col s6 m6">
 									  <label>
 										<input name="language" type="radio" id="language" checked />
 										<span>English</span>
 									  </label>
 									</div>
-									<div class="input-field col s12 m6">
+									<div class="input-field col s6 m6">
 									  <label>
 										<input name="language" type="radio" />
 										<span>Hindi</span>

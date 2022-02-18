@@ -44,9 +44,8 @@ error_reporting(E_ALL);
 		line-height: 0px;
 	}
 	.nav-bottom {
-	   position:absolute;
-	   bottom:6%;
-	   width:100%;
+	   position:relative;
+margin-top:100%;
 	}
   </style>
   <script>
@@ -80,13 +79,14 @@ error_reporting(E_ALL);
 	$arr = json_decode($mock['settings'], true);
 ?>
 
-
 	<div class="row">
-		<div class="col s12 m10">
+		<div class="col s12 m12 l10">
 			<div class="row">
 				  <div class="card" style="margin:1%">
 					<div class="card-header" style="padding:1% 0% 0% 1%"><h5><?php echo $mock['mock_title']; ?></h5></div>
 					<div class="card-content">
+					<div class="row">
+						<div class="col s12 m12 l10">
 					  <p style="display:inline-block;">Sections:
 					<?php 
 						$sections = getSectionNamesFromMockId($_GET['mock']);
@@ -99,17 +99,20 @@ error_reporting(E_ALL);
 						}
 					?>
 					  </p>
+					  </div>
+						<div class="col s12 m12 l2">
 					  <p style="display:inline-block;" class="right">
 					  <span class="chip">
 						   Time Left: <span id="countdown_timer"><?php echo secondsToExamTimeFormat($mock['mock_total_duration']); ?></span> 
 					  </span>
 					  </p>
+					  </div>
 					  <div>
-						  <p style="display:inline-block;">
+						  <p style="display:inline-block;" class="hide-on-small-and-down">
 							Question Type: MCQ
 						  </p>
 						  
-						  <p style="display:inline-block;" class="right">
+						  <p style="display:inline-block;" class="right hide-on-small-and-down">
 							   Negative marks:  <span class="chip red white-text">
 							   <?php
 								if ($arr['enable_negative_marking'] == true) {
@@ -124,7 +127,7 @@ error_reporting(E_ALL);
 							   ?>
 							   </span>
 						  </p>
-						  <p style="display:inline-block;" class="right">
+						  <p style="display:inline-block;" class="right hide-on-small-and-down">
 							Marks for correct answer:   <span class="chip green white-text"><?php echo $arr['correct_marks']; ?></span>
 						  </p> 
 					  </div>
@@ -138,8 +141,23 @@ error_reporting(E_ALL);
 			</div>
 			
 			<div class="row">
+				<div class="col s12 m12 l12">
 				  <div class="card" style="margin:1%">
-					<div class="card-header" style="padding:1% 0% 0% 1%"><a class="waves-effect waves-light btn-small disabled" id="question_id">Question 1</a></div>
+					<div class="card-header" style="padding:1% 0% 0% 1%"><a class="waves-effect waves-light btn-small disabled" id="question_id">Question 1</a><div class="right hide-on-med-and-up">
+					Marks <span class="chip green white-text">+<?php echo $arr['correct_marks']; ?></span> <span class="chip red white-text">-
+							   <?php
+								if ($arr['enable_negative_marking'] == true) {
+									if ($arr['negative_marking_type'] == "percentage") {
+										echo round($arr['correct_marks']*$arr['negative_marks']/100,2);
+;									} else {
+										echo $arr['negative_marks'];
+									}
+								} else {
+									echo '0';
+								}
+							   ?> 
+							   </span>
+					</div>
 					<div class="card-content">
 					  <p style="display:inline-block;" id="question_content"><?php echo $exam_questions[0]['question_hindi']; ?></p>
 					  <div>
@@ -182,6 +200,7 @@ error_reporting(E_ALL);
 					  
 					</div>
 					<div class="card-action">
+						
 					  <a class="waves-light btn-small purple" id="btnMarkForReview" onclick="markForReviewAndNext('0',
 					  <?php 
 					  if ($exam_questions[0]['option_e'] != '') {
@@ -189,8 +208,8 @@ error_reporting(E_ALL);
 					  } else {
 						  echo "4";
 					  } 
-					  ?>,<?php echo $_GET['mock']; ?>);"><i class="material-icons left">beenhere</i>  Mark for Review & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
-					  <a class="waves-light btn-small red" onclick="clearResponseFromSession(<?php echo $_GET['exam']; ?>);" id="btnClear"><i class="material-icons left">clear</i> Clear Response </a>
+					  ?>,<?php echo $_GET['mock']; ?>);"><i class="material-icons left hide-on-small-and-down">beenhere</i>  Mark & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
+					  <a class="waves-light btn-small red" onclick="clearResponseFromSession(<?php echo $_GET['exam']; ?>);" id="btnClear"><i class="material-icons left hide-on-small-and-down">clear</i> Clear </a>
 					  <p id="json_quesion_id" style="display:none;">0</p>
 					  <a class="waves-light btn-small green right" id="btnSaveAndNext" onclick="saveAndNext('0',
 					  <?php 
@@ -199,21 +218,22 @@ error_reporting(E_ALL);
 					  } else {
 						  echo "4";
 					  } 
-					  ?>,<?php echo $_GET['mock']; ?>)"><i class="material-icons right">navigate_next</i>Save & Next</a>
+					  ?>,<?php echo $_GET['mock']; ?>)"><i class="material-icons right hide-on-small-and-down">navigate_next</i>Save & Next</a>
 					</div>
 				  </div>
 			</div>
+			</div>
 		</div>
 		<div id="total_questions_in_exam" style="display:none;"> <?php echo $total_question; ?> </div>
-		<div class="col s12 m2">
+		<div class="col s12 m12 l2">
 
 				  <ul id="slide-out" class="sidenav sidenav-fixed right">
 					<li style="margin: 4% 4% 8% 4%">
 						<div class="row">
-							<div class="col s12 m4">
+							<div class="col s6 m6">
 								<span class="collection" style="border:0px; padding:0;"><span class="collection-item  avatar"> <i class="material-icons circle grey">person</i></a></span></span>
 							</div>
-							<div class="col s12 m8">
+							<div class="col s6 m6">
 								<span class="black-text name center" style="line-height: normal;">RAHUL KUMAR</span>
 							</div>
 						</div>

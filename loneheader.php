@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="./assets/css/icons.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <script src="./assets/js/request.js" defer async ></script>
+<?php echo $settings['google_analytics_code']; ?>
+<?php echo $settings['google_adsense_code']; ?>
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="./plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 <!-- Toastr -->

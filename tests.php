@@ -22,7 +22,7 @@
 	$mocks = getAllMockTestsFromExamId($_GET['exam']);
 	if ($mocks->num_rows > 0) {
 		while($row = $mocks->fetch_assoc()) {
-			echo '<div class="col s12 m2">
+			echo '<div class="col s12 m6 l3">
 			  <div class="card">
 				<div class="card-header '.$settings['primary_color'].' white-text center">
 				  <span class="card-title ">'.$row['mock_title'].'</span>

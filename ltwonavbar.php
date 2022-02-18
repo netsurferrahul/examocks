@@ -9,7 +9,7 @@ $state = getUserState($_SESSION['username']);
 <div class="navbar-fixed">
 	<nav>
     <div class="nav-wrapper <?php echo $settings['primary_color']; ?>">&nbsp;&nbsp;&nbsp;
-      <a href="#" class="brand-logo"><img src="../assets/images/logo.png" alt="ExaMocks - Best Compititive Exams Prepration Website" style="height:55px;"/></a>
+      <a href="#" class="brand-logo"><img src="../assets/images/logo.png" alt="ExaMocks - Best Compititive Exams Prepration Website"/></a>
       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
       <ul id="nav-mobile" class="right hide-on-med-and-down">

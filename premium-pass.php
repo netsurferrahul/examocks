@@ -42,6 +42,16 @@ error_reporting(E_ALL);
 			input[type=radio] {
 				padding:2%;
 			}
+			.padding-2 {
+				padding: 2%;
+			}
+			.font-size {
+				font-size: 16px;
+			}
+			.full-box {
+				display : block;
+				width: 100%;
+			}
 		 </style>
 	</head>
 	<body>
@@ -77,27 +87,31 @@ error_reporting(E_ALL);
 											<div class="card">
 												<div class="card-content">
 													<p>
-													  <label>
-														<input class="with-gap" name="passValidity" type="radio" id="oneMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
-														<span>1 Month</span>
+													  <label class="full-box padding-2">
+														<input class="white-text" name="passValidity" type="radio" id="oneMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
+														<span class="white-text">1 Month</span>
+														<span class="white-text right font-size">₹ 99</span>
 													  </label>
 													</p>
 													<p>
-													  <label>
+													  <label class="full-box padding-2">
 														<input class="with-gap" name="passValidity" type="radio"  id="twoMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
-														<span>2 Months</span>
+														<span class="white-text">2 Months</span>
+														<span class="white-text right font-size">₹ 149</span>
 													  </label>
 													</p>
 													<p>
-													  <label>
+													  <label class="full-box padding-2">
 														<input class="with-gap" name="passValidity" type="radio"  id="threeMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
-														<span>3 Months</span>
+														<span class="white-text">3 Months</span>
+														<span class="white-text right font-size">₹ 299</span>
 													  </label>
 													</p>
 													<p>
-													  <label>
+													  <label class="full-box padding-2">
 														<input  class="with-gap" name="passValidity" type="radio"  id="sixMonth" onclick="BuyPremiumPass('<?php echo $_SESSION['username']; ?>');" />
-														<span>6 Months</span>
+														<span class="white-text">6 Months</span>
+														<span class="white-text right font-size">₹ 399</span>
 													  </label>
 													</p>
 												</div>

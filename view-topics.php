@@ -34,7 +34,7 @@
 		<div class="row">
 		
 		<?php
-			$result = getAllTopics(str_replace("-"," ",$_GET['subject']));
+			/*$result = getAllTopics(str_replace("-"," ",$_GET['subject']));
 			if ($result->num_rows > 0) {
 				while($row = $result->fetch_assoc()) {
 					echo '<div class="col s12 m4">
@@ -51,8 +51,29 @@
 							</div>';
 				}
 			}
-			
+			*/
 		?>
+		
+		<?php
+			$result = getAllTopics(str_replace("-"," ",$_GET['subject']));
+			if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+		echo '<div class="col s12 m12 l6">
+		<ul class="collection">
+			<li class="collection-item avatar">
+			  <i class="material-icons circle">folder</i>
+			  <span class="title">'.$row['topic_name'].'</span>
+			  <p><span class="chip">Total MCQS : '.getTotalQuestions($row['topic_name']).'</span>
+			  </p>
+			  <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+			  <li class="divider"></li>
+			  <li class="collection-item"> <a href="../view-questions/'.str_replace(" ","-",$row['topic_name']).'" class="btn '.$settings['primary_color'].'" style="width:100%;"><i class="material-icons left">logout</i>View</a></li>
+			</li>
+		  </ul>
+		  </div>';
+				}
+			}
+			?>
 		
 	  </div>
   </div>
