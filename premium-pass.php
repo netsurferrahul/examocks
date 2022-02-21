@@ -9,7 +9,8 @@ error_reporting(E_ALL);
 <!DOCTYPE html>
 <html lang="en">
 	<head>	
-		<title>ExaMocks - Best Mock Test Series for Compititive Exams prepration</title>
+		<title>Best Mock Test Series Pass for Compititive Exams prepration</title>
+		<meta name="description" content="Examocks Premium Pass in lowest prices" >
 		<?php include_once("loneheader.php"); ?>
 		 <style>
 			 .margin-2 {
@@ -68,9 +69,34 @@ error_reporting(E_ALL);
 									<h3 class="center">Packages made for you, no surprise fees.</h3>
 									<div class="row">
 										<div class="col s12 m12 l6">
-											<div class="card">
-												<div class="card-content">
-													<a class="waves-effect waves-light <?php echo $settings['accent_color']; ?> btn-small" id="premiumShow"><i class="material-icons left">local_play</i>Premium</a>
+											<div class="card-panel">
+												<ul class="tabs">
+													<li class="tab col s4"><a class="active" href="#premiumpass">Premium Pass</a></li>
+													<li class="tab col s4"><a href="#freepass">Free</a></li>
+												</ul>
+												<div class="row">
+													<div id="premiumpass" class="col s12">
+														<ul class="collection">
+															<li class="collection-item">Complete access to all Mock tests <i class="material-icons right icon-color green-text">check_circle</i></li>
+															<li class="collection-item">Handpicked questions <i class="material-icons right icon-color green-text">check_circle</i></li>
+															<li class="collection-item">Subject experts. One text away from you <i class="material-icons right icon-color green-text">check_circle</i></li>
+															<li class="collection-item">Detailed solutions for all exams <i class="material-icons right icon-color green-text">check_circle</i></li>
+															<li class="collection-item">Performance analysis <i class="material-icons right icon-color green-text">check_circle</i></li>
+															<li class="collection-item">Exam like interface <i class="material-icons right icon-color green-text">check_circle</i></li>
+														</li>
+													</div>
+													<div id="freepass" class="col s12">
+														<ul class="collection">
+															<li class="collection-item">Complete access to all Mock tests <i class="material-icons right icon-color red-text">cancel</i></li>
+															<li class="collection-item">Handpicked questions <i class="material-icons right icon-color red-text">cancel</i></li>
+															<li class="collection-item">Subject experts. One text away from you <i class="material-icons right icon-color red-text">cancel</i></li>
+															<li class="collection-item">Detailed solutions for all exams <i class="material-icons right icon-color red-text">cancel</i></li>
+															<li class="collection-item">Performance analysis <i class="material-icons right icon-color green-text">check_circle</i></li>
+															<li class="collection-item">Exam like interface <i class="material-icons right icon-color green-text">check_circle</i></li>
+														</li>
+													</div>
+												</div>
+													<!--<a class="waves-effect waves-light <?php echo $settings['accent_color']; ?> btn-small" id="premiumShow"><i class="material-icons left">local_play</i>Premium</a>
 													<a class="waves-effect waves-light btn btn-small" id="freeShow">Free</a>
 													<ul class="collection">
 														<li class="collection-item">Complete access to all Mock tests <i class="material-icons right icon-color">check_circle</i></li>
@@ -79,8 +105,7 @@ error_reporting(E_ALL);
 														<li class="collection-item">Detailed solutions for all exams <i class="material-icons right icon-color">check_circle</i></li>
 														<li class="collection-item">Performance analysis <i class="material-icons right icon-color">check_circle</i></li>
 														<li class="collection-item">Exam like interface <i class="material-icons right icon-color">check_circle</i></li>
-													</li>
-												</div>
+													</li>-->
 											</div>
 										</div>
 										<div class="col s12 m12 l6">
@@ -130,6 +155,12 @@ error_reporting(E_ALL);
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.tabs');
+			var instance = M.Tabs.init(elems, {});
+		  });
+	</script>
 	</body>
 <html>
 

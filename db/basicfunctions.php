@@ -525,6 +525,26 @@
 		
 	}
 	
+	function getPopularMocksList() {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `exam` AS E, `mocks` AS M WHERE  E.`exam_id` = M.`exam_id` and E.`is_popular` = '1' LIMIT 0,5";
+		$result = $conn->query($sql);
+		return $result;
+		
+	}
+	
+	function getPopularExamsList() {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `exam` WHERE  `is_popular` = '1' LIMIT 0,5";
+		$result = $conn->query($sql);
+		return $result;
+		
+	}
+	
 	function getAllMockTests() {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -533,6 +553,53 @@
 		$result = $conn->query($sql);
 		return $result;
 		
+	}
+	
+	function getSearchedExams($search) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `exam` WHERE `exam_name` LIKE '%$search%'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function isPremiumMember($email) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `users` WHERE `username` = '$email' and `premium_till` > NOW()";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	function addExamToUser($exam_id,$email) {
+		$user_id = getUserDetails($email)['id'];
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "INSERT INTO `user_exam_mapping`(`user_id`,`exam_id`) VALUES('$user_id','$exam_id')";
+		$result = $conn->query($sql);
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+	
+	function isAlreadyExamAddedToUser($exam_id, $email) {
+		$user_id = getUserDetails($email)['id'];
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `user_exam_mapping` WHERE `user_id` = '$user_id' and `exam_id` = '$exam_id'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			return true;
+		}
+		return false;
 	}
 	
 	function getTotalMocksCountFromExamId($exam_id) {
@@ -584,6 +651,120 @@
 		$sql = "SELECT * FROM `mocks` WHERE `exam_id`='$exam_id'";
 		$result = $conn->query($sql);
 		return $result;
+	}
+	
+	function getFreeMockTestsFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mocks` WHERE `exam_id`='$exam_id' and `is_free`='1' ";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function getSubjectMockTestsFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mocks` WHERE `exam_id`='$exam_id' and `mock_type`='Subject Test'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function getTopicMockTestsFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mocks` WHERE `exam_id`='$exam_id' and `mock_type`='Topic Test'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function getMockTestsFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mocks` WHERE `exam_id`='$exam_id' and `mock_type`='Mock Test'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function getAllMockTestsCountFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(`mock_id`) AS Total FROM `mocks` WHERE `exam_id`='$exam_id'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+		return 0;
+	}
+	
+	function getFreeMockTestsCountFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(`mock_id`) AS Total FROM `mocks` WHERE `exam_id`='$exam_id' and `is_free`='1'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+		return 0;
+	}
+	
+	function getExamLanguagesFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT `exam_mock_hindi`,`exam_mock_english` FROM `exam` WHERE `exam_id`='$exam_id'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				if ($row['exam_mock_hindi'] == 1 && $row['exam_mock_english'] == 1) 
+					return "Hindi,English";
+				else if ($row['exam_mock_hindi'] == 1)
+					return "Hindi";
+				else if ($row['exam_mock_english'] == 1)
+					return "English";
+			}
+		}
+		return "English";
+	}
+	
+	function getExamIdFromExamName($exam_name) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT `exam_id` FROM `exam` WHERE `exam_name`='$exam_name'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['exam_id'];
+			}
+		}	
+		return 0;
+	}
+	
+	function getExamDetailsFromExamId($exam_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `exam` WHERE `exam_id`='$exam_id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function dashesToRealContentGetter($query) {
+		return implode(" ",explode("-",$query));
+	}
+	
+	function spacesToRealContentGetter($query) {
+		return implode("-",explode(" ",$query));
 	}
 	
 	function getAllExams() {

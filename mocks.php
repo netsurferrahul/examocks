@@ -15,70 +15,79 @@ error_reporting(E_ALL);
 			 .margin-2 {
 				 margin:0% 0% 0% 0%;
 			 }
+			.start-paragraph-text {
+				font-size: 16px;
+				font-weight: 400;
+				line-height: 28px;
+			}
+			h2 {
+				font-size: 1.5rem;
+			}
+			h1 {
+				font-size: 1.5rem;
+				margin: 0;
+				font-weight: bold;
+			}
 		 </style>
 	</head>
 	<body>
-	
+	<head>
 	<?php include_once("lonenavbar.php"); ?>
-
-	<div class="row">
-	
-	<?php 
-	$mocks = getAllExams();
-	if ($mocks->num_rows > 0) {
-		while($row = $mocks->fetch_assoc()) {
-			echo '<div class="col s12 m6 l3">
-			  <div class="card">
-				<div class="card-header '.$settings['primary_color'].' white-text center">
-				  <span class="card-title ">'.$row['exam_name'].'</span>
+	</head>
+	<main>
+		<div class="card-panel" style="margin-top:0;">
+			<div class="container">
+				<div class="row">
+					<div class="col s12"><a href="./index">Home</a><i class="tiny material-icons">chevron_right</i>Mock Test Series</div>
+					<div class="col s12"><h1>Mock Test Series</h1></div>
 				</div>
-				<div class="card-content">
-				  <p>'.$row['exam_description'].'</p>
-				  <div>';
-				  
-				  echo '<div class="row margin-2" style="margin-left:0%;"><i class="material-icons left">assignment</i>';
-				  if (getTotalMocksCountFromExamId($row['exam_id']) == 0) {
-					  echo 'No Mock Test';
-				  } else if (getTotalMocksCountFromExamId($row['exam_id']) == 1) {
-					  echo '1 Mock Test';
-				  } else {
-					  echo getTotalMocksCountFromExamId($row['exam_id']).' Mock Tests';
-				  }
-				  echo '</div>';
-				  
-				  echo '<div class="row margin-2" style="margin-left:0%;"><i class="material-icons left">assignment</i>';
-				  if (getTotalSubjectMocksCountFromExamId($row['exam_id']) == 0) {
-					  echo 'No Subject Test';
-				  } else if (getTotalSubjectMocksCountFromExamId($row['exam_id']) == 1) {
-					  echo '1 Subject Test';
-				  } else {
-					  echo getTotalSubjectMocksCountFromExamId($row['exam_id']).' Subject Tests';
-				  }
-				  echo '</div>';
-				  
-				  echo '<div class="row margin-2" style="margin-left:0%;"><i class="material-icons left">assignment</i>';
-				  if (getTotalTopicMocksCountFromExamId($row['exam_id']) == 0) {
-					  echo 'No Topic Test';
-				  } else if (getTotalTopicMocksCountFromExamId($row['exam_id']) == 1) {
-					  echo '1 Topic Test';
-				  } else {
-					  echo getTotalTopicMocksCountFromExamId($row['exam_id']).' Topic Tests';
-				  }
-				  echo '</div>';
-				  
-				  echo '</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="input-field col s12">
+				  <i class="material-icons prefix">search</i>
+				  <textarea id="search" class="materialize-textarea" onkeyup="searchTestSeries();"></textarea>
+				  <label for="search">Search Test Series</label>
 				</div>
-				<div class="card-action">
-				  <a href="./tests/'.$row['exam_id'].'" class="btn btn-small '.$settings['accent_color'].'" style="width:100%">View Tests</a>
-				</div>
-			  </div>
-			</div>';
-		}
-	}
-	?>
-	
-  </div>
-   
+			</div>
+			<div class="row" id="MockTests">
+			<?php 
+				$mocks = getAllExams();
+				if ($mocks->num_rows > 0) {
+				while($row = $mocks->fetch_assoc()) {
+					echo '<div class="col s12 m6 l3 ">
+						<div class="card white z-depth-3">
+							<div class="card-content">
+								<span class="white-text"><img src="'.$row['exam_pic'].'" alt="" class="left circle" height="40px" width="40px"><span class="new badge" data-badge-caption="NEW"></span></span>
+							</div>
+							<div class="card-content center">
+							  <h2 class="start-paragraph-text" style="margin:0;padding:0;">'.$row['exam_name'].'</h2>
+							  <p style="font-size: 14px;">'.getAllMockTestsCountFromExamId($row['exam_id']).' TOTAL TESTS  | <span class="text-primarycolor">'.getFreeMockTestsCountFromExamId($row['exam_id']).' Free Tests</span></p>
+							</div>
+							<div class="card-action">
+								<div style="margin-left:0%;" class="left"><i class="material-icons left">translate</i>'.getExamLanguagesFromExamId($row['exam_id']).'</div><br/>
+							</div>
+							<div class="card-action">
+								<div class="left" style="margin-left:0%;">'.getTotalMocksCountFromExamId($row['exam_id']).' Mock Test</div><br/>
+								<div class="left" style="margin-left:0%;">'.getTotalSubjectMocksCountFromExamId($row['exam_id']).' Subject Test</div><br/>
+								<div class="left" style="margin-left:0%;">'.getTotalTopicMocksCountFromExamId($row['exam_id']).' Topic Test</div><br/>
+							</div>
+							<div class="card-action">
+							  <a class="btn '.$settings['accent_color'].'" style="width: 100%" href="./tests/'.implode("-",explode(" ",$row['exam_name'])).'">View Test Series</a>
+							</div>
+							
+							
+						</div>
+					</div>';
+									
+				}
+			}	
+									?>
+			
+		  </div>
+		</div>
+     </main>
     <?php include_once("lonefooter.php"); ?>
 	
 	</body>

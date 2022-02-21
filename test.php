@@ -134,7 +134,7 @@ margin-top:100%;
 					  
 					</div>
 					<div class="card-action">
-					  View In: <a  class=" btn btn-small browser-default right" onclick="changeLanguage(<?php echo $_GET['exam']; ?>);"> <i class="material-icons left">g_translate</i> <span id="selectedLanguage"></span>
+					  View In: <a  class=" btn btn-small browser-default right" onclick="changeLanguage(<?php echo $_GET['mock']; ?>);"> <i class="material-icons left">g_translate</i> <span id="selectedLanguage"></span>
 							  </a>
 					</div>
 				  </div>
@@ -209,7 +209,7 @@ margin-top:100%;
 						  echo "4";
 					  } 
 					  ?>,<?php echo $_GET['mock']; ?>);"><i class="material-icons left hide-on-small-and-down">beenhere</i>  Mark & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
-					  <a class="waves-light btn-small red" onclick="clearResponseFromSession(<?php echo $_GET['exam']; ?>);" id="btnClear"><i class="material-icons left hide-on-small-and-down">clear</i> Clear </a>
+					  <a class="waves-light btn-small red" onclick="clearResponseFromSession(<?php echo $_GET['mock']; ?>);" id="btnClear"><i class="material-icons left hide-on-small-and-down">clear</i> Clear </a>
 					  <p id="json_quesion_id" style="display:none;">0</p>
 					  <a class="waves-light btn-small green right" id="btnSaveAndNext" onclick="saveAndNext('0',
 					  <?php 

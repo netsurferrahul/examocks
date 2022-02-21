@@ -35,12 +35,12 @@ RewriteRule ^test/(.*)$ test.php?mock=$1 [L,QSA]
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^view-topics/(.*)$ view-topics.php?subject=$1 [L,QSA]
+RewriteRule ^topic/(.*)$ view-topics.php?subject=$1 [L,QSA]
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^view-questions/(.*)$ view-questions.php?topic=$1 [L,QSA]
+RewriteRule ^questions/(.*)$ view-questions.php?topic=$1 [L,QSA]
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d

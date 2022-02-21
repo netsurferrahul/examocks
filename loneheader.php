@@ -1,11 +1,14 @@
+<!-- Basic Page Needs
+ ================================================== -->
 <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Rahul Kumar">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="icon" href="./assets/images/icon.png">
+<link rel="shortcut icon" href="./assets/images/icon.png">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <link rel="stylesheet" href="./assets/css/common.css" />
 <link rel="stylesheet" href="./assets/css/icons.css" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <script src="./assets/js/request.js" defer async ></script>
 <?php echo $settings['google_analytics_code']; ?>
 <?php echo $settings['google_adsense_code']; ?>

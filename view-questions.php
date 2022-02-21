@@ -9,6 +9,7 @@
 <html lang="en">
 	<head>	
 		<title>ExaMocks - <?php echo str_replace("-"," ",$_GET['topic']); ?> MCQ Prepration</title>
+		<meta name="description" content="Prepare Best MCQ's for <?php echo str_replace("-"," ",$_GET['topic']); ?> topic, these mcq's came in previous year exams.">
 		<?php include_once("lthreeheader.php"); ?>
 		 
 		 <style>
@@ -17,21 +18,26 @@
 				display: none;
 			}
 		 }
+		h2 {
+			font-size: 1.5rem;
+		}
+		h1 {
+			font-size: 1.5rem;
+			margin: 0;
+			font-weight: bold;
+		}
 		 </style>
 	</head>
 	<body>
 	<?php include_once("lthreenavbar.php"); ?>
-	<nav id="breadcrumb-show">
-		<div class="nav-wrapper <?php echo $settings['primary_color']; ?>" style="font-size:2px;padding:0;">
-		  <div class="col s12">
-			<a href="../index" class="breadcrumb">Home</a>
-			<a href="../engineering" class="breadcrumb">Engineering</a>
-			<a href="../computer-science" class="breadcrumb">Computer Science</a>
-			<a href="<?php echo '../view-topics/'.$subject; ?>" class="breadcrumb"><?php echo $subject; ?></a>
-			<a href="<?php echo ''.str_replace(" ","-",$_GET['topic']); ?>" class="breadcrumb"><?php echo str_replace("-"," ",$_GET['topic']); ?></a>
-		  </div>
+	<div class="card-panel" style="margin-top:0;">
+		<div class="container">
+			<div class="row">
+				<div class="col s12"><a href="../index">Home</a><i class="tiny material-icons">chevron_right</i><a href="../engineering">Engineering</a><i class="tiny material-icons">chevron_right</i><a href="../computer-science">Computer Science</a><i class="tiny material-icons">chevron_right</i><a href="<?php echo '../topic/'.str_replace(" ","-",$subject); ?>"><?php echo $subject; ?></a><i class="tiny material-icons">chevron_right</i><?php echo str_replace("-"," ",$_GET['topic']); ?></div>
+				<div class="col s12"><h1><?php echo str_replace("-"," ",$_GET['topic']); ?> MCQs</h1></div>
+			</div>
 		</div>
-	</nav>
+	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col s12" style="margin-top: 20px;">
@@ -46,7 +52,7 @@
 						if ($page == 1) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons left">chevron_left</i>'." Back </a> ";
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='view-questions.php?topic=".$_GET['topic']."&page=".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
 						}					
 
 						echo "<a href='#' class='waves-light btn-small disabled'>Page ".$page."/".$total_pages." </a> ";
@@ -55,7 +61,7 @@
 						if ($page == $total_pages) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons right">chevron_right</i>'." Next </a> ";	
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='view-questions.php?topic=".$_GET['topic']."&page=".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
 						}					
 					?>
 				</div>
@@ -161,7 +167,7 @@
 						if ($page == 1) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons left">chevron_left</i>'." Back </a> ";
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='view-questions.php?topic=".$_GET['topic']."&page=".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
 						}					
 
 						echo "<a href='#' class='waves-light btn-small disabled'>Page ".$page."/".$total_pages." </a> ";
@@ -170,7 +176,7 @@
 						if ($page == $total_pages) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons right">chevron_right</i>'." Next </a> ";	
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='view-questions.php?topic=".$_GET['topic']."&page=".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
 						}					
 					?>
 		</div>

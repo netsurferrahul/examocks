@@ -8,6 +8,14 @@
 <html lang="en">
 	<head>	
 		<title>ExaMocks - <?php echo str_replace("-"," ",$_GET['subject']); ?> MCQ Prepration</title>
+		<meta name="description" content="Prepare Best <?php echo str_replace("-"," ",$_GET['subject']); ?> Subject MCQ's from various topics <?php 
+		$result = getAllTopics(str_replace("-"," ",$_GET['subject']));
+		if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+						echo $row['topic_name'] .", ";
+				}
+		}
+		?> these mcq's came in previous year exams.">
 		<?php include_once("ltwoheader.php"); ?>
 		 
 		 <style>
@@ -16,20 +24,26 @@
 				display: none;
 			}
 		 }
+		 h2 {
+			font-size: 1.5rem;
+		}
+		h1 {
+			font-size: 1.5rem;
+			margin: 0;
+			font-weight: bold;
+		}
 		 </style>
 	</head>
 	<body>
 	<?php include_once("ltwonavbar.php"); ?>
-	<nav id="breadcrumb-show">
-		<div class="nav-wrapper <?php echo $settings['primary_color']; ?>">
-		  <div class="col s12">
-			<a href="../index" class="breadcrumb">Home</a>
-			<a href="../engineering" class="breadcrumb">Engineering</a>
-			<a href="../computer-science" class="breadcrumb">Computer Science</a>
-			<a href="#" class="breadcrumb"><?php echo str_replace("-"," ",$_GET['subject']); ?></a>
-		  </div>
+	<div class="card-panel" style="margin-top:0;">
+		<div class="container">
+			<div class="row">
+				<div class="col s12"><a href="../index">Home</a><i class="tiny material-icons">chevron_right</i><a href="../engineering">Engineering</a><i class="tiny material-icons">chevron_right</i><a href="../computer-science">Computer Science</a><i class="tiny material-icons">chevron_right</i><?php echo str_replace("-"," ",$_GET['subject']); ?></div>
+				<div class="col s12"><h1><?php echo str_replace("-"," ",$_GET['subject']); ?> MCQs</h1></div>
+			</div>
 		</div>
-	</nav>
+	</div>
 	<div class="container">
 		<div class="row">
 		
@@ -67,7 +81,7 @@
 			  </p>
 			  <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
 			  <li class="divider"></li>
-			  <li class="collection-item"> <a href="../view-questions/'.str_replace(" ","-",$row['topic_name']).'" class="btn '.$settings['primary_color'].'" style="width:100%;"><i class="material-icons left">logout</i>View</a></li>
+			  <li class="collection-item"> <a href="../questions/'.str_replace(" ","-",$row['topic_name']).'" class="btn '.$settings['primary_color'].'" style="width:100%;"><i class="material-icons left">logout</i>View</a></li>
 			</li>
 		  </ul>
 		  </div>';

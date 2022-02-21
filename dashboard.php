@@ -22,7 +22,7 @@ error_reporting(E_ALL);
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ExaMocks | Dashboard</title>
-  <?php include_once("common.php"); ?>
+  <?php include_once("loneheader.php"); ?>
   <style>
 	.login-image{
 		width: 100px;
@@ -41,7 +41,7 @@ error_reporting(E_ALL);
 		</div>
 	</div>
 </div>
-<?php include_once("footer.php"); ?>
+<?php include_once("lonefooter.php"); ?>
 	
 	</body>
 <html>
