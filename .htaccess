@@ -45,6 +45,11 @@ RewriteRule ^questions/(.*)$ view-questions.php?topic=$1 [L,QSA]
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^question/(.*)$ question.php?question=$1 [L,QSA]
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^tests/(.*)$ tests.php?exam=$1 [L,QSA]
 
 RewriteEngine on

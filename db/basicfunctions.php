@@ -759,6 +759,19 @@
 		return $result;
 	}
 	
+	function getTotalSubjectQuestionsFromSubjectName($subject_name) {
+	    if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(`question`) as Total FROM `questions` WHERE  `subject` = '$subject_name'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+	}
+	
 	function dashesToRealContentGetter($query) {
 		return implode(" ",explode("-",$query));
 	}
@@ -801,6 +814,34 @@
 		$row = $result->fetch_assoc();
 		return $row;
 		
+	}
+	
+	function getQuestionDetailsFromQuestion($question) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		//$sql = "SELECT * FROM `questions` AS Q, `subject` AS S WHERE Q.`subject` = S.`subject_name` and `question` LIKE '%$question%' LIMIT 1";
+		$sql =  "SELECT * FROM questions  AS Q, subject AS S WHERE Q.subject = S.subject_name and MATCH (question) AGAINST ('$question') LIMIT 1";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row;
+	}
+	
+	function getSimiliarQuestions($topic) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `questions` WHERE `topic_name`='$topic' ORDER BY RAND() LIMIT 5";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	//utility function
+	function clean($string) {
+	   $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+	   return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
 	}
 	
 	function getColorNameToColorCode($color_name) {

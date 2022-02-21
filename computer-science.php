@@ -77,7 +77,7 @@
 			<li class="collection-item avatar">
 			  <i class="material-icons circle">folder</i>
 			  <span class="title">'.$row['subject_name'].'</span>
-			  <p><span class="chip">Total MCQS : 2912</span>
+			  <p><span class="chip">Total MCQS : '.getTotalSubjectQuestionsFromSubjectName($row['subject_name']).'</span>
 			  </p>
 			  <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
 			  <li class="divider"></li>

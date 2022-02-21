@@ -98,8 +98,9 @@
 						<ul class="collection">
 								<div class="row">
 									<div class="col s12 m12 center" style="margin-top:1%;">
-										<a class="waves-light btn-small red modal-trigger" href="#modal'.$row['question_id'].'"><i class="material-icons left">report_problem</i> Report Incorrect </a>
-										<a class="waves-light btn-small green" onclick="saveQuestion('.$row['question_id'].')" ><i class="material-icons left">bookmark</i> Save Question </a></div>
+										<a class="waves-light btn-small red modal-trigger" href="#modal'.$row['question_id'].'"><i class="material-icons left">report_problem</i> Report </a>
+										<a class="waves-light btn-small green" onclick="saveQuestion('.$row['question_id'].')" ><i class="material-icons left">bookmark</i> Save </a>
+										<a class="waves-light btn-small green" href="../question/'.str_replace(" ","-",clean($row['question'])).'" ><i class="material-icons left">remove_red_eye</i> View </a></div>
 									</div>
 						</ul>
 						<ul class="collapsible">
