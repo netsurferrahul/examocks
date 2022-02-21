@@ -600,6 +600,10 @@ function checkIfAlreadyExists(id, myArray) {
 	objIndex = myArray.findIndex((obj => obj.question == id));
 	return objIndex;
 }
+function checkIfAlreadyExistsMockId(id, myArray) {
+	objIndex = myArray.findIndex((obj => obj.mock_id == id));
+	return objIndex;
+}
 
 function Examtimer(duration, display, mock_id) {
 	if (sessionStorage.getItem("Examtimer_"+mock_id) != null) {
@@ -654,8 +658,15 @@ function TimerExpired(mock_id){
 }
 
 function submitExamAndEvaluate(mock_id) {
+	 var answerSheet = JSON.parse(localStorage.getItem("Responses_"+mock_id));
+	 var index = checkIfAlreadyExistsMockId(mock_id,answerSheet);
+	if (index == -1 ) {
+		 answerSheet.push(JSON.parse('{"mock_id" : ' + mock_id + '}'));
+		 localStorage.setItem("Responses_"+mock_id,JSON.stringify(answerSheet));
+	}
+	 
 	url = "../basicfunctions/examSubmissionHelper.php", xhr = new XMLHttpRequest;
-	xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/json"), xhr.send({test : JSON.parse(localStorage.getItem("Responses_"+mock_id))}), xhr.onreadystatechange = function() {
+	xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/json"), xhr.send(localStorage.getItem("Responses_"+mock_id)), xhr.onreadystatechange = function() {
         4 == xhr.readyState && (data = xhr.responseText, document.getElementById("progress").style.visibility="visible", "E " == data.substring(0, 2) ? Swal.fire({
             toast: !0,
             position: "bottom-end",

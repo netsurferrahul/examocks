@@ -19,6 +19,64 @@
 		return 0;
 	}
 	
+	function insertMockResponse($mock_id, $user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "INSERT INTO `mock_response`(`mock_response_by`, `mock_response_text`, `mock_response_attampt_time`, `mock_id`) VALUES ('$user_id','',NOW(),'$mock_id')";
+		$result = $conn->query($sql);
+		
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+	
+	function mockResponseAlreadyExisted($mock_id, $user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+
+		$sql = "SELECT * FROM `mock_response` WHERE `mock_response_by`= '$user_id' and `mock_id` = '$mock_id'";
+		$result = $conn->query($sql);
+		
+		if ($result->num_rows > 0) {
+			return true;
+		}
+
+		return false;	
+	}
+	
+	function getMockResponseId($mock_id, $user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+
+		$sql = "SELECT `mock_response_id` FROM `mock_response` WHERE `mock_response_by`= '$user_id' and `mock_id` = '$mock_id'";
+		$result = $conn->query($sql);
+		
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['mock_response_id'];
+			}
+		}
+
+		return 0;
+	}
+	
+	function saveMockResponseQuestion($mock_id, $question_id, $response, $correct_ans, $is_correct, $status, $mark_obtained, $mark_deducted, $mock_response_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "INSERT INTO `mock_respose_questions`(`mock_id`, `mock_question_id`, `user_answer`, `correct_answer`, `is_correct`, `status`, `mark_earned`, `mark_deducted`, `mock_response_id`) VALUES ('$mock_id', '$question_id', '$response', '$correct_ans', '$is_correct', '$status', '$mark_obtained', '$mark_deducted', '$mock_response_id')";
+		$result = $conn->query($sql);
+		
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+	
 	function EnterMobileVerificationCodeInDB($mobile, $code) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -828,6 +886,18 @@
 		return $row;
 	}
 	
+	function getQuestionDetailsFromQuestionId($question_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		
+		//$sql = "SELECT * FROM `questions` AS Q, `subject` AS S WHERE Q.`subject` = S.`subject_name` and `question` LIKE '%$question%' LIMIT 1";
+		$sql =  "SELECT * FROM questions WHERE question_id='$question_id'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row;
+	}
+	
 	function getSimiliarQuestions($topic) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -835,6 +905,19 @@
 		$sql = "SELECT * FROM `questions` WHERE `topic_name`='$topic' ORDER BY RAND() LIMIT 5";
 		$result = $conn->query($sql);
 		return $result;
+	}
+	
+	// utility function
+	function getOptionInNumeric($alphaNumeric_option) {
+		$numeric_option = 0;
+		switch($alphaNumeric_option) {
+			case 'A': $numeric_option = 1;break;
+			case 'B': $numeric_option = 2;break;
+			case 'C': $numeric_option = 3;break;
+			case 'D': $numeric_option = 4;break;
+			case 'E': $numeric_option = 5;break;
+		}
+		return $numeric_option;
 	}
 	
 	//utility function

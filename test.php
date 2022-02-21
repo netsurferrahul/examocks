@@ -17,6 +17,10 @@ error_reporting(E_ALL);
 		$mock = getMockDetailsFromMockId($_GET['mock']);
 	}
 	
+	if (mockResponseAlreadyExisted($_GET['mock'], getUserDetails($_SESSION['username'])['id'])) {
+		//header("Location: ../result/".$_GET['mock']);
+	}
+	
 	
 	$result = getMockQuestionsFromMockId($_GET['mock']);
 	$rows = array();
