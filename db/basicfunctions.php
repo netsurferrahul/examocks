@@ -876,6 +876,149 @@
 		return $result;
 	}
 	
+	function getMockResponseQuestionsAndSolutionsFromMockId($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM mock_response AS MR, mock_respose_questions AS MRQ, questions AS Q, mock_questions AS MQ,sections AS S WHERE S.section_id = MQ.section_id and MQ.mock_id=MR.mock_id and MRQ.mock_question_id = MQ.question_id and MR.mock_id=MRQ.mock_id and MR.mock_response_by = '$user_id' and MR.mock_id = '$mock_id' and MRQ.mock_question_id = Q.question_id and MR.`mock_response_id`=MRQ.`mock_response_id`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function isMockResponseTextExists($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT mock_response_text FROM mock_response WHERE mock_response_by = '$user_id' and mock_id = '$mock_id'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				if ($row['mock_response_text'] != "") 
+					return true;			
+			}
+		}
+		return false;
+	}
+	function setMockResponseText($text,$mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "UPDATE `mock_response` SET `mock_response_text`='$text' WHERE `mock_id`='$mock_id' and `mock_response_by`='$user_id'";
+		$result = $conn->query($sql);
+		if ($result) return true;
+		return false;
+	}
+	
+	function getResultAttributesFromMockId($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT `mock_response_text` AS text FROM `mock_response` WHERE `mock_id`='$mock_id' and `mock_response_by`='$user_id'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row['text'];
+	}
+	
+	function getUserRank($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT rank() over (ORDER BY `mock_response_attampt_time` ASC) AS rank FROM `mock_response` WHERE `mock_id`='$mock_id' and `mock_response_by`='$user_id' ";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row['rank'];
+	}
+	
+	function getTotalAttemptsOfMock($mock_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(*) AS total FROM `mock_response` WHERE `mock_id`='$mock_id'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row['total'];
+	}
+	
+	function getTotalAttamptedQuestionCountFromMockId($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(*) AS total FROM `mock_respose_questions` as MRQ, `mock_response` AS MR WHERE MR.`mock_response_id` = MRQ.`mock_response_id` and MRQ.`mock_id`='$mock_id' and `mock_response_by`='$user_id' and status = 'OK'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row['total'];
+	}
+	
+	function getTotalCorrectQuestionCountFromMockId($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(*) AS total FROM `mock_respose_questions` as MRQ, `mock_response` AS MR WHERE MR.`mock_response_id` = MRQ.`mock_response_id` and MRQ.`mock_id`='$mock_id' and `mock_response_by`='$user_id' and is_correct = '1'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row['total'];
+	}
+	
+	function getTotalIncorrectQuestionCountFromMockId($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(*) AS total FROM `mock_respose_questions` as MRQ, `mock_response` AS MR WHERE MR.`mock_response_id` = MRQ.`mock_response_id` and MRQ.`mock_id`='$mock_id' and `mock_response_by`='$user_id' and is_correct != '1' and status='OK'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row['total'];
+	}
+	
+	function getTotalMarksCountFromMockId($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT SUM(mark_earned)-SUM(mark_deducted) AS total FROM `mock_respose_questions` as MRQ, `mock_response` AS MR WHERE MR.`mock_response_id` = MRQ.`mock_response_id` and MRQ.`mock_id`='$mock_id' and `mock_response_by`='$user_id'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row['total'];
+	}
+	
+	function getTopRankers($mock_id){
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT JSON_EXTRACT(MR.`mock_response_text` , '$.score') AS score,U.`full_name` FROM `mock_response` AS MR, `users` AS U WHERE MR.`mock_response_by` = U.`id` and MR.`mock_id` = '$mock_id' ORDER BY JSON_EXTRACT(MR.`mock_response_text` , '$.score') DESC LIMIT 0,5";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function getTopper($mock_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT JSON_EXTRACT(`mock_response_text` , '$.score') AS score,JSON_EXTRACT(`mock_response_text` , '$.no_of_attempts') AS no_of_attempts,JSON_EXTRACT(`mock_response_text` , '$.total_correct') AS total_correct,JSON_EXTRACT(`mock_response_text` , '$.total_incorrect') AS total_incorrect,JSON_EXTRACT(`mock_response_text` , '$.accuracy') AS accuracy FROM `mock_response` WHERE `mock_id` = '$mock_id' ORDER BY JSON_EXTRACT(`mock_response_text` , '$.score') DESC LIMIT 0,1";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row;
+	}
+	
+	function isMockTestAlreadyTaken($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mock_response` WHERE `mock_id`='$mock_id' and `mock_response_by`='$user_id'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	function getTotalAttamptedCountFromMockId($mock_id,$user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mock_response_questions` WHERE `mock_id`='$mock_id'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row;
+	}
 	function getMockDetailsFromMockId($mock_id) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");

@@ -33,7 +33,7 @@
 					$queryMaker .= "('".$examData[count($examData)-1]['mock_id']."', '".$examData[$i]['question']."', '".getOptionInNumeric($examData[$i]['response'])."', '".$questionDetail['answer']."', '".$is_correct."', '".$examData[$i]['status']."', '".$marksObtained."', '".$markDeducted."', '".$response_id."'), ";
 				}
 				
-				echo "S ".$queryMaker = substr($queryMaker, 0, -2);
+				$queryMaker = substr($queryMaker, 0, -2);
 				if (saveMockResponseQuestionQuery($queryMaker)) {
 					echo "S ". "Loading Result";
 				} else {

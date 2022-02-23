@@ -7,16 +7,23 @@ error_reporting(E_ALL);
 	//session_unset();
 	//session_destroy();
 	if (!isset($_SESSION['username'])) {
-		header("Location: index.php");
+		header("Location: ../index.php");
 	} else {
 		$state = getUserState($_SESSION['username']);
 		if($state == 'no') {
-			header("Location: varifyemail");
+			header("Location: ../varifyemail");
 		}
 		
 		$mock = getMockDetailsFromMockId($_GET['exam']);
 	}
 	
+	if (isMockTestAlreadyTaken($_GET['exam'],getUserDetails($_SESSION['username'])['id'])) {
+		header("Location: ../result/".$_GET['exam']);
+	}
+	
+	if ($mock['is_free']==0 &&  strtotime(getUserDetails($_SESSION['username'])['premium_till']) < time()) {
+		header("Location: ../premium-pass");
+	}
 	
 	$result = getMockQuestionsFromMockId($_GET['exam']);
 	$rows = array();
@@ -26,7 +33,7 @@ error_reporting(E_ALL);
 	
 	$exam_questions = json_decode(json_encode($rows), true);
 	$total_question = count($exam_questions);
-	
+
 ?>
 
 <!DOCTYPE html>

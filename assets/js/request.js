@@ -1,4 +1,5 @@
 var global_question = 0;
+var current_solution_question = 0;
 function startMock(mock_id, total_questions) {
 	document.getElementById('selectedLanguage').innerHTML = sessionStorage.getItem("defaultLanguage_"+ mock_id);
 	if (localStorage.getItem("Responses_"+mock_id) == null) {
@@ -329,6 +330,69 @@ function generate(current_question,options,color,mock_id) {
 			case "E" : 
 						document.getElementById("options5").checked = true; break;
 		}
+	}
+}
+
+function generateSpecificSolutionQuestion(current_question, mock_id) {
+	//clean up start
+	document.getElementById("option_one").innerHTML = "highlight_off"; document.getElementById("option_one").classList.remove("green-text");document.getElementById("option_one").classList.add("red-text");
+	document.getElementById("option_two").innerHTML = "highlight_off"; document.getElementById("option_two").classList.remove("green-text");document.getElementById("option_two").classList.add("red-text");
+	document.getElementById("option_three").innerHTML = "highlight_off";document.getElementById("option_three").classList.remove("green-text");document.getElementById("option_three").classList.add("red-text");
+	document.getElementById("option_four").innerHTML = "highlight_off";document.getElementById("option_four").classList.remove("green-text");document.getElementById("option_four").classList.add("red-text");
+
+	if (document.getElementById("option_five") !== null) {
+		document.getElementById("option_five").innerHTML = "highlight_off";document.getElementById("option_four").classList.remove("green-text");document.getElementById("option_four").classList.add("red-text");
+	}
+	//clean up ends
+	current_solution_question = current_question;
+	document.getElementById("question_id").innerHTML = "Question "+(current_solution_question + 1);
+	document.getElementById('selectedLanguage').innerHTML = sessionStorage.getItem("defaultLanguage_"+mock_id);
+	document.getElementById('sectionName').innerHTML = jsonSolutionData[Number(current_solution_question)]['section_name'];
+	if (sessionStorage.getItem("defaultSolutionLanguage_"+mock_id) == "English") {
+		document.getElementById('question_content').innerHTML = jsonSolutionData[Number(current_solution_question)]['question'];
+		document.getElementById('optionst1').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_a'];
+		document.getElementById('optionst2').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_b'];
+		document.getElementById('optionst3').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_c'];
+		document.getElementById('optionst4').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_d'];
+		if (document.getElementById('optionst5') != null)                                             
+		document.getElementById('optionst5').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_e'];
+		document.getElementById('explanation').innerHTML = jsonSolutionData[Number(current_solution_question)]['explanation'];
+	} else {
+		document.getElementById('question_content').innerHTML = jsonSolutionData[Number(current_solution_question)]['question_hindi'];
+		document.getElementById('optionst1').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_a_hindi'];
+		document.getElementById('optionst2').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_b_hindi'];
+		document.getElementById('optionst3').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_c_hindi'];
+		document.getElementById('optionst4').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_d_hindi'];
+		if (document.getElementById('optionst5') != null)                                             
+		document.getElementById('optionst5').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_e_hindi'];
+		document.getElementById('explanation').innerHTML = jsonSolutionData[Number(current_solution_question)]['explanation_hindi'];
+	}
+	
+	if (jsonSolutionData[Number(current_solution_question)]['is_correct'] == 1) {
+		document.getElementById('marks').classList.remove("grey");
+		document.getElementById('marks').classList.remove("red");
+		document.getElementById('marks').classList.add("green");
+		document.getElementById('marks').innerHTML = "+"+jsonSolutionData[Number(current_solution_question)]['mark_earned'];
+	} else {
+		if (jsonSolutionData[Number(current_solution_question)]['mark_deducted'] == 0) {
+			document.getElementById('marks').classList.remove("red");
+			document.getElementById('marks').classList.remove("green");
+			document.getElementById('marks').classList.add("grey");
+			document.getElementById('marks').innerHTML = jsonSolutionData[Number(current_solution_question)]['mark_deducted'];
+		} else {
+			document.getElementById('marks').classList.remove("grey");
+			document.getElementById('marks').classList.remove("green");
+			document.getElementById('marks').classList.add("red");
+			document.getElementById('marks').innerHTML = "-"+jsonSolutionData[Number(current_solution_question)]['mark_deducted'];
+		}
+	}
+
+	switch(jsonSolutionData[Number(current_solution_question)]['correct_answer']) {
+		case "1": document.getElementById("option_one").innerHTML = "check_circle_outline"; document.getElementById("option_one").classList.remove("red-text"); document.getElementById("option_one").classList.add("green-text"); break;
+		case "2": document.getElementById("option_two").innerHTML = "check_circle_outline"; document.getElementById("option_two").classList.remove("red-text");document.getElementById("option_two").classList.add("green-text");break;
+		case "3": document.getElementById("option_three").innerHTML = "check_circle_outline"; document.getElementById("option_three").classList.remove("red-text");document.getElementById("option_three").classList.add("green-text");break;
+		case "4": document.getElementById("option_four").innerHTML = "check_circle_outline"; document.getElementById("option_four").classList.remove("red-text");document.getElementById("option_four").classList.add("green-text");break;
+		case "5": document.getElementById("option_five").innerHTML = "check_circle_outline"; document.getElementById("option_five").classList.remove("red-text");document.getElementById("option_five").classList.add("green-text");break;
 	}
 }
 
@@ -686,7 +750,7 @@ function submitExamAndEvaluate(mock_id) {
             type: "success",
             title: "&nbsp; " + data.substring(1)
         }), setInterval(function() {
-            //window.location.href = "./test-result/"+mock_id
+            window.location = "../result/"+mock_id
         }, 5e3)) : Swal.fire({
             toast: !0,
             position: "bottom-end",
@@ -891,6 +955,38 @@ function markForReviewAndNext(question_id,options,mock_id) {
 	}
 	//clearResponse(question_id);
 	sessionCheck(mock_id);
+}
+
+function checkSolutionsSession(mock_id) {
+	if (sessionStorage.getItem("defaultSolutionLanguage_"+mock_id)==null) {
+		sessionStorage.setItem("defaultSolutionLanguage_"+mock_id, "English");
+	}
+	document.getElementById('selectedLanguage').innerHTML = sessionStorage.getItem("defaultSolutionLanguage_"+ mock_id);	
+}
+
+function changeSolutionsLanguage(mock_id) {
+	if (sessionStorage.getItem("defaultSolutionLanguage_"+mock_id)=="English") {
+		sessionStorage.setItem("defaultSolutionLanguage_"+mock_id, "Hindi");
+		document.getElementById('question_content').innerHTML = jsonSolutionData[Number(current_solution_question)]['question_hindi'];
+		document.getElementById('optionst1').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_a_hindi'];
+		document.getElementById('optionst2').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_b_hindi'];
+		document.getElementById('optionst3').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_c_hindi'];
+		document.getElementById('optionst4').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_d_hindi'];
+		if (document.getElementById('optionst5') != null)                                             
+		document.getElementById('optionst5').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_e_hindi'];
+		document.getElementById('explanation').innerHTML = jsonSolutionData[Number(current_solution_question)]['explanation_hindi'];
+	} else {
+		sessionStorage.setItem("defaultSolutionLanguage_"+mock_id, "English");
+		document.getElementById('question_content').innerHTML = jsonSolutionData[Number(current_solution_question)]['question'];
+		document.getElementById('optionst1').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_a'];
+		document.getElementById('optionst2').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_b'];
+		document.getElementById('optionst3').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_c'];
+		document.getElementById('optionst4').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_d'];
+		if (document.getElementById('optionst5') != null)                                             
+		document.getElementById('optionst5').innerHTML = jsonSolutionData[Number(current_solution_question)]['option_e'];
+		document.getElementById('explanation').innerHTML = jsonSolutionData[Number(current_solution_question)]['explanation'];
+	}
+	document.getElementById('selectedLanguage').innerHTML = sessionStorage.getItem("defaultSolutionLanguage_"+ mock_id);	
 }
 
 function sessionCheck(mock_id) {

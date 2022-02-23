@@ -18,9 +18,12 @@ error_reporting(E_ALL);
 	}
 	
 	if (mockResponseAlreadyExisted($_GET['mock'], getUserDetails($_SESSION['username'])['id'])) {
-		//header("Location: ../result/".$_GET['mock']);
+		header("Location: ../result/".$_GET['mock']);
 	}
 	
+	if ($mock['is_free']==0 &&  strtotime(getUserDetails($_SESSION['username'])['premium_till']) < time()) {
+		header("Location: ../premium-pass");
+	}
 	
 	$result = getMockQuestionsFromMockId($_GET['mock']);
 	$rows = array();
@@ -71,7 +74,7 @@ margin-top:100%;
     }*/
   </script>
 </head>
-<body onload="startMock(<?php echo $_GET['mock']; ?>,<?php echo $total_question; ?>);sessionCheck(<?php echo $_GET['mock']; ?>);Examtimer('<?php echo $mock['mock_total_duration']; ?>','#countdown_timer',<?php echo $_GET['mock']; ?>);generateSpecific(0,1);">
+<body onload="startMock(<?php echo $_GET['mock']; ?>,<?php echo $total_question; ?>);sessionCheck(<?php echo $_GET['mock']; ?>);Examtimer('<?php echo $mock['mock_total_duration']; ?>','#countdown_timer',<?php echo $_GET['mock']; ?>);generateSpecific(0,<?php echo $_GET['mock']; ?>);">
 
 <?php include_once("testsidenavbar.php"); ?>
 <div class="progress" style="margin:0px;border-radius:0;visibility:hidden;" id="progress">

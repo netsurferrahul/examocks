@@ -133,9 +133,14 @@
 											</div>
 										</div>
 										
-										<div class="col s4" style="margin-right: 2%;">
-										  <a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>
-										</div>
+										<div class="col s4" style="margin-right: 2%;">';
+									if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
+										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+									} else {
+										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+									}										
+										  
+									echo '</div>
 									  </div>
 									  
 									<div class="card-action">
@@ -302,9 +307,13 @@
 												</div>
 											</div>
 											
-											<div class="col s4" style="margin-right: 2%;">
-											  <a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>
-											</div>
+											<div class="col s4" style="margin-right: 2%;">';
+											if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+											} else {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+											}	
+										echo '</div>
 										  </div>
 										  
 										<div class="card-action">
@@ -340,9 +349,13 @@
 												</div>
 											</div>
 											
-											<div class="col s4" style="margin-right: 2%;">
-											  <a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>
-											</div>
+											<div class="col s4" style="margin-right: 2%;">';
+											if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+											} else {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+											}	
+											echo '</div>
 										  </div>
 										  
 										<div class="card-action">
@@ -378,9 +391,13 @@
 												</div>
 											</div>
 											
-											<div class="col s4" style="margin-right: 2%;">
-											  <a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>
-											</div>
+											<div class="col s4" style="margin-right: 2%;">';
+											if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+											} else {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+											}	
+											echo '</div>
 										  </div>
 										  
 										<div class="card-action">
