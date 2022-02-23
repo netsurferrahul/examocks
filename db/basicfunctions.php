@@ -77,6 +77,19 @@
 		return false;
 	}
 	
+	function saveMockResponseQuestionQuery($query) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "INSERT INTO `mock_respose_questions`(`mock_id`, `mock_question_id`, `user_answer`, `correct_answer`, `is_correct`, `status`, `mark_earned`, `mark_deducted`, `mock_response_id`) VALUES ".$query;
+		$result = $conn->query($sql);
+		
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+	
 	function EnterMobileVerificationCodeInDB($mobile, $code) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");

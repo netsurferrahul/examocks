@@ -6,7 +6,6 @@
 	if (isset($_SESSION['username'])) {
 		$requested = file_get_contents("php://input");
 		$examData = json_decode($requested, true);
-		$queryMaker = "";
 		if (!mockResponseAlreadyExisted($examData[count($examData)-1]['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
 			if (insertMockResponse($examData[count($examData)-1]['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
 				$response_id = getMockResponseId($examData[count($examData)-1]['mock_id'],getUserDetails($_SESSION['username'])['id']);
@@ -14,11 +13,11 @@
 				for ($i=0; $i<count($examData)-1; $i++) {
 					$marksObtained = 0;
 					$markDeducted = 0;
-					$is_correct = 0;
+					$is_correct = false;
 					$questionDetail = getQuestionDetailsFromQuestionId($examData[$i]['question']);
 					if ($examData[$i]['status'] != "MRA" && $examData[$i]['status'] != "OKN" && $examData[$i]['status'] != "MR" && $examData[$i]['status'] != "NV") {
 						if ($questionDetail['answer'] == getOptionInNumeric($examData[$i]['response'])) {
-							$is_correct = 1;
+							$is_correct = true;
 							$marksObtained = json_decode($mockDetails['settings'],true)['correct_marks'];
 						} else {
 							if (json_decode($mockDetails['settings'],true)['enable_negative_marking'] == true) {
@@ -30,15 +29,13 @@
 							}
 						}
 					}
-					$queryMaker .= "('".$examData[count($examData)-1]['mock_id']."', '".$examData[$i]['question']."', '".getOptionInNumeric($examData[$i]['response'])."', '".$questionDetail['answer']."', '".$is_correct."', '".$examData[$i]['status']."', '".$marksObtained."', '".$markDeducted."', '".$response_id."'), ";
+					if (saveMockResponseQuestion($examData[count($examData)-1]['mock_id'],$examData[$i]['question'], getOptionInNumeric($examData[$i]['response']),$questionDetail['answer'], $is_correct , $examData[$i]['status'], $marksObtained , $markDeducted , $response_id)) {
+						echo "S ". "Loading Result";
+					} else {
+						echo "E ". "Error while saving response";
+					}
 				}
 				
-				echo "S ".$queryMaker = substr($queryMaker, 0, -2);
-				if (saveMockResponseQuestionQuery($queryMaker)) {
-					echo "S ". "Loading Result";
-				} else {
-					echo "E ". "Error while saving response";
-				}
 			}
 		}
 	}

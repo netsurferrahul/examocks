@@ -170,9 +170,11 @@ function sendMessage() {
     }
 }
 
-function reportWrongQuestion(question_id) {
+function reportWrongQuestion(spacial_page_tag,question_id) {
 	var correct_answer = document.getElementById("correct"+question_id).value;
-	document.getElementById("progress").style.display="block", url = "../basicfunctions/reportWrongQuestion.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("correct_answer=" + correct_answer + "&question_id=" + question_id ), xhr.onreadystatechange = function() {
+	document.getElementById("progress").style.display="block";
+	if (spacial_page_tag == "") { url = "../basicfunctions/reportWrongQuestion.php"; } else { url = "../../basicfunctions/reportWrongQuestion.php"; }
+	xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("correct_answer=" + correct_answer + "&question_id=" + question_id ), xhr.onreadystatechange = function() {
         4 == xhr.readyState && (data = xhr.responseText,  document.getElementById("progress").style.display="none", "E " == data.substring(0, 2) ? Swal.fire({
             toast: !0,
             position: "top-end",
@@ -200,8 +202,10 @@ function reportWrongQuestion(question_id) {
      
 }
 
-function saveQuestion(question_id) {
-	document.getElementById("progress").style.display="block", url = "../basicfunctions/saveQuestion.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("question_id=" + question_id), xhr.onreadystatechange = function() {
+function saveQuestion(spacial_page_tag,question_id) {
+	document.getElementById("progress").style.display="block"; 
+	if (spacial_page_tag == "") { url = "../basicfunctions/saveQuestion.php"; } else { url = "../../basicfunctions/saveQuestion.php"; } 
+	xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("question_id=" + question_id), xhr.onreadystatechange = function() {
         4 == xhr.readyState && (data = xhr.responseText,  document.getElementById("progress").style.display="none", "E " == data.substring(0, 2) ? Swal.fire({
             toast: !0,
             position: "top-end",

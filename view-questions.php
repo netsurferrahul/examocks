@@ -10,7 +10,7 @@
 	<head>	
 		<title>ExaMocks - <?php echo str_replace("-"," ",$_GET['topic']); ?> MCQ Prepration</title>
 		<meta name="description" content="Prepare Best MCQ's for <?php echo str_replace("-"," ",$_GET['topic']); ?> topic, these mcq's came in previous year exams.">
-		<?php include_once("lthreeheader.php"); ?>
+		<?php if (isset($_GET['page'])) include_once("lfourheader.php"); else include_once("lthreeheader.php"); ?>
 		 
 		 <style>
 		 @media screen and (max-width: 768px) {
@@ -29,11 +29,11 @@
 		 </style>
 	</head>
 	<body>
-	<?php include_once("lthreenavbar.php"); ?>
+	<?php if (isset($_GET['page'])) include_once("lfournavbar.php"); else include_once("lthreenavbar.php"); ?>
 	<div class="card-panel" style="margin-top:0;">
 		<div class="container">
 			<div class="row">
-				<div class="col s12"><a href="../index">Home</a><i class="tiny material-icons">chevron_right</i><a href="../engineering">Engineering</a><i class="tiny material-icons">chevron_right</i><a href="../computer-science">Computer Science</a><i class="tiny material-icons">chevron_right</i><a href="<?php echo '../topic/'.str_replace(" ","-",$subject); ?>"><?php echo $subject; ?></a><i class="tiny material-icons">chevron_right</i><?php echo str_replace("-"," ",$_GET['topic']); ?></div>
+				<div class="col s12"><a href="<?php if (isset($_GET['page'])) { echo "../../index"; } else { echo "../index"; }?>">Home</a><i class="tiny material-icons">chevron_right</i><a href="<?php if (isset($_GET['page'])) { echo "../../engineering"; } else { echo "../engineering"; }?>">Engineering</a><i class="tiny material-icons">chevron_right</i><a href="<?php if (isset($_GET['page'])) { echo "../../computer-science"; } else { echo "../computer-science"; }?>">Computer Science</a><i class="tiny material-icons">chevron_right</i><a href="<?php if (isset($_GET['page'])) { echo '../../topic/'.str_replace(" ","-",$subject); } else { echo '../topic/'.str_replace(" ","-",$subject); }?>"><?php echo $subject; ?></a><i class="tiny material-icons">chevron_right</i><?php echo str_replace("-"," ",$_GET['topic']); ?></div>
 				<div class="col s12"><h1><?php echo str_replace("-"," ",$_GET['topic']); ?> MCQs</h1></div>
 			</div>
 		</div>
@@ -44,7 +44,7 @@
 				 <div class="center">
 				 <?php 
 						$num_rec_per_page=10;
-						if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
+						if (isset($_GET["page"])) { $page  = str_replace($_GET['topic']."-","",$_GET["page"]); } else { $page=1; }; 
 						$total_records = getTotalQuestions(str_replace("-"," ",$_GET['topic']));
 						$total_pages = ceil($total_records / $num_rec_per_page); 
 						
@@ -52,7 +52,11 @@
 						if ($page == 1) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons left">chevron_left</i>'." Back </a> ";
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							if (isset($_GET['page'])) {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../../questions/".$_GET['topic']."/".$_GET['topic']."-".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							} else {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."/".$_GET['topic']."-".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							}
 						}					
 
 						echo "<a href='#' class='waves-light btn-small disabled'>Page ".$page."/".$total_pages." </a> ";
@@ -61,7 +65,11 @@
 						if ($page == $total_pages) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons right">chevron_right</i>'." Next </a> ";	
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							if (isset($_GET['page'])) {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../../questions/".$_GET['topic']."/".$_GET['topic']."-".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							} else {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."/".$_GET['topic']."-".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							}
 						}					
 					?>
 				</div>
@@ -99,9 +107,14 @@
 								<div class="row">
 									<div class="col s12 m12 center" style="margin-top:1%;">
 										<a class="waves-light btn-small red modal-trigger" href="#modal'.$row['question_id'].'"><i class="material-icons left">report_problem</i> Report </a>
-										<a class="waves-light btn-small green" onclick="saveQuestion('.$row['question_id'].')" ><i class="material-icons left">bookmark</i> Save </a>
-										<a class="waves-light btn-small green" href="../question/'.str_replace(" ","-",clean($row['question'])).'" ><i class="material-icons left">remove_red_eye</i> View </a></div>
-									</div>
+										<a class="waves-light btn-small green" onclick="saveQuestion(\''.$_GET['page'].'\','.$row['question_id'].')" ><i class="material-icons left">bookmark</i> Save </a>';
+										
+										if (isset($_GET['page'])) {
+											echo ' <a class="waves-light btn-small green" href="../../question/'.str_replace(" ","-",clean($row['question'])).'" ><i class="material-icons left">remove_red_eye</i> View </a></div>';
+										} else {
+											echo ' <a class="waves-light btn-small green" href="../question/'.str_replace(" ","-",clean($row['question'])).'" ><i class="material-icons left">remove_red_eye</i> View </a></div>';
+										}
+								echo '</div>
 						</ul>
 						<ul class="collapsible">
 							<li id="ex'.$row['question_id'].'">
@@ -149,7 +162,7 @@
 						echo '  </p>
 						</div>
 						<div class="modal-footer">
-						  <a class="waves-effect waves-green btn-flat" onclick="reportWrongQuestion('.$row['question_id'].');">Report</a>
+						  <a class="waves-effect waves-green btn-flat" onclick="reportWrongQuestion(\''.$_GET['page'].'\','.$row['question_id'].');">Report</a>
 						</div>
 					  </div>';
 				}
@@ -160,7 +173,7 @@
 		 <div class="center">
 		 <?php 
 						$num_rec_per_page=10;
-						if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
+						if (isset($_GET["page"])) { $page  = str_replace($_GET['topic']."-","",$_GET["page"]); } else { $page=1; }; 
 						$total_records = getTotalQuestions(str_replace("-"," ",$_GET['topic']));
 						$total_pages = ceil($total_records / $num_rec_per_page); 
 						
@@ -168,7 +181,11 @@
 						if ($page == 1) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons left">chevron_left</i>'." Back </a> ";
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							if (isset($_GET['page'])) {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../../questions/".$_GET['topic']."/".$_GET['topic']."-".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							} else {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."/".$_GET['topic']."-".($page-1)."'>".'<i class="material-icons left">chevron_left</i>'."Back </a> "; // decrease 1st page 
+							}
 						}					
 
 						echo "<a href='#' class='waves-light btn-small disabled'>Page ".$page."/".$total_pages." </a> ";
@@ -177,7 +194,11 @@
 						if ($page == $total_pages) { 
 							echo "<a href='#' class='waves-light btn-small ".$settings['accent_color']." disabled'>".'<i class="material-icons right">chevron_right</i>'." Next </a> ";	
 						} else {
-							echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."&page=".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							if (isset($_GET['page'])) {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../../questions/".$_GET['topic']."/".$_GET['topic']."-".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							} else {
+								echo "<a class='waves-light btn-small ".$settings['accent_color']."' href='../questions/".$_GET['topic']."/".$_GET['topic']."-".($page+1)."'>".'<i class="material-icons right">chevron_right</i>'." Next</a>"; //increase one page  
+							}
 						}					
 					?>
 		</div>
@@ -241,7 +262,6 @@
 		var instances = M.Collapsible.init(elems);
 	  });
   </script>
-    <?php include_once("lthreefooter.php"); ?>
-	
+	<?php if (isset($_GET['page'])) include_once("lfourfooter.php"); else include_once("lthreefooter.php"); ?>
 	</body>
 <html>

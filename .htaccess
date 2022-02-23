@@ -38,9 +38,13 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^topic/(.*)$ view-topics.php?subject=$1 [L,QSA]
 
 RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^questions/(.*)$ view-questions.php?topic=$1 [L,QSA]
+# The two lines below allow access to existing files on your server, bypassing
+# the rewrite
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^questions/([^/]+)/?$ view-questions.php?topic=$1 [L,QSA]
+RewriteRule ^questions/([^/]+)/([^/]+)/?$ view-questions.php?topic=$1&page=$2 [L,QSA]
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
