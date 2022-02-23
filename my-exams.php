@@ -57,17 +57,13 @@ error_reporting(E_ALL);
 	<div class="row">
 		<div class="col s12">
 			<div class="card-panel">
-				<div class="input-field">
-				  <i class="material-icons prefix">search</i>
-				  <textarea id="search" class="materialize-textarea" onkeyup="searchExams();" style="height: 45px;"></textarea>
-				  <label for="search">Search for your exams</label>
-				</div>
+				<h1><i class="material-icons left purple-text">chrome_reader_mode</i>My Exams</h1>
 			</div>
 		</div>
 		<div class="col s12" id="exams">
 			<div class="card-panel">
 				<?php 
-				$top_exams = getPopularExamsList();
+				$top_exams = getUserAddedExams($_SESSION['username']);
 				if ($top_exams->num_rows > 0) {
 					while($row = $top_exams->fetch_assoc()) {
 						echo '<a class="waves-effect waves-light card-panel z-depth-3" href="./exam/'.implode("-",explode(" ",$row['exam_name'])).'" style="color:black;">

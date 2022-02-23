@@ -93,13 +93,13 @@
 					<div class="row">
 						<div class="input-field col s12 m6">
 						  <label>
-							<input name="gender" type="radio" id="user_gender" checked />
+							<input name="gender" type="radio" id="user_gender" value="Male" checked />
 							<span>Male</span>
 						  </label>
 						</div>
 						<div class="input-field col s12 m6">
 						  <label>
-							<input name="gender" type="radio" id="user_gender" />
+							<input name="gender" type="radio" id="user_gender" Value="Female" />
 							<span>Female</span>
 						  </label>
 						</div>
@@ -124,9 +124,12 @@
     </div>
   </div>
   <script>
+  var currYear = (new Date()).getFullYear();
   document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.datepicker');
-    var instances = M.Datepicker.init(elems);
+    var instances = M.Datepicker.init(elems,{
+	 yearRange: [1928, currYear]
+	});
   })
   
   

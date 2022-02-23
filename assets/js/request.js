@@ -60,10 +60,17 @@ function register() {
         t = document.getElementById("user_dob").value,
         n = document.getElementById("user_mobile").value,
         o = document.getElementById("user_email").value,
-        r = document.getElementById("user_gender").value,
         s = document.getElementById("user_pass").value,
         u = document.getElementById("user_state").value;
 		document.getElementById("progress").style.display="block";
+		var r = null;
+		var checkboxes = document.getElementsByName('gender');
+		for (var checkbox of checkboxes)
+		{
+			if (checkbox.checked) {
+				r=checkbox.value;
+			}
+		}
     url = "./basicfunctions/registerHelper.php", xhr = new XMLHttpRequest;
     var m = "name=" + e + "&dob=" + t + "&mobile=" + n + "&email=" + o + "&gender=" + r + "&password=" + s + "&state=" + u ;
     m = m.replace("+", "%2B"), xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send(m), xhr.onreadystatechange = function() {
@@ -109,6 +116,13 @@ function searchTestSeries() {
 	var search = document.getElementById('search').value;
 	url = "./basicfunctions/testSeriesSearchHelper.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("search=" + search), xhr.onreadystatechange = function() {
         4 == xhr.readyState && (data = xhr.responseText, document.getElementById('MockTests').innerHTML = data)
+    }
+}
+
+function searchExams() {
+	var search = document.getElementById('search').value;
+	url = "./basicfunctions/examSearchHelper.php", xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("search=" + search), xhr.onreadystatechange = function() {
+        4 == xhr.readyState && (data = xhr.responseText, document.getElementById('exams').innerHTML = data)
     }
 }
 
@@ -172,9 +186,55 @@ function sendMessage() {
 }
 
 function reportWrongQuestion(spacial_page_tag,question_id) {
-	var correct_answer = document.getElementById("correct"+question_id).value;
+	var correct_answer = null;
+	var checkboxes = document.getElementsByName('group1');
+    for (var checkbox of checkboxes)
+    {
+        if (checkbox.checked) {
+            correct_answer=checkbox.value;
+        }
+    }
 	document.getElementById("progress").style.display="block";
 	if (spacial_page_tag == "") { url = "../basicfunctions/reportWrongQuestion.php"; } else { url = "../../basicfunctions/reportWrongQuestion.php"; }
+	xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("correct_answer=" + correct_answer + "&question_id=" + question_id ), xhr.onreadystatechange = function() {
+        4 == xhr.readyState && (data = xhr.responseText,  document.getElementById("progress").style.display="none", "E " == data.substring(0, 2) ? Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "error",
+            title: "&nbsp; " + data.substring(1)
+        }) : "S " == data.substring(0, 2) ? (Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "success",
+            title: "&nbsp; " + data.substring(1)
+        }), setInterval(function() {
+        }, 5e3)) : Swal.fire({
+            toast: !0,
+            position: "top-end",
+            showConfirmButton: !1,
+            timer: 3e3,
+            type: "error",
+            title: "&nbsp; Something went wrong."
+        }))
+    }
+     
+}
+
+function reportWrongQuestionSaved(spacial_page_tag,question_id) {
+	var correct_answer = null;
+	var checkboxes = document.getElementsByName('group1');
+    for (var checkbox of checkboxes)
+    {
+        if (checkbox.checked) {
+            correct_answer=checkbox.value;
+        }
+    }
+	document.getElementById("progress").style.display="block";
+	if (spacial_page_tag == "") { url = "./basicfunctions/reportWrongQuestion.php"; } else { url = "../basicfunctions/reportWrongQuestion.php"; }
 	xhr = new XMLHttpRequest, xhr.open("POST", url, !0), xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), xhr.send("correct_answer=" + correct_answer + "&question_id=" + question_id ), xhr.onreadystatechange = function() {
         4 == xhr.readyState && (data = xhr.responseText,  document.getElementById("progress").style.display="none", "E " == data.substring(0, 2) ? Swal.fire({
             toast: !0,

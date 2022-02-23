@@ -64,6 +64,11 @@ RewriteRule ^result/(.*)$ result.php?id=$1 [L,QSA]
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^saved-questions/(.*)$ saved-questions.php?page=$1 [L,QSA]
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^test-home/(.*)$ test-home.php?exam=$1 [L,QSA]
 
 RewriteEngine On

@@ -64,6 +64,23 @@
 		return 0;
 	}
 	
+	function getMockAttemptTime($mock_id, $user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+
+		$sql = "SELECT `mock_response_attampt_time` FROM `mock_response` WHERE `mock_response_by`= '$user_id' and `mock_id` = '$mock_id'";
+		$result = $conn->query($sql);
+		
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['mock_response_attampt_time'];
+			}
+		}
+
+		return 0;
+	}
+	
 	function saveMockResponseQuestion($mock_id, $question_id, $response, $correct_ans, $is_correct, $status, $mark_obtained, $mark_deducted, $mock_response_id) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -673,6 +690,16 @@
 		return false;
 	}
 	
+	function getUserAddedExams($email) {
+		$user_id = getUserDetails($email)['id'];
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `user_exam_mapping` AS UEM, `exam` AS E WHERE UEM.`exam_id` = E.`exam_id` and UEM.`user_id` = '$user_id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
 	function getTotalMocksCountFromExamId($exam_id) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -939,6 +966,15 @@
 		return $row['total'];
 	}
 	
+	function getUserAttemptedTests($user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `mock_response` AS MR, `mocks` AS M WHERE M.`mock_id`=MR.`mock_id` and MR.`mock_response_by`='$user_id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
 	function getTotalAttamptedQuestionCountFromMockId($mock_id,$user_id) {
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
@@ -1138,6 +1174,49 @@
 				return $row['Total'];
 			}
 		}
+	}
+	
+	function getCountUserReportedQuestion($user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(report_id) AS Total FROM `reported_questions` WHERE `report_by` = '$user_id' GROUP BY question_id";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			return $result->num_rows;
+		}
+		return 0;
+	}
+	
+	function getAllUserReportedQuestion($user_id,$start,$num_of_records) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `reported_questions` AS RQ, `questions` AS Q WHERE Q.`question_id`=RQ.`question_id` and `report_by` = '$user_id' GROUP BY Q.question_id LIMIT $start, $num_of_records";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	function getCountUserSavedQuestion($user_id) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT COUNT(*) AS Total FROM `saved_questions` WHERE `saved_by` = '$user_id'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				return $row['Total'];
+			}
+		}
+	}
+	
+	function getAllUserSavedQuestion($user_id,$start,$num_of_records) {
+		if (!isset($conn)) {
+			$conn = new mysqli("localhost","root","","examocks");
+		}
+		$sql = "SELECT * FROM `saved_questions` AS SQ, `questions` AS Q WHERE Q.`question_id`=SQ.`question_id` and `saved_by` = '$user_id' LIMIT $start, $num_of_records";
+		$result = $conn->query($sql);
+		return $result;
 	}
 	
 	function getAllQuestions($topic,$start,$num_of_records) {
