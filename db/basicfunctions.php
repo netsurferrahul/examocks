@@ -1757,11 +1757,19 @@
 		if (getUserDetails($email)['premium_till'] == null || strtotime(getUserDetails($email)['premium_till']) < time()) {
 			$payment_amount = getPaymentIdToAmount($payment_id);
 			$validity = getValidityFromPrice($payment_amount)*30;
-			$sql="UPDATE `users` SET `premium_till`= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL ".$validity." DAY) WHERE `username` = '$email'";
+			if ($validity != 0) {
+			    $sql="UPDATE `users` SET `premium_till`= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL ".$validity." DAY) WHERE `username` = '$email'";
+			} else {
+			    return false;
+			}
 		} else {
 			$payment_amount = getPaymentIdToAmount($payment_id);
 			$validity = getValidityFromPrice($payment_amount)*30;
-			$sql="UPDATE `users` SET `premium_till`= DATE_ADD(premium_till, INTERVAL ".$validity." DAY) WHERE `username` = '$email'";
+			if ($validity != 0) {
+		    	$sql="UPDATE `users` SET `premium_till`= DATE_ADD(premium_till, INTERVAL ".$validity." DAY) WHERE `username` = '$email'";
+            } else {
+			    return false;
+			}
 		}
 		
 		$result = $conn->query($sql);

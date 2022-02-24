@@ -81,8 +81,8 @@ error_reporting(E_ALL);
 			</div>
 		</div>
 	</div>
-</div>
 <?php include_once("lonefooter.php"); ?>
+</div>
 	
 	</body>
 <html>

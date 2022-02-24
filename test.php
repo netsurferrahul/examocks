@@ -54,6 +54,11 @@ error_reporting(E_ALL);
 	   position:relative;
 margin-top:100%;
 	}
+	@media only screen and (min-width: 913px) {
+		.wrapper {
+			padding-right: 300px;
+		}
+	}
   </style>
   <script>
 		var jsonExamData = <?php echo json_encode($rows) ?>
@@ -81,13 +86,13 @@ margin-top:100%;
 	<div class="indeterminate <?php echo $settings['accent_color']; ?>"></div>
 </div>
 
-<div>
+<div class="wrapper">
 <?php
 	$arr = json_decode($mock['settings'], true);
 ?>
 
 	<div class="row">
-		<div class="col s12 m12 l10">
+		<div class="col s12 m12 l12">
 			<div class="row">
 				  <div class="card" style="margin:1%">
 					<div class="card-header" style="padding:1% 0% 0% 1%"><h5><?php echo $mock['mock_title']; ?></h5></div>

@@ -223,8 +223,8 @@ error_reporting(E_ALL);
 
 		</div>
 	</div>
-</div>
 <?php if (isset($_GET['page'])) include_once("ltwofooter.php"); else include_once("lonefooter.php"); ?>
+</div>
 	<script>
 	  document.addEventListener('DOMContentLoaded', function() {
 		var elems = document.querySelectorAll('.modal');
