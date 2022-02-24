@@ -59,6 +59,11 @@ RewriteRule ^tests/(.*)$ tests.php?exam=$1 [L,QSA]
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^exam/(.*)$ exam.php?exam=$1 [L,QSA]
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^result/(.*)$ result.php?id=$1 [L,QSA]
 
 RewriteEngine on
