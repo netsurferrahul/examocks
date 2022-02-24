@@ -77,7 +77,7 @@ error_reporting(E_ALL);
 										</div>
 										
 										<div class="col s4" style="margin-right: 2%;">';
-									if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
+									if (isMockTestAlreadyTaken(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id'])) {
 										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="./result/'.$row['mock_id'].'">View Solutions</a>';
 									} else {
 										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="./test-home/'.$row['mock_id'].'">Start Now</a>';
@@ -87,7 +87,7 @@ error_reporting(E_ALL);
 									  </div>
 									  
 									<div class="card-action">
-										<span> <i class="tiny material-icons">help_outline</i> Rank '.getUserRank($row['mock_id'],getUserDetails($_SESSION['username'])['id']).'/'.getTotalAttemptsOfMock($row['mock_id']).' <i class="tiny material-icons">description</i> Marks '.json_decode(getResultAttributesFromMockId($row['mock_id'],getUserDetails($_SESSION['username'])['id']),true)['score'].'/'.getMockDetailsFromMockId($row['mock_id'])['mock_total_marks'].' <i class="tiny material-icons">access_time</i> Attempted on '.date('m/d/Y',strtotime(getMockAttemptTime($row['mock_id'],getUserDetails($_SESSION['username'])['id']))).'</span>
+										<span> <i class="tiny material-icons">help_outline</i> Rank '.getUserRank(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id']).'/'.getTotalAttemptsOfMock(md5($row['mock_id'])).' <i class="tiny material-icons">description</i> Marks '.json_decode(getResultAttributesFromMockId(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id']),true)['score'].'/'.getMockDetailsFromMockId(md5($row['mock_id']))['mock_total_marks'].' <i class="tiny material-icons">access_time</i> Attempted on '.date('d/m/Y',strtotime(getMockAttemptTime(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id']))).'</span>
 									</div>
 									</div>';
 					}

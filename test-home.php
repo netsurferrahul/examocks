@@ -194,7 +194,7 @@ error_reporting(E_ALL);
 						<div class="card">
 							<div class="card-content">
 								<a class="waves-light btn-small red" onclick="history.back();" id="btnClear"><i class="material-icons left">arrow_back</i> Back </a>
-								<a class="waves-light btn-small green right" onclick="goToMainExamScreen(<?php echo $_GET['exam']; ?>);" id="btnClear"><i class="material-icons right">arrow_forward</i> Next </a>
+								<a class="waves-light btn-small green right" onclick="goToMainExamScreen('<?php echo $_GET['exam']; ?>','<?php echo md5($_SESSION['username']); ?>');" id="btnClear"><i class="material-icons right">arrow_forward</i> Next </a>
 							</div>
 						</div>	
 					</div>

@@ -37,7 +37,7 @@
 			$conn = new mysqli("localhost","root","","examocks");
 		}
 
-		$sql = "SELECT * FROM `mock_response` WHERE `mock_response_by`= '$user_id' and `mock_id` = '$mock_id'";
+		$sql = "SELECT * FROM `mock_response` WHERE `mock_response_by`= '$user_id' and MD5(`mock_id`) = '$mock_id'";
 		$result = $conn->query($sql);
 		
 		if ($result->num_rows > 0) {
@@ -898,7 +898,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT Q.question_id,TRIM(Q.question) AS question, Q.option_a, Q.option_b, Q.option_c, Q.option_d, Q.option_e,TRIM(Q.question_hindi) AS question_hindi, Q.option_a_hindi, Q.option_b_hindi, Q.option_c_hindi, Q.option_d_hindi, Q.option_e_hindi, S.section_name FROM `mocks` AS M,`mock_questions` AS MQ, `questions` AS Q, `sections` AS S WHERE MQ.`section_id`=S.`section_id` and M.`mock_id`=MQ.`mock_id` and MQ.`question_id`=Q.`question_id` and MQ.`mock_id`='$mock_id'";
+		$sql = "SELECT Q.question_id,TRIM(Q.question) AS question, Q.option_a, Q.option_b, Q.option_c, Q.option_d, Q.option_e,TRIM(Q.question_hindi) AS question_hindi, Q.option_a_hindi, Q.option_b_hindi, Q.option_c_hindi, Q.option_d_hindi, Q.option_e_hindi, S.section_name FROM `mocks` AS M,`mock_questions` AS MQ, `questions` AS Q, `sections` AS S WHERE MQ.`section_id`=S.`section_id` and M.`mock_id`=MQ.`mock_id` and MQ.`question_id`=Q.`question_id` and MD5(MQ.`mock_id`)='$mock_id'";
 		$result = $conn->query($sql);
 		return $result;
 	}
@@ -907,7 +907,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT * FROM mock_response AS MR, mock_respose_questions AS MRQ, questions AS Q, mock_questions AS MQ,sections AS S WHERE S.section_id = MQ.section_id and MQ.mock_id=MR.mock_id and MRQ.mock_question_id = MQ.question_id and MR.mock_id=MRQ.mock_id and MR.mock_response_by = '$user_id' and MR.mock_id = '$mock_id' and MRQ.mock_question_id = Q.question_id and MR.`mock_response_id`=MRQ.`mock_response_id`";
+		$sql = "SELECT * FROM mock_response AS MR, mock_respose_questions AS MRQ, questions AS Q, mock_questions AS MQ,sections AS S WHERE S.section_id = MQ.section_id and MD5(MQ.mock_id)=MR.mock_id and MRQ.mock_question_id = MQ.question_id and MR.mock_id=MRQ.mock_id and MR.mock_response_by = '$user_id' and MR.mock_id = '$mock_id' and MRQ.mock_question_id = Q.question_id and MR.`mock_response_id`=MRQ.`mock_response_id`";
 		$result = $conn->query($sql);
 		return $result;
 	}
@@ -916,7 +916,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT mock_response_text FROM mock_response WHERE mock_response_by = '$user_id' and mock_id = '$mock_id'";
+		$sql = "SELECT mock_response_text FROM mock_response WHERE mock_response_by = '$user_id' and MD5(mock_id) = '$mock_id'";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
@@ -970,7 +970,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT * FROM `mock_response` AS MR, `mocks` AS M WHERE M.`mock_id`=MR.`mock_id` and MR.`mock_response_by`='$user_id'";
+		$sql = "SELECT * FROM `mock_response` AS MR, `mocks` AS M WHERE MD5(M.`mock_id`)=MR.`mock_id` and MR.`mock_response_by`='$user_id'";
 		$result = $conn->query($sql);
 		return $result;
 	}
@@ -1059,7 +1059,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT * FROM `mocks` WHERE `mock_id`='$mock_id'";
+		$sql = "SELECT * FROM `mocks` WHERE MD5(`mock_id`)='$mock_id'";
 		$result = $conn->query($sql);
 		$row = $result->fetch_assoc();
 		return $row;
@@ -1149,7 +1149,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT * FROM `mock_sections` AS MS ,`sections` AS S WHERE `mock_id`='$mock_id' and MS.`section_id` = S.`Section_id`";
+		$sql = "SELECT * FROM `mock_sections` AS MS ,`sections` AS S WHERE MD5(`mock_id`)='$mock_id' and MS.`section_id` = S.`Section_id`";
 		$result = $conn->query($sql);
 		return $result;
 	}

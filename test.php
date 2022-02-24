@@ -79,7 +79,7 @@ margin-top:100%;
     }*/
   </script>
 </head>
-<body onload="startMock(<?php echo $_GET['mock']; ?>,<?php echo $total_question; ?>);sessionCheck(<?php echo $_GET['mock']; ?>);Examtimer('<?php echo $mock['mock_total_duration']; ?>','#countdown_timer',<?php echo $_GET['mock']; ?>);generateSpecific(0,<?php echo $_GET['mock']; ?>);">
+<body onload="startMock('<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>',<?php echo $total_question; ?>);sessionCheck('<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>');Examtimer('<?php echo $mock['mock_total_duration']; ?>','#countdown_timer','<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>');generateSpecific(0,'<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>');">
 
 <?php include_once("testsidenavbar.php"); ?>
 <div class="progress" style="margin:0px;border-radius:0;visibility:hidden;" id="progress">
@@ -146,7 +146,7 @@ margin-top:100%;
 					  
 					</div>
 					<div class="card-action">
-					  View In: <a  class=" btn btn-small browser-default right" onclick="changeLanguage(<?php echo $_GET['mock']; ?>);"> <i class="material-icons left">g_translate</i> <span id="selectedLanguage"></span>
+					  View In: <a  class=" btn btn-small browser-default right" onclick="changeLanguage('<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>');"> <i class="material-icons left">g_translate</i> <span id="selectedLanguage"></span>
 							  </a>
 					</div>
 				  </div>
@@ -220,8 +220,8 @@ margin-top:100%;
 					  } else {
 						  echo "4";
 					  } 
-					  ?>,<?php echo $_GET['mock']; ?>);"><i class="material-icons left hide-on-small-and-down">beenhere</i>  Mark & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
-					  <a class="waves-light btn-small red" onclick="clearResponseFromSession(<?php echo $_GET['mock']; ?>);" id="btnClear"><i class="material-icons left hide-on-small-and-down">clear</i> Clear </a>
+					  ?>,'<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>');"><i class="material-icons left hide-on-small-and-down">beenhere</i>  Mark & Next </a> <?php //echo $exam_questions[0]['question_id'] ?> 
+					  <a class="waves-light btn-small red" onclick="clearResponseFromSession('<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>');" id="btnClear"><i class="material-icons left hide-on-small-and-down">clear</i> Clear </a>
 					  <p id="json_quesion_id" style="display:none;">0</p>
 					  <a class="waves-light btn-small green right" id="btnSaveAndNext" onclick="saveAndNext('0',
 					  <?php 
@@ -230,7 +230,7 @@ margin-top:100%;
 					  } else {
 						  echo "4";
 					  } 
-					  ?>,<?php echo $_GET['mock']; ?>)"><i class="material-icons right hide-on-small-and-down">navigate_next</i>Save & Next</a>
+					  ?>,'<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>')"><i class="material-icons right hide-on-small-and-down">navigate_next</i>Save & Next</a>
 					</div>
 				  </div>
 			</div>
@@ -260,11 +260,11 @@ margin-top:100%;
 					<li style="margin: 8% 4% 8% 4%"><p>
 					<?php 
 						for ($i=1; $i <= $total_question; $i++){
-							echo '<span id="questionsList'.$i.'" class="btn chip grey white-text" style="margin: 2% 4% 2% 4%" onclick="generateSpecific('.($i-1).','.$_GET['mock'].')">'.$i.'</span>';
+							echo '<span id="questionsList'.$i.'" class="btn chip grey white-text" style="margin: 2% 4% 2% 4%" onclick="generateSpecific('.($i-1).',\''.$_GET['mock'].'\',\''.md5($_SESSION['username']).'\')">'.$i.'</span>';
 						}
 					?>
 					</p></li>
-					<a class="waves-light btn-small green right nav-bottom modal-trigger" id="btnSubmitExam" style="width:100%" onclick="submitTest(<?php echo $_GET['mock']; ?>);" data-target="modal1"><i class="material-icons right">done</i>Submit</a>
+					<a class="waves-light btn-small green right nav-bottom modal-trigger" id="btnSubmitExam" style="width:100%" onclick="submitTest('<?php echo $_GET['mock']; ?>','<?php echo md5($_SESSION['username']); ?>');" data-target="modal1"><i class="material-icons right">done</i>Submit</a>
 				  </ul>
 		</div>
 	</div>
@@ -301,7 +301,7 @@ margin-top:100%;
     </div>
     <div class="modal-footer">
       <a href="#!" class="btn modal-close waves-effect red">Close</a>
-	  <a onClick="submitExamAndEvaluate(<?php echo $_GET['mock']; ?>);" class="btn waves-effect green">Submit</a>
+	  <a onClick="submitExamAndEvaluate('<?php echo $_GET['mock']; ?>', '<?php echo md5($_SESSION['username']); ?>');" class="btn waves-effect green">Submit</a>
     </div>
   </div>
   

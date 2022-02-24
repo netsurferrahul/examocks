@@ -170,10 +170,10 @@
 										</div>
 										
 										<div class="col s4" style="margin-right: 2%;">';
-									if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
-										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+									if (isMockTestAlreadyTaken(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id'])) {
+										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.md5($row['mock_id']).'">View Solutions</a>';
 									} else {
-										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.md5($row['mock_id']).'">Start Now</a>';
 									}										
 										  
 									echo '</div>
@@ -344,11 +344,11 @@
 											</div>
 											
 											<div class="col s4" style="margin-right: 2%;">';
-											if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
-												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+											if (isMockTestAlreadyTaken(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id'])) {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.md5($row['mock_id']).'">View Solutions</a>';
 											} else {
-												if ($row['is_free'] == 1) {
-													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+												if ($row['is_free'] == 1 || strtotime(getUserDetails($_SESSION['username'])['premium_till']) > time()) {
+													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.md5($row['mock_id']).'">Start Now</a>';
 												} else {
 													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../premium-pass"><i class="medium material-icons left">local_play</i>Start Now</a>';
 												}
@@ -390,11 +390,11 @@
 											</div>
 											
 											<div class="col s4" style="margin-right: 2%;">';
-											if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
-												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+											if (isMockTestAlreadyTaken(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id'])) {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.md5($row['mock_id']).'">View Solutions</a>';
 											} else {
-												if ($row['is_free'] == 1) {
-													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+												if ($row['is_free'] == 1 || strtotime(getUserDetails($_SESSION['username'])['premium_till']) > time()) {
+													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.md5($row['mock_id']).'">Start Now</a>';
 												} else {
 													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../premium-pass"><i class="medium material-icons left">local_play</i>Start Now</a>';
 												}
@@ -436,11 +436,11 @@
 											</div>
 											
 											<div class="col s4" style="margin-right: 2%;">';
-											if (isMockTestAlreadyTaken($row['mock_id'],getUserDetails($_SESSION['username'])['id'])) {
-												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.$row['mock_id'].'">View Solutions</a>';
+											if (isMockTestAlreadyTaken(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id'])) {
+												echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../result/'.md5($row['mock_id']).'">View Solutions</a>';
 											} else {
-												if ($row['is_free'] == 1) {
-													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.$row['mock_id'].'">Start Now</a>';
+												if ($row['is_free'] == 1 || strtotime(getUserDetails($_SESSION['username'])['premium_till']) > time()) {
+													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../test-home/'.md5($row['mock_id']).'">Start Now</a>';
 												} else {
 													echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="../premium-pass"><i class="medium material-icons left">local_play</i>Start Now</a>';
 												}

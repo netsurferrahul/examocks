@@ -64,7 +64,10 @@
 					$popular_exams = getPopularExamsList();
 					if ($popular_exams->num_rows > 0) {
 						while($row = $popular_exams->fetch_assoc()) {
-							echo '<div class="waves-effect waves-light card-panel z-depth-3"><img src="'.$row['exam_pic'].'" alt="'.$row['exam_name'].'" class="left circle" height="40px" width="40px" style="margin-top:-10px;"><i class="material-icons right">chevron_right</i>&nbsp;&nbsp;'.$row['exam_name'].'</div>';
+							echo '<a class="waves-effect waves-light card-panel z-depth-3" href="./exam/'.implode("-",explode(" ",$row['exam_name'])).'" style="color:black;">
+							<img src="'.$row['exam_pic'].'" alt="'.$row['exam_name'].'" class="left circle" height="40px" width="40px" style="margin-top:-10px;">
+							<i class="material-icons right">chevron_right</i>&nbsp;&nbsp;'.$row['exam_name'].'
+						</a>';
 						}
 					}
 				?>

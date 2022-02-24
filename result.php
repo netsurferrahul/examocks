@@ -57,7 +57,7 @@
 				var jsonSolutionData = <?php echo json_encode($rows) ?>
 		  </script>
 	</head>
-	<body onload="checkSolutionsSession(<?php echo $_GET['id']; ?>);generateSpecificSolutionQuestion(0,<?php echo $_GET['id']; ?>);">
+	<body onload="checkSolutionsSession('<?php echo $_GET['id']; ?>','<?php echo md5($_SESSION['username']); ?>');generateSpecificSolutionQuestion(0,'<?php echo $_GET['id']; ?>','<?php echo md5($_SESSION['username']); ?>');">
 	<?php include_once("ltwonavbar.php"); ?>
 	<div class="card-panel" style="margin-top:0;">
 		<div class="container">
@@ -239,7 +239,7 @@
 		<div class="row">
 			<div class="col s12">
 				<div class="card">
-					<div class="card-title" style="padding: 2%;"><i class="medium material-icons blue-text left"  style="font-size:25px;">fact_check</i><div style="display:inline-block;"><h2>Solutions<h2></div><a class=" btn btn-small browser-default right" onclick="changeSolutionsLanguage(1);"> <i class="material-icons left">g_translate</i> <span id="selectedLanguage">English</span></a></div>
+					<div class="card-title" style="padding: 2%;"><i class="medium material-icons blue-text left"  style="font-size:25px;">fact_check</i><div style="display:inline-block;"><h2>Solutions<h2></div><a class=" btn btn-small browser-default right" onclick="changeSolutionsLanguage('<?php echo $_GET['id']; ?>','<?php echo md5($_SESSION['username']); ?>');"> <i class="material-icons left">g_translate</i> <span id="selectedLanguage">English</span></a></div>
 					<div class="card-text" style="margin: 1%;">
 						<div class="row">
 							<div class="col s12 m12 l4 center">
@@ -249,7 +249,7 @@
 									<li style="margin: 8% 4% 8% 4%"><p>
 										<?php 
 											for ($i=1; $i <= $total_question; $i++){
-												echo '<span id="questionsList'.$i.'" class="btn chip grey white-text" style="margin: 2% 4% 2% 4%" onclick="generateSpecificSolutionQuestion('.($i-1).','.$_GET['id'].')">'.$i.'</span>';
+												echo '<span id="questionsList'.$i.'" class="btn chip grey white-text" style="margin: 2% 4% 2% 4%" onclick="generateSpecificSolutionQuestion('.($i-1).',\''.$_GET['id'].'\',\''.md5($_SESSION['username']).'\')">'.$i.'</span>';
 											}
 										?>
 										</p>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2022 at 04:23 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Feb 24, 2022 at 09:58 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -160,7 +160,7 @@ CREATE TABLE `mock_response` (
   `mock_response_by` int(11) NOT NULL,
   `mock_response_text` text NOT NULL,
   `mock_response_attampt_time` datetime NOT NULL,
-  `mock_id` int(11) NOT NULL
+  `mock_id` char(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -168,9 +168,7 @@ CREATE TABLE `mock_response` (
 --
 
 INSERT INTO `mock_response` (`mock_response_id`, `mock_response_by`, `mock_response_text`, `mock_response_attampt_time`, `mock_id`) VALUES
-(28, 2, '{\"score\": 5.01,\"no_of_attempts\": 9,\"total_correct\": 6,\"total_incorrect\": 3,\"accuracy\": 60 }', '2022-02-23 07:37:30', 1),
-(29, 3, '{\"score\": 3.68,\"no_of_attempts\": 8,\"total_correct\": 5,\"total_incorrect\": 4,\"accuracy\": 25 }', '2022-02-23 16:26:07', 1),
-(35, 3, '{\"score\": 1.01,\"no_of_attempts\": 5,\"total_correct\": 2,\"total_incorrect\": 3,\"accuracy\": 40 }', '2022-02-23 19:10:08', 2);
+(48, 4, '{\"score\": 7.34,\"no_of_attempts\": 10,\"total_correct\": 8,\"total_incorrect\": 2,\"accuracy\": 80 }', '2022-02-24 13:33:55', 'c4ca4238a0b923820dcc509a6f75849b');
 
 -- --------------------------------------------------------
 
@@ -179,7 +177,7 @@ INSERT INTO `mock_response` (`mock_response_id`, `mock_response_by`, `mock_respo
 --
 
 CREATE TABLE `mock_respose_questions` (
-  `mock_id` int(11) NOT NULL,
+  `mock_id` char(32) NOT NULL,
   `mock_question_id` int(11) NOT NULL,
   `user_answer` int(2) NOT NULL,
   `correct_answer` int(2) NOT NULL,
@@ -195,31 +193,16 @@ CREATE TABLE `mock_respose_questions` (
 --
 
 INSERT INTO `mock_respose_questions` (`mock_id`, `mock_question_id`, `user_answer`, `correct_answer`, `is_correct`, `status`, `mark_earned`, `mark_deducted`, `mock_response_id`) VALUES
-(1, 1, 1, 1, 1, 'OK', 1.00, 0.00, 28),
-(1, 1, 1, 1, 1, 'OK', 1.00, 0.00, 29),
-(1, 24, 3, 3, 1, 'OK', 1.00, 0.00, 28),
-(1, 24, 3, 3, 1, 'OK', 1.00, 0.00, 29),
-(1, 25, 3, 2, 0, 'OK', 0.00, 0.33, 28),
-(1, 25, 3, 2, 0, 'OK', 0.00, 0.33, 29),
-(1, 26, 1, 1, 1, 'OK', 1.00, 0.00, 28),
-(1, 26, 1, 1, 1, 'OK', 1.00, 0.00, 29),
-(1, 64, 2, 2, 1, 'OK', 1.00, 0.00, 28),
-(1, 64, 2, 2, 1, 'OK', 1.00, 0.00, 29),
-(1, 153, 2, 2, 1, 'OK', 1.00, 0.00, 28),
-(1, 153, 2, 3, 0, 'OK', 0.00, 0.33, 29),
-(1, 212, 1, 1, 1, 'OK', 1.00, 0.00, 28),
-(1, 212, 1, 1, 1, 'MRA', 1.00, 0.00, 29),
-(1, 240, 3, 1, 0, 'MRA', 0.00, 0.00, 28),
-(1, 240, 3, 4, 0, 'MRA', 0.00, 0.00, 29),
-(1, 257, 4, 2, 0, 'OK', 0.00, 0.33, 28),
-(1, 257, 4, 2, 0, 'OK', 0.00, 0.33, 29),
-(1, 261, 2, 1, 0, 'OK', 0.00, 0.33, 28),
-(1, 261, 2, 3, 0, 'OK', 0.00, 0.33, 29),
-(2, 426, 4, 2, 0, 'OK', 0.00, 0.33, 35),
-(2, 429, 2, 1, 0, 'OK', 0.00, 0.33, 35),
-(2, 437, 2, 2, 1, 'OK', 1.00, 0.00, 35),
-(2, 491, 3, 2, 0, 'OK', 0.00, 0.33, 35),
-(2, 493, 2, 2, 1, 'OK', 1.00, 0.00, 35);
+('c4ca4238a0b923820dcc509a6f75849b', 1, 1, 1, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 24, 3, 3, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 25, 2, 2, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 26, 1, 1, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 64, 2, 2, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 153, 2, 2, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 212, 1, 1, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 240, 4, 4, 1, 'OK', 1.00, 0.00, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 257, 4, 2, 0, 'OK', 0.00, 0.33, 48),
+('c4ca4238a0b923820dcc509a6f75849b', 261, 2, 1, 0, 'OK', 0.00, 0.33, 48);
 
 -- --------------------------------------------------------
 
@@ -252,7 +235,7 @@ CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `name` varchar(120) CHARACTER SET utf8mb4 NOT NULL,
   `amount` int(11) NOT NULL,
-  `payment_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payment_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `added_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1607,7 +1590,8 @@ INSERT INTO `reported_questions` (`report_id`, `question_id`, `report_by`, `repo
 (68, 3, 2, '2022-02-23 22:23:25', 'In Progress', '0000-00-00 00:00:00', 'A'),
 (69, 5, 2, '2022-02-23 22:31:12', 'In Progress', '0000-00-00 00:00:00', 'A'),
 (70, 4, 2, '2022-02-23 22:34:56', 'In Progress', '0000-00-00 00:00:00', 'null'),
-(71, 383, 2, '2022-02-23 22:38:40', 'In Progress', '0000-00-00 00:00:00', 'B');
+(71, 383, 2, '2022-02-23 22:38:40', 'In Progress', '0000-00-00 00:00:00', 'B'),
+(72, 1, 4, '2022-02-24 14:23:23', 'In Progress', '0000-00-00 00:00:00', 'C');
 
 -- --------------------------------------------------------
 
@@ -1639,7 +1623,8 @@ INSERT INTO `saved_questions` (`save_id`, `question_id`, `saved_by`) VALUES
 (13, 6, 2),
 (14, 7, 2),
 (15, 9, 2),
-(16, 8, 2);
+(16, 8, 2),
+(17, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -1728,9 +1713,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `mobile_number`, `state`, `verified`, `gender`, `profile_pic`, `last_login_time`, `dob`, `premium_till`) VALUES
-(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-23 22:42:41', '0000-00-00', '2022-04-02 22:21:27'),
+(2, 'vkruhela123@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Vikash Ruhela', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-24 12:13:09', '0000-00-00', '2022-04-02 22:21:27'),
 (3, 'guest@examocks.com', '25d55ad283aa400af464c76d713c07ad', 'Guest', '6375051814', 'Rajasthan', 'yes', 'Male', '', '2022-02-23 22:03:33', '2022-02-01', '2022-03-10 19:04:10'),
-(4, 'rahul.ctae94@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'Rahul Kumar', '8094204729', 'Rajasthan', 'yes', 'Male', '', '2022-02-24 08:25:50', '0000-00-00', '2022-03-26 08:25:26');
+(4, 'rahul.ctae94@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'Rahul Kumar', '8094204729', 'Rajasthan', 'yes', 'Male', '', '2022-02-24 14:23:57', '0000-00-00', '2022-03-26 08:25:26');
 
 -- --------------------------------------------------------
 
@@ -1968,7 +1953,7 @@ ALTER TABLE `mocks`
 -- AUTO_INCREMENT for table `mock_response`
 --
 ALTER TABLE `mock_response`
-  MODIFY `mock_response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `mock_response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -1986,13 +1971,13 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `reported_questions`
 --
 ALTER TABLE `reported_questions`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `saved_questions`
 --
 ALTER TABLE `saved_questions`
-  MODIFY `save_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `save_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `sections`
@@ -2064,8 +2049,7 @@ ALTER TABLE `mock_questions`
 -- Constraints for table `mock_response`
 --
 ALTER TABLE `mock_response`
-  ADD CONSTRAINT `mock_response_ibfk_1` FOREIGN KEY (`mock_response_by`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `mock_response_ibfk_2` FOREIGN KEY (`mock_id`) REFERENCES `mocks` (`mock_id`);
+  ADD CONSTRAINT `mock_response_ibfk_1` FOREIGN KEY (`mock_response_by`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `mock_respose_questions`
