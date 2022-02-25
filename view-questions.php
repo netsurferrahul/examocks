@@ -10,6 +10,7 @@
 	<head>	
 		<title>ExaMocks - <?php echo str_replace("-"," ",$_GET['topic']); ?> MCQ Prepration</title>
 		<meta name="description" content="Prepare Best MCQ's for <?php echo str_replace("-"," ",$_GET['topic']); ?> topic, these mcq's came in previous year exams.">
+		<?php echo $settings['google_adsense_code']; ?>
 		<?php if (isset($_GET['page'])) include_once("lfourheader.php"); else include_once("lthreeheader.php"); ?>
 		 
 		 <style>
@@ -165,6 +166,17 @@
 						  <a class="waves-effect waves-green btn-flat" onclick="reportWrongQuestion(\''.$_GET['page'].'\','.$row['question_id'].');">Report</a>
 						</div>
 					  </div>';
+					  echo '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3132824744617112"
+							 crossorigin="anonymous"></script>
+						<ins class="adsbygoogle"
+							 style="display:block"
+							 data-ad-format="fluid"
+							 data-ad-layout-key="-gu-3+1f-3d+2z"
+							 data-ad-client="ca-pub-3132824744617112"
+							 data-ad-slot="7997101443"></ins>
+						<script>
+							 (adsbygoogle = window.adsbygoogle || []).push({});
+						</script>';
 				}
 			}
 			

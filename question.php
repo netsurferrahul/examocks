@@ -71,7 +71,7 @@
 								<div class="row">
 									<div class="col s12 m12 center" style="margin-top:1%;">
 										<a class="waves-light btn-small red modal-trigger" href="#modal'.$questionDetails['question_id'].'"><i class="material-icons left">report_problem</i> Report </a>
-										<a class="waves-light btn-small green" onclick="saveQuestion('.$questionDetails['question_id'].')" ><i class="material-icons left">bookmark</i> Save </a></div>
+										<a class="waves-light btn-small green" onclick="saveQuestion(\'\','.$questionDetails['question_id'].')" ><i class="material-icons left">bookmark</i> Save </a></div>
 									</div>
 						</ul>
 						<ul class="collapsible">
@@ -120,7 +120,7 @@
 						echo '  </p>
 						</div>
 						<div class="modal-footer">
-						  <a class="waves-effect waves-green btn-flat" onclick="reportWrongQuestion('.$questionDetails['question_id'].');">Report</a>
+						  <a class="waves-effect waves-green btn-flat" onclick="reportWrongQuestion(\'\','.$questionDetails['question_id'].');">Report</a>
 						</div>
 					  </div>';
 			
@@ -161,8 +161,8 @@
 						<ul class="collection">
 								<div class="row">
 									<div class="col s12 m12 center" style="margin-top:1%;">
-										<a class="waves-light btn-small red modal-trigger" href="#modal'.$row['question_id'].'"><i class="material-icons left">report_problem</i> Report Incorrect </a>
-										<a class="waves-light btn-small green" onclick="saveQuestion('.$row['question_id'].')" ><i class="material-icons left">bookmark</i> Save Question </a>
+										<a class="waves-light btn-small red modal-trigger" href="#modal'.$row['question_id'].'"><i class="material-icons left">report_problem</i> Report </a>
+										<a class="waves-light btn-small green" onclick="saveQuestion(\'\','.$row['question_id'].')" ><i class="material-icons left">bookmark</i> Save </a>
 										<a class="waves-light btn-small green" href="../question/'.str_replace("?","",str_replace(" ","-",$row['question'])).'" ><i class="material-icons left">remove_red_eye</i> View </a></div>
 									</div>
 						</ul>
@@ -212,7 +212,7 @@
 						echo '  </p>
 						</div>
 						<div class="modal-footer">
-						  <a class="waves-effect waves-green btn-flat" onclick="reportWrongQuestion('.$row['question_id'].');">Report</a>
+						  <a class="waves-effect waves-green btn-flat" onclick="reportWrongQuestion(\'\','.$row['question_id'].');">Report</a>
 						</div>
 					  </div>';
 				}

@@ -78,9 +78,9 @@ error_reporting(E_ALL);
 										
 										<div class="col s4" style="margin-right: 2%;">';
 									if (isMockTestAlreadyTaken(md5($row['mock_id']),getUserDetails($_SESSION['username'])['id'])) {
-										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="./result/'.$row['mock_id'].'">View Solutions</a>';
+										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="./result/'.md5($row['mock_id']).'">View Solutions</a>';
 									} else {
-										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="./test-home/'.$row['mock_id'].'">Start Now</a>';
+										echo '<a class="btn btn-small '.$settings['accent_color'].' right" href="./test-home/'.md5($row['mock_id']).'">Start Now</a>';
 									}										
 										  
 									echo '</div>

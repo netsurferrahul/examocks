@@ -16,6 +16,7 @@
 				}
 		}
 		?> these mcq's came in previous year exams.">
+		<?php echo $settings['google_adsense_code']; ?>
 		<?php include_once("ltwoheader.php"); ?>
 		 
 		 <style>

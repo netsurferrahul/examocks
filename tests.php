@@ -116,11 +116,11 @@
 				}
 				if (getExamIdFromExamName(dashesToRealContentGetter($_GET['exam'])) !=0) {
 					$mocks = getFreeMockTestsFromExamId(getExamIdFromExamName(dashesToRealContentGetter($_GET['exam'])));
+					echo '<div class="col s12 m12 l8 ">
+									<h2><b>Free Mock Tests</b></h2>';
 					if ($mocks->num_rows > 0) {
 						while($row = $mocks->fetch_assoc()) {
-							echo '<div class="col s12 m12 l8 ">
-									<h2><b>Free Mock Tests</b></h2>
-									<div class="card lighten-5 z-depth-3">
+							echo '<div class="card lighten-5 z-depth-3">
 									  <div class="row valign-wrapper">
 										<div class="col s8">
 											<div class="card-content">
@@ -146,12 +146,13 @@
 									<div class="card-action">
 										<span> <i class="tiny material-icons">help_outline</i> '.$row['mock_total_question'].' Questions <i class="tiny material-icons">description</i> '.$row['mock_total_marks'].' Marks <i class="tiny material-icons">access_time</i> '.($row['mock_total_duration']/60).' Mins</span>
 									</div>
-									</div>
-							</div>';
+									</div>';
 						}
+						
+							echo '</div>';
 					} 
 				} else {
-					// redirect to 404 error
+					header("Location: ../index.php");
 				}
 				
 				

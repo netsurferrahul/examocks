@@ -113,7 +113,22 @@ error_reporting(E_ALL);
 					<ul class="collapsible">
 						<li id="ex'.$row['question_id'].'">
 						  <div class="collapsible-header">Q. '.$row['question'].'</div>
-						  <div class="collapsible-body" id="bd'.$row['question_id'].'"><span>Answer Given : <b>';
+						  <div class="collapsible-body" id="bd'.$row['question_id'].'">
+						 
+					
+						 <span style="display:inline-flex;height:100%;width:100%;"  id="s'.$row['question_id'].'1">A) '.$row['option_a'].'</span>
+						 <span style="display:inline-flex;height:100%;width:100%;"  id="s'.$row['question_id'].'2">B) '.$row['option_b'].'</span>
+						 <span style="display:inline-flex;height:100%;width:100%;"  id="s'.$row['question_id'].'3">C) '.$row['option_c'].'</span>
+						 <span style="display:inline-flex;height:100%;width:100%;"  id="s'.$row['question_id'].'4">D) '.$row['option_d'].'</span>
+						';
+						
+						if ($row['option_e'] != "") {
+							echo '<span style="display:inline-flex;height:100%;width:100%;"  id="s'.$row['question_id'].'4">E) '.$row['option_e'].'</span>';
+						
+						}
+						echo '
+						<div class="divider"></div>
+						  <span>Answer Given : <b>';
 						  
 						  echo $ans;
 						  
@@ -124,6 +139,7 @@ error_reporting(E_ALL);
 						  echo '</b><br/> Report Status : 
 						  '.$row['resolve_status'].'
 						  </span></div>
+						  
 						</li>
 				</ul>';
 			}

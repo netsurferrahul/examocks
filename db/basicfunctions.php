@@ -950,10 +950,12 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT rank() over (ORDER BY `mock_response_attampt_time` ASC) AS rank FROM `mock_response` WHERE `mock_id`='$mock_id' and `mock_response_by`='$user_id' ";
+		$sql = "SELECT @curRank := @curRank + 1 AS rank, mock_response_by FROM mock_response m, (SELECT @curRank := 0) r WHERE `mock_id`='$mock_id' ORDER BY JSON_EXTRACT(`mock_response_text` , '$.score') DESC, mock_response_attampt_time ASC";
 		$result = $conn->query($sql);
-		$row = $result->fetch_assoc();
-		return $row['rank'];
+        while($row = $result->fetch_assoc()) {
+            if ($row['mock_response_by']==$user_id)
+            return $row['rank'];
+        }
 	}
 	
 	function getTotalAttemptsOfMock($mock_id) {
@@ -1192,7 +1194,7 @@
 		if (!isset($conn)) {
 			$conn = new mysqli("localhost","root","","examocks");
 		}
-		$sql = "SELECT * FROM `reported_questions` AS RQ, `questions` AS Q WHERE Q.`question_id`=RQ.`question_id` and `report_by` = '$user_id' GROUP BY Q.question_id LIMIT $start, $num_of_records";
+		$sql = "SELECT * FROM `reported_questions` AS RQ, `questions` AS Q WHERE Q.`question_id`=RQ.`question_id` and `report_by` = '$user_id' ORDER BY report_time GROUP BY Q.question_id LIMIT $start, $num_of_records";
 		$result = $conn->query($sql);
 		return $result;
 	}
